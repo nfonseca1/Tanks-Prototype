@@ -472,6 +472,22 @@ PrefabInstance:
       propertyPath: emitter
       value: 
       objectReference: {fileID: 1554967441}
+    - target: {fileID: 2197778437518568401, guid: 4ac649beef0c553459cad6054e825155,
+        type: 3}
+      propertyPath: shell
+      value: 
+      objectReference: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970,
+        type: 3}
+    - target: {fileID: 2197778437518568401, guid: 4ac649beef0c553459cad6054e825155,
+        type: 3}
+      propertyPath: launchVelocity
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197778437518568401, guid: 4ac649beef0c553459cad6054e825155,
+        type: 3}
+      propertyPath: elevateSpeed
+      value: 75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac649beef0c553459cad6054e825155, type: 3}
 --- !u!4 &4696780200808985972 stripped

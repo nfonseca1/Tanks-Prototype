@@ -441,6 +441,7 @@ MonoBehaviour:
   barrelWheel: {fileID: 115878273968756650}
   barrel: {fileID: 3845453883544536600}
   emitter: {fileID: 0}
+  shell: {fileID: 0}
 --- !u!1 &3003807144255367132
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,12 +8,14 @@ public class TankController : MonoBehaviour
 {
     [SerializeField] float speed = 8000f;
     [SerializeField] float torque = 4000f;
-    [SerializeField] float launchVelocity = 1000f;
+    [SerializeField] float launchVelocity = 25f;
+    [SerializeField] float elevateSpeed = 75f;
 
     [SerializeField] Transform turret;
     [SerializeField] Transform barrelWheel;
     [SerializeField] Transform barrel;
     [SerializeField] Transform emitter;
+    [SerializeField] Shell shell;
 
     Rigidbody rigidbody;
     Vector3 hitPoint;
@@ -22,6 +24,7 @@ public class TankController : MonoBehaviour
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody>();
+        barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -30,6 +33,15 @@ public class TankController : MonoBehaviour
         Move();
         bool aimResult = CalculateAimTarget();
         Aim(aimResult);
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Fire();
+        }
+        if (Input.GetMouseButton(0))
+        {
+            ElevateBarrel();
+        }
     }
 
     private void Move()
@@ -83,26 +95,22 @@ public class TankController : MonoBehaviour
         {
             Vector3 turretLookPoint = new Vector3(hitPoint.x, turret.transform.position.y, hitPoint.z);
             turret.LookAt(turretLookPoint);
-
-            float range = (new Vector3(hitPoint.x, 0, hitPoint.z) - new Vector3(emitter.position.x, 0, emitter.position.z)).magnitude;
-            float height = hitPoint.y - emitter.position.y;
-
-            float angle = GetTrajectoryAngle(range, height);
-            print(angle);
-            barrelWheel.eulerAngles = new Vector3(angle, barrelWheel.eulerAngles.y, barrelWheel.eulerAngles.z);
         }
     }
 
-    private float GetTrajectoryAngle(float range, float height)
+    private void ElevateBarrel()
     {
-        float gravity = Physics.gravity.y;
-        float numerator = Mathf.Pow(launchVelocity, 2) - Mathf.Sqrt(
-            Mathf.Pow(launchVelocity, 4) - gravity * (gravity * Mathf.Pow(range, 2) + 2 * height *
-            Mathf.Pow(launchVelocity, 2)));
+        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+        float clampedRotation = Mathf.Clamp(barrelWheel.localEulerAngles.x - 360, -50f, 0);
+        barrelWheel.localEulerAngles = new Vector3(clampedRotation, 0, 0);
+    }
 
-        float denominator = gravity * range;
-        float result = Mathf.Atan(numerator / denominator);
+    private void Fire()
+    {
+        Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
+        currentShell.ApplyForce(launchVelocity);
+        Destroy(currentShell, 10f);
 
-        return result * 57.2958f; //Radians to degrees
+        barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
     }
 }
