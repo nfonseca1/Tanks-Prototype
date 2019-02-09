@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class TankController : MonoBehaviour
 {
-    [SerializeField] float speed = 8000f;
-    [SerializeField] float torque = 4000f;
+    [SerializeField] float speed = 25f;
+    [SerializeField] float torque = 45f;
     [SerializeField] float launchVelocity = 25f;
     [SerializeField] float elevateSpeed = 75f;
 
@@ -19,6 +19,7 @@ public class TankController : MonoBehaviour
 
     Rigidbody rigidbody;
     Vector3 hitPoint;
+    float acceleration = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -46,22 +47,17 @@ public class TankController : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            rigidbody.AddRelativeForce(new Vector3(0, 0, speed * Time.deltaTime));
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rigidbody.AddRelativeForce(new Vector3(0, 0, -speed * 0.66f * Time.deltaTime));
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rigidbody.AddRelativeTorque(new Vector3(0, -torque * Time.deltaTime, 0));
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rigidbody.AddRelativeTorque(new Vector3(0, torque * Time.deltaTime, 0));
-        }
+        float axisX = Input.GetAxis("Horizontal");
+        float axisY = Input.GetAxis("Vertical");
+
+        Vector3 newPosition = transform.position + (transform.forward * speed * axisY * Time.deltaTime);
+        rigidbody.MovePosition(newPosition);
+        
+        Quaternion turn = Quaternion.Euler(new Vector3(
+            transform.localEulerAngles.x,
+            transform.localEulerAngles.y + torque * axisX * Time.deltaTime,
+            transform.localEulerAngles.z));
+        rigidbody.MoveRotation(turn);
     }
 
     private bool CalculateAimTarget()
