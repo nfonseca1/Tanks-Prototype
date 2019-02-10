@@ -262,6 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 115878273968756650}
+  - {fileID: 7013104510991569003}
   m_Father: {fileID: 4696780200808985972}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -402,7 +403,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2930542820924157183}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 5
   m_UseGravity: 1
@@ -426,13 +427,14 @@ MonoBehaviour:
   torque: 180
   launchVelocity: 25
   elevateSpeed: 75
-  explosionForce: 160
-  explosionLift: 1.2
+  explosionForce: 600
+  explosionLift: 1.5
   turret: {fileID: 6238503059156352728}
   barrelWheel: {fileID: 115878273968756650}
   barrel: {fileID: 3845453883544536600}
   emitter: {fileID: 9007801774004476275}
   shell: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970, type: 3}
+  explosionPoint: {fileID: 7013104510991569003}
 --- !u!1 &3003807144255367132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,3 +1556,33 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &9176102328318404795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7013104510991569003}
+  m_Layer: 0
+  m_Name: Explosion Force Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7013104510991569003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176102328318404795}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.011833634, y: 0.43506932, z: 2.1930063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6238503059156352728}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

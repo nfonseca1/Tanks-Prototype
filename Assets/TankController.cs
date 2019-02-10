@@ -19,6 +19,7 @@ public class TankController : MonoBehaviour
     [SerializeField] Transform barrel;
     [SerializeField] Transform emitter;
     [SerializeField] Shell shell;
+    [SerializeField] Transform explosionPoint;
 
     Rigidbody rigidbody;
     Vector3 hitPoint;
@@ -73,7 +74,7 @@ public class TankController : MonoBehaviour
         Vector3 newPosition = transform.position + (transform.forward * speed * axisY * Time.deltaTime);
         Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
         rigidbody.MovePosition(newPositionXZ);
-        
+
         Quaternion turn = Quaternion.Euler(new Vector3(
             transform.localEulerAngles.x,
             transform.localEulerAngles.y + torque * axisX * Time.deltaTime,
@@ -132,7 +133,7 @@ public class TankController : MonoBehaviour
         currentShell.ApplyForce(launchVelocity);
         Destroy(currentShell, 10f);
 
-        rigidbody.AddExplosionForce(explosionForce, emitter.position, 100f, explosionLift);
+        rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
     }
 
