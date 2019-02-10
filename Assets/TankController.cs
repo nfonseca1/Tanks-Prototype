@@ -25,16 +25,12 @@ public class TankController : MonoBehaviour
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody>();
+
         barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
-        Move();
-        bool aimResult = CalculateAimTarget();
-        Aim(aimResult);
-
         if (Input.GetMouseButtonUp(0))
         {
             Fire();
@@ -43,6 +39,15 @@ public class TankController : MonoBehaviour
         {
             ElevateBarrel();
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        Move();
+        bool aimResult = CalculateAimTarget();
+        Aim(aimResult);
+        
     }
 
     private void Move()
@@ -89,8 +94,10 @@ public class TankController : MonoBehaviour
     {
         if (aimResult)
         {
-            Vector3 turretLookPoint = new Vector3(hitPoint.x, turret.transform.position.y, hitPoint.z);
-            turret.LookAt(turretLookPoint);
+            Vector3 turretLookPoint = new Vector3(hitPoint.x, turret.position.y, hitPoint.z);
+            Quaternion targetRotation = Quaternion.LookRotation(turretLookPoint - turret.position, turret.up);
+            turret.rotation = Quaternion.Lerp(turret.rotation, targetRotation, .3f);
+            turret.localEulerAngles = new Vector3(0, turret.localEulerAngles.y, 0);
         }
     }
 
