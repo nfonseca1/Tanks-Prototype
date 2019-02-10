@@ -11,6 +11,9 @@ public class TankController : MonoBehaviour
     [SerializeField] float launchVelocity = 25f;
     [SerializeField] float elevateSpeed = 75f;
 
+    [SerializeField] float explosionForce = 200f;
+    [SerializeField] float explosionLift = 1f;
+
     [SerializeField] Transform turret;
     [SerializeField] Transform barrelWheel;
     [SerializeField] Transform barrel;
@@ -56,7 +59,8 @@ public class TankController : MonoBehaviour
         float axisY = Input.GetAxis("Vertical");
 
         Vector3 newPosition = transform.position + (transform.forward * speed * axisY * Time.deltaTime);
-        rigidbody.MovePosition(newPosition);
+        Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
+        rigidbody.MovePosition(newPositionXZ);
         
         Quaternion turn = Quaternion.Euler(new Vector3(
             transform.localEulerAngles.x,
@@ -113,6 +117,9 @@ public class TankController : MonoBehaviour
         Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
         currentShell.ApplyForce(launchVelocity);
         Destroy(currentShell, 10f);
+
+        rigidbody.AddExplosionForce(explosionForce, emitter.position, 100f, explosionLift);
+        
 
         barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
     }
