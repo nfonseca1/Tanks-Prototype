@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4696780200808985972}
+  distance: 2
 --- !u!1 &825439528
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +390,7 @@ PrefabInstance:
     - target: {fileID: 4696780200808985972, guid: 4ac649beef0c553459cad6054e825155,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.21
+      value: 1.31
       objectReference: {fileID: 0}
     - target: {fileID: 4696780200808985972, guid: 4ac649beef0c553459cad6054e825155,
         type: 3}
@@ -435,6 +436,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.062000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 2197778437518568401, guid: 4ac649beef0c553459cad6054e825155,
+        type: 3}
+      propertyPath: launchVelocity
+      value: 1200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac649beef0c553459cad6054e825155, type: 3}
