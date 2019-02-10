@@ -23,6 +23,9 @@ public class TankController : MonoBehaviour
     Rigidbody rigidbody;
     Vector3 hitPoint;
     float acceleration = 0;
+    bool barrelUpdated = true;
+
+    Vector3 barrelScale;
 
     // Start is called before the first frame update
     void Start()
@@ -30,17 +33,26 @@ public class TankController : MonoBehaviour
         rigidbody = gameObject.GetComponent<Rigidbody>();
 
         barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
+        barrelScale = barrel.localScale;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (!barrelUpdated)
         {
-            Fire();
+            UpdateBarrel();
         }
-        if (Input.GetMouseButton(0))
+        else
         {
-            ElevateBarrel();
+            if (Input.GetMouseButtonUp(0))
+            {
+                Fire();
+                UpdateBarrel();
+            }
+            if (Input.GetMouseButton(0))
+            {
+                ElevateBarrel();
+            }
         }
     }
 
@@ -108,8 +120,10 @@ public class TankController : MonoBehaviour
     private void ElevateBarrel()
     {
         barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        float clampedRotation = Mathf.Clamp(barrelWheel.localEulerAngles.x - 360, -50f, 0);
-        barrelWheel.localEulerAngles = new Vector3(clampedRotation, 0, 0);
+        if(barrelWheel.localEulerAngles.x <= 310f)
+        {
+            barrelWheel.localEulerAngles = new Vector3(310f, 0, 0);
+        }
     }
 
     private void Fire()
@@ -119,8 +133,24 @@ public class TankController : MonoBehaviour
         Destroy(currentShell, 10f);
 
         rigidbody.AddExplosionForce(explosionForce, emitter.position, 100f, explosionLift);
-        
+        barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+    }
 
-        barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
+    private void UpdateBarrel()
+    {
+        barrelUpdated = false;
+        barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
+
+        barrelWheel.Rotate(new Vector3(elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+        if(barrelWheel.localEulerAngles.x < 90)
+        {
+            barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
+
+            if(barrel.localScale.z >= 0.95f)
+            {
+                barrel.localScale = barrelScale;
+                barrelUpdated = true;
+            }
+        }
     }
 }
