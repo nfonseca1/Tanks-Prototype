@@ -22,11 +22,16 @@ public class EnemyController : MonoBehaviour
 
     TankController[] players;
     Transform closestPlayer;
+    float maxDistance = 35f;
+    float minDistance = 25f;
+    float neutralDistance = 30f;
+    bool isMoving = false;
 
     Rigidbody rigidbody;
     Vector3 hitPoint;
     float acceleration = 0;
     bool barrelUpdated = true;
+    float lerp = 0;
 
     Vector3 barrelScale;
 
@@ -65,10 +70,13 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Move();
+        if ((closestPlayer.position - transform.position).magnitude > maxDistance || isMoving)
+        {
+            Move();
+        }
         bool aimResult = CalculateAimTarget();
         Aim(aimResult);
-
+        
     }
 
     void GetPlayers()
@@ -78,10 +86,33 @@ public class EnemyController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 playerLookPoint = closestPlayer.position;
-        Quaternion targetRotation = Quaternion.LookRotation(playerLookPoint - transform.position, transform.up);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, .2f);
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        float distance = (closestPlayer.position - transform.position).magnitude;
+        if (distance > neutralDistance || lerp > 0)
+        {
+            isMoving = true;
+
+            if(distance > neutralDistance)
+            {
+                lerp = Mathf.Lerp(lerp, 1, 0.1f);
+            }
+            else
+            {
+                lerp = Mathf.Lerp(lerp, 0, 0.1f);
+            }
+            
+            Vector3 newPosition = transform.position + (transform.forward * speed * lerp * Time.deltaTime);
+            Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
+            rigidbody.MovePosition(newPositionXZ);
+
+            Vector3 playerLookPoint = closestPlayer.position;
+            Quaternion targetRotation = Quaternion.LookRotation(playerLookPoint - transform.position, transform.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, .2f);
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        }
+        else
+        {
+            isMoving = false;
+        }
     }
 
     IEnumerator GetClosestPlayer()
@@ -108,27 +139,8 @@ public class EnemyController : MonoBehaviour
 
     private bool CalculateAimTarget()
     {
-        Camera mainCamera = Camera.main;
-        Vector3 mousePosition = Input.mousePosition;
-
-        Vector3 aimPoint = mainCamera.ScreenToWorldPoint(new Vector3(
-            mousePosition.x,
-            mousePosition.y,
-            5f
-            ));
-
-        Vector3 aimDirection = aimPoint - mainCamera.gameObject.transform.position;
-        Ray aimRay = new Ray(aimPoint, aimDirection);
-        RaycastHit hitInfo;
-        if (Physics.Raycast(aimRay, out hitInfo))
-        {
-            hitPoint = hitInfo.point;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        hitPoint = closestPlayer.position;
+        return true;
     }
 
     private void Aim(bool aimResult)

@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   torque: 180
-  launchVelocity: 25
+  launchVelocity: 1200
   elevateSpeed: 75
   explosionForce: 100
   explosionLift: 1.5

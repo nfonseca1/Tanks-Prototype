@@ -437,11 +437,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.062000003
       objectReference: {fileID: 0}
-    - target: {fileID: 2197778437518568401, guid: 4ac649beef0c553459cad6054e825155,
-        type: 3}
-      propertyPath: launchVelocity
-      value: 1200
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac649beef0c553459cad6054e825155, type: 3}
 --- !u!1001 &1601030638733356805
@@ -469,7 +464,7 @@ PrefabInstance:
     - target: {fileID: 2230694995276813678, guid: b712fb65e38224444b6d7d7261041de9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.450178
+      value: -62.9
       objectReference: {fileID: 0}
     - target: {fileID: 2230694995276813678, guid: b712fb65e38224444b6d7d7261041de9,
         type: 3}
@@ -511,12 +506,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4709434985805204427, guid: b712fb65e38224444b6d7d7261041de9,
-        type: 3}
-      propertyPath: turret
-      value: 
-      objectReference: {fileID: 2599450625585506499, guid: 7dbd3550313efd4459b4087cf20acd1b,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b712fb65e38224444b6d7d7261041de9, type: 3}
 --- !u!4 &4696780200808985972 stripped

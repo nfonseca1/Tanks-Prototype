@@ -1495,12 +1495,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2018a97dd3b1914499e292c6436c2cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
-  torque: 45
-  launchVelocity: 25
+  speed: 15
+  torque: 180
+  launchVelocity: 1200
   elevateSpeed: 75
-  explosionForce: 200
-  explosionLift: 1
+  explosionForce: 100
+  explosionLift: 1.5
   turret: {fileID: 669005033148931778}
   barrelWheel: {fileID: 6791704627137886128}
   barrel: {fileID: 7675996458300499458}
