@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Shell : MonoBehaviour
 {
-    [SerializeField] ParticleSystem explosion;
+    [SerializeField] ShellExplosion explosion;
+    [SerializeField] float explosionForce = 10f;
+    [SerializeField] float explosionRadius = 5f;
+
     Rigidbody rigidbody;
 
     private void Awake()
@@ -26,8 +29,9 @@ public class Shell : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        ParticleSystem thisExplosion = Instantiate(explosion, transform.position, transform.rotation);
+        ShellExplosion thisExplosion = Instantiate(explosion, transform.position, transform.rotation);
         Destroy(thisExplosion, 5f);
+        thisExplosion.Explode(explosionForce, explosionRadius);
         Destroy(gameObject);
     }
 }

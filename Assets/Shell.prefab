@@ -143,8 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36757b0f82930784db02708a0eb75d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 2106740944776871214, guid: 41460e8e219c56e4d9ef734a1055423f,
+  explosion: {fileID: 4922227499028486264, guid: 41460e8e219c56e4d9ef734a1055423f,
     type: 3}
+  explosionForce: 300
+  explosionRadius: 30
 --- !u!96 &104994261690414514
 TrailRenderer:
   serializedVersion: 2
