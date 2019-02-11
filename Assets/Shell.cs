@@ -23,7 +23,7 @@ public class Shell : MonoBehaviour
     public void ApplyForce(float velocity)
     {
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.AddRelativeForce(new Vector3(0, 0, velocity));
+        rigidbody.velocity = transform.forward * velocity;
 
     }
 

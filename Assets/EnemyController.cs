@@ -22,25 +22,29 @@ public class EnemyController : MonoBehaviour
 
     TankController[] players;
     Transform closestPlayer;
-    float maxDistance = 35f;
+    float maxDistance = 50f;
     float minDistance = 25f;
     float neutralDistance = 30f;
+    float maxShootDistance = 50f;
     bool isMoving = false;
 
     Rigidbody rigidbody;
     Vector3 hitPoint;
+    Vector3 aimEuler;
     float acceleration = 0;
     bool barrelUpdated = true;
     float lerp = 0;
+    float fireWaitTime = 0f;
 
     Vector3 barrelScale;
+    const float fireRate = 3f;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody>();
 
-        barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
+        barrelWheel.localEulerAngles = new Vector3(0, 180, 0);
         barrelScale = barrel.localScale;
 
         GetPlayers();
@@ -49,21 +53,17 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        CalculateAimAngle();
+
+        if ((hitPoint - transform.position).magnitude < maxShootDistance && !isMoving)
+        {
+            fireWaitTime += Time.deltaTime;
+            ElevateBarrel();
+            Fire();
+        }
         if (!barrelUpdated)
         {
             UpdateBarrel();
-        }
-        else
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                Fire();
-                UpdateBarrel();
-            }
-            if (Input.GetMouseButton(0))
-            {
-                ElevateBarrel();
-            }
         }
     }
 
@@ -98,8 +98,12 @@ public class EnemyController : MonoBehaviour
             else
             {
                 lerp = Mathf.Lerp(lerp, 0, 0.1f);
+                if(lerp < 0.05f)
+                {
+                    lerp = 0;
+                }
             }
-            
+
             Vector3 newPosition = transform.position + (transform.forward * speed * lerp * Time.deltaTime);
             Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
             rigidbody.MovePosition(newPositionXZ);
@@ -140,7 +144,15 @@ public class EnemyController : MonoBehaviour
     private bool CalculateAimTarget()
     {
         hitPoint = closestPlayer.position;
+
         return true;
+    }
+
+    private void CalculateAimAngle()
+    {
+        float aimDistance = (hitPoint - transform.position).magnitude;
+        float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
+        aimEuler = new Vector3(-aimAngle, 180, 0);
     }
 
     private void Aim(bool aimResult)
@@ -156,21 +168,24 @@ public class EnemyController : MonoBehaviour
 
     private void ElevateBarrel()
     {
-        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        if (barrelWheel.localEulerAngles.x <= 310f)
-        {
-            barrelWheel.localEulerAngles = new Vector3(310f, 0, 0);
-        }
+        print(barrelWheel.localEulerAngles + " - " + aimEuler);
+        barrelWheel.localEulerAngles = Vector3.Lerp(barrelWheel.localEulerAngles, aimEuler, 0.2f);
     }
 
     private void Fire()
     {
-        Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
-        currentShell.ApplyForce(launchVelocity);
-        Destroy(currentShell, 10f);
+        if(fireWaitTime >= fireRate)
+        {
+            fireWaitTime = 0;
 
-        rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
-        barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+            Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
+            currentShell.ApplyForce(launchVelocity);
+            Destroy(currentShell, 10f);
+
+            rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
+            barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+            barrelUpdated = false;
+        }
     }
 
     private void UpdateBarrel()
@@ -178,16 +193,10 @@ public class EnemyController : MonoBehaviour
         barrelUpdated = false;
         barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
 
-        barrelWheel.Rotate(new Vector3(elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        if (barrelWheel.localEulerAngles.x < 90)
+        if (barrel.localScale.z >= 0.95f)
         {
-            barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
-
-            if (barrel.localScale.z >= 0.95f)
-            {
-                barrel.localScale = barrelScale;
-                barrelUpdated = true;
-            }
+            barrel.localScale = barrelScale;
+            barrelUpdated = true;
         }
     }
 }
