@@ -7,7 +7,7 @@ public class Tank : MonoBehaviour
     [SerializeField] protected float speed = 25f;
     [SerializeField] protected float torque = 45f;
     [SerializeField] protected float launchVelocity = 25f;
-    [SerializeField] protected float elevateSpeed = 75f;
+    [SerializeField] protected float elevateSpeed = 60f;
 
     [SerializeField] protected float explosionForce = 200f;
     [SerializeField] protected float explosionLift = 1f;
@@ -20,6 +20,9 @@ public class Tank : MonoBehaviour
     [SerializeField] protected Transform explosionPoint;
 
     protected Rigidbody rigidbody;
+    protected Vector3 barrelScale;
+    protected Vector3 defaultBarrelRot = new Vector3(0, 180, 0);
+    protected float maxBarrelHeight = 45f;
 
     public void Move(float input)
     {
@@ -46,21 +49,21 @@ public class Tank : MonoBehaviour
         turret.localEulerAngles = new Vector3(0, turret.localEulerAngles.y, 0);
     }
 
-    public void UpdateBarrel()
+    public bool UpdateBarrel()
     {
-        //barrelUpdated = false;
-        //barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
+        barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
 
-        //barrelWheel.Rotate(new Vector3(elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        //if (barrelWheel.localEulerAngles.x < 90)
-        //{
-        //    barrelWheel.localEulerAngles = new Vector3(0, 0, 0);
+        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+        if (barrelWheel.localEulerAngles.x > 180)
+        {
+            barrelWheel.localEulerAngles = defaultBarrelRot;
 
-        //    if (barrel.localScale.z >= 0.95f)
-        //    {
-        //        barrel.localScale = barrelScale;
-        //        barrelUpdated = true;
-        //    }
-        //}
+            if (barrel.localScale.z >= 0.95f)
+            {
+                barrel.localScale = barrelScale;
+                return true;
+            }
+        }
+        return false;
     }
 }

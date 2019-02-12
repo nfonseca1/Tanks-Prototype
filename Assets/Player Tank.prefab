@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6854419153086206041
+--- !u!114 &104209588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,11 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1354103162841360331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46deb0962ea49ed479667090c20c0226, type: 3}
+  m_Script: {fileID: 11500000, guid: 59e75985b71a23c4594e8e394ecdfe2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &104209589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354103162841360331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0626941763895c047a3b746f32114392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 25
-  torque: 45
+  torque: 180
   launchVelocity: 25
   elevateSpeed: 75
   explosionForce: 200
@@ -34,8 +46,13 @@ PrefabInstance:
     - target: {fileID: 2172667559983808232, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Name
-      value: Player Tank
+      value: Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 2172667559986061484, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 34998d7c16a69764b85a5cf842741ea6, type: 2}
     - target: {fileID: 2172667559984161416, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -96,17 +113,12 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 47089d8a26c36e742851bbfe3d2506ab, type: 2}
-    - target: {fileID: 2172667559986061390, guid: 3ca37e00c12bebb41b89740a0ff89c77,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 34998d7c16a69764b85a5cf842741ea6, type: 2}
     - target: {fileID: 2172667559986061480, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 47089d8a26c36e742851bbfe3d2506ab, type: 2}
-    - target: {fileID: 2172667559986061484, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    - target: {fileID: 2172667559986061390, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

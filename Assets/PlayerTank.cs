@@ -7,6 +7,7 @@ public class PlayerTank : Tank
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        barrelScale = barrel.localScale;
     }
 
     public void Rotate(float input)
@@ -20,10 +21,10 @@ public class PlayerTank : Tank
 
     public void ElevateBarrel()
     {
-        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        if (barrelWheel.localEulerAngles.x <= 310f)
+        barrelWheel.Rotate(new Vector3(elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+        if (barrelWheel.localEulerAngles.x >= maxBarrelHeight)
         {
-            barrelWheel.localEulerAngles = new Vector3(310f, 0, 0);
+            barrelWheel.localEulerAngles = new Vector3(maxBarrelHeight, defaultBarrelRot.y, defaultBarrelRot.z);
         }
     }
 }

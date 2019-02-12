@@ -112,48 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &104209587 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1354103162841360331, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &104209588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104209587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e75985b71a23c4594e8e394ecdfe2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &104209589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104209587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0626941763895c047a3b746f32114392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 25
-  torque: 180
-  launchVelocity: 25
-  elevateSpeed: 75
-  explosionForce: 200
-  explosionLift: 1
-  turret: {fileID: 2172667559984161422}
-  barrelWheel: {fileID: 2172667559984161410}
-  barrel: {fileID: 2172667559984161450}
-  emitter: {fileID: 7140447429158973601}
-  shell: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970, type: 3}
-  explosionPoint: {fileID: 4675303165571754480}
 --- !u!4 &104209593 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1354103162841332651, guid: 877d375d9beb27240a3e091455cbb9a8,
@@ -418,36 +376,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &2172667559984161410 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332641, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2172667559984161422 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332653, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2172667559984161450 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332617, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4675303165571754480 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5480427136837021907, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7140447429158973601 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8069209314581162370, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8264303155436739477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -515,6 +443,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6854419153086206041, guid: 877d375d9beb27240a3e091455cbb9a8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877d375d9beb27240a3e091455cbb9a8, type: 3}
