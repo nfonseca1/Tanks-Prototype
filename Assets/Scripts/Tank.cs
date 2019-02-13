@@ -22,7 +22,7 @@ public class Tank : MonoBehaviour
     protected Rigidbody rigidbody;
     protected Vector3 barrelScale = new Vector3(1, 1, 1);
     protected Vector3 defaultBarrelRot = new Vector3(0, 180, 0);
-    protected float maxBarrelHeight = 45f;
+    protected float maxBarrelHeight = 45f; 
 
     public void Move(float input)
     {

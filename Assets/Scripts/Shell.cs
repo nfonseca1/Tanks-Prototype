@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shell : MonoBehaviour
 {
     [SerializeField] ShellExplosion explosion;
+    [SerializeField] Transform explosionPoint;
     [SerializeField] float explosionForce = 10f;
     [SerializeField] float explosionRadius = 5f;
 
@@ -29,7 +30,7 @@ public class Shell : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        ShellExplosion thisExplosion = Instantiate(explosion, transform.position, transform.rotation);
+        ShellExplosion thisExplosion = Instantiate(explosion, explosionPoint.position, explosionPoint.rotation);
         Destroy(thisExplosion, 5f);
         thisExplosion.Explode(explosionForce, explosionRadius);
         Destroy(gameObject);

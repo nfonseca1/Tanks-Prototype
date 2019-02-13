@@ -23,7 +23,7 @@ public class AITank : Tank
 
     public Vector3 CalculateAimAngle(Vector3 hitPoint)
     {
-        float aimDistance = (hitPoint - transform.position).magnitude;
+        float aimDistance = (new Vector3(hitPoint.x, transform.position.y, hitPoint.z) - transform.position).magnitude;
         float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
         return new Vector3(-aimAngle, defaultBarrelRot.y, defaultBarrelRot.z);
     }
