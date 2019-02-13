@@ -376,36 +376,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &2172667559984161410 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332641, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2172667559984161422 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332653, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2172667559984161450 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1354103162841332617, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4675303165571754480 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5480427136837021907, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7140447429158973601 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8069209314581162370, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 8264303155436739477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8177970615744407099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -472,36 +442,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: turret
-      value: 
-      objectReference: {fileID: 2172667559984161422}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: barrelWheel
-      value: 
-      objectReference: {fileID: 2172667559984161410}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: barrel
-      value: 
-      objectReference: {fileID: 2172667559984161450}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: emitter
-      value: 
-      objectReference: {fileID: 7140447429158973601}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: explosionPoint
-      value: 
-      objectReference: {fileID: 4675303165571754480}
-    - target: {fileID: 7071230418004738024, guid: 4932f990da66ffc4095437cb3a55ea76,
-        type: 3}
-      propertyPath: torque
-      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4932f990da66ffc4095437cb3a55ea76, type: 3}

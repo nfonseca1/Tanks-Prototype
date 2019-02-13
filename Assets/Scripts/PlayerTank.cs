@@ -7,7 +7,6 @@ public class PlayerTank : Tank
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        barrelScale = new Vector3(1, 1, 1);
     }
 
     public void ElevateBarrel()

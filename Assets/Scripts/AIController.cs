@@ -34,7 +34,6 @@ public class AIController : MonoBehaviour
     {
         StartCoroutine(GetClosestPlayer());
         CalculateAimTarget();
-        ManageFireInput();
         ManageMovement();
         ManageAxisInput(axisX, ref lerpX, lerpLimitX);
         ManageAxisInput(axisY, ref lerpY, lerpLimitY);
@@ -42,6 +41,7 @@ public class AIController : MonoBehaviour
         AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
         AITank.Rotate(lerpX / lerpLimitX);
         AITank.Aim(hitPoint);
+        ManageFireInput();
     }
 
     void GetPlayers()
@@ -108,16 +108,20 @@ public class AIController : MonoBehaviour
 
     private void ManageFireInput()
     {
+        bool aimStatus = false;
+
         if (timeUntilFire <= 0)
         {
-            if (Input.GetMouseButton(0))
+            if (lerpY == 0)
             {
-                AITank.ElevateBarrel();
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                AITank.Fire();
-                timeUntilFire = fireRate;
+                Vector3 aimEuler = AITank.CalculateAimAngle(hitPoint);
+                aimStatus = AITank.ElevateBarrel(aimEuler);
+
+                if (aimStatus == true)
+                {
+                    AITank.Fire();
+                    timeUntilFire = fireRate;
+                }
             }
         }
         else
