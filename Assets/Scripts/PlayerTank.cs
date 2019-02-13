@@ -7,16 +7,7 @@ public class PlayerTank : Tank
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        barrelScale = barrel.localScale;
-    }
-
-    public void Rotate(float input)
-    {
-        Quaternion turn = Quaternion.Euler(new Vector3(
-            transform.localEulerAngles.x,
-            transform.localEulerAngles.y + torque * input * Time.deltaTime,
-            transform.localEulerAngles.z));
-        rigidbody.MoveRotation(turn);
+        barrelScale = new Vector3(1, 1, 1);
     }
 
     public void ElevateBarrel()

@@ -31,6 +31,15 @@ public class Tank : MonoBehaviour
         rigidbody.MovePosition(newPositionXZ);
     }
 
+    public void Rotate(float input)
+    {
+        Quaternion turn = Quaternion.Euler(new Vector3(
+            transform.localEulerAngles.x,
+            transform.localEulerAngles.y + torque * input * Time.deltaTime,
+            transform.localEulerAngles.z));
+        rigidbody.MoveRotation(turn);
+    }
+
     public void Fire()
     {
         Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
