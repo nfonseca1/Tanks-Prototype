@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class TankHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float health = 100f;
+    
 
     public void DecreaseHealth(float damage)
     {
-        print(damage);
+        health -= (100f * damage);
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -23,17 +23,22 @@ public class AIController : MonoBehaviour
     float lerpLimitY = 0.5f;
     float fireRate = 2f;
     float timeUntilFire = 0f;
+    bool playersExist = false;
 
     void Start()
     {
         AITank = GetComponent<AITank>();
-        GetPlayers();
+
+        StartCoroutine(GetClosestPlayerWithDelay());
     }
 
     void Update()
     {
-        StartCoroutine(GetClosestPlayer());
-        CalculateAimTarget();
+        GetPlayers();
+        if (playersExist)
+        {
+            CalculateAimTarget();
+        }
         ManageMovement();
         ManageAxisInput(axisX, ref lerpX, lerpLimitX);
         ManageAxisInput(axisY, ref lerpY, lerpLimitY);
@@ -41,12 +46,23 @@ public class AIController : MonoBehaviour
         AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
         AITank.Rotate(lerpX / lerpLimitX);
         AITank.Aim(hitPoint);
-        ManageFireInput();
+        if (playersExist)
+        {
+            ManageFireInput();
+        }
     }
 
     void GetPlayers()
     {
         players = FindObjectsOfType<PlayerTank>();
+        if (players.Length == 0)
+        {
+            playersExist = false;
+        }
+        else
+        {
+            playersExist = true;
+        }
     }
 
     private void ManageMovement()
@@ -133,25 +149,39 @@ public class AIController : MonoBehaviour
 
     }
 
-    IEnumerator GetClosestPlayer()
+    IEnumerator GetClosestPlayerWithDelay()
     {
         while (true)
         {
-            closestPlayer = players[0].transform;
-            float closestDistance = (players[0].transform.position - transform.position).magnitude;
-
-            for (var i = 0; i < players.Length; i++)
+            GetPlayers();
+            if(players[0] == null)
             {
-                if (i == 0) { continue; }
-
-                float distanceToCheck = (players[i].transform.position - transform.position).magnitude;
-                if (distanceToCheck < closestDistance)
-                {
-                    closestPlayer = players[i].transform;
-                    closestDistance = distanceToCheck;
-                }
+                playersExist = false;
+            }
+            else
+            {
+                playersExist = true;
+                GetClosestPlayerNow();
             }
             yield return new WaitForSeconds(5f);
+        }
+    }
+
+    private void GetClosestPlayerNow()
+    {
+        closestPlayer = players[0].transform;
+        float closestDistance = (players[0].transform.position - transform.position).magnitude;
+
+        for (var i = 0; i < players.Length; i++)
+        {
+            if (i == 0) { continue; }
+
+            float distanceToCheck = (players[i].transform.position - transform.position).magnitude;
+            if (distanceToCheck < closestDistance)
+            {
+                closestPlayer = players[i].transform;
+                closestDistance = distanceToCheck;
+            }
         }
     }
 
