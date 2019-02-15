@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerTank : Tank
 {
+    Trajectory trajectory;
+
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        trajectory = GetComponent<Trajectory>();
     }
 
     public void ElevateBarrel()
@@ -16,5 +19,7 @@ public class PlayerTank : Tank
         {
             barrelWheel.localEulerAngles = new Vector3(maxBarrelHeight, defaultBarrelRot.y, defaultBarrelRot.z);
         }
+
+        trajectory.Calculate(barrelWheel.localEulerAngles.x, launchVelocity);
     }
 }
