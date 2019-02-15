@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class AITank : Tank
 {
+    [SerializeField] Transform sensorPoint;
+
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+    }
+
+    public bool CheckFrontSensor()
+    {
+        Ray frontRay = new Ray(sensorPoint.position, transform.forward);
+
+        RaycastHit hitInfo;
+        if (Physics.Raycast(frontRay, out hitInfo, 6f))
+        {
+            return true;
+        }
+        return false;
     }
 
     public bool ElevateBarrel(Vector3 aimEuler)
@@ -27,4 +41,6 @@ public class AITank : Tank
         float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
         return new Vector3(-aimAngle, defaultBarrelRot.y, defaultBarrelRot.z);
     }
+
+
 }

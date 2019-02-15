@@ -24,6 +24,7 @@ public class AIController : MonoBehaviour
     float fireRate = 2f;
     float timeUntilFire = 0f;
     bool playersExist = false;
+    float randomDirection = 1;
 
     void Start()
     {
@@ -39,7 +40,8 @@ public class AIController : MonoBehaviour
         {
             CalculateAimTarget();
         }
-        ManageMovement();
+
+        CheckSensors();
         ManageAxisInput(axisX, ref lerpX, lerpLimitX);
         ManageAxisInput(axisY, ref lerpY, lerpLimitY);
 
@@ -48,7 +50,7 @@ public class AIController : MonoBehaviour
         AITank.Aim(hitPoint);
         if (playersExist)
         {
-            ManageFireInput();
+            //ManageFireInput();
         }
     }
 
@@ -62,6 +64,22 @@ public class AIController : MonoBehaviour
         else
         {
             playersExist = true;
+        }
+    }
+
+    void CheckSensors()
+    {
+        if (AITank.CheckFrontSensor())
+        {
+            axisX = randomDirection;
+            axisY = 0;
+        }
+        else
+        {
+            float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 1));
+            if (num == 0) { num = -1; }
+            randomDirection = num;
+            ManageMovement();
         }
     }
 
