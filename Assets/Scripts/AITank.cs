@@ -4,23 +4,53 @@ using UnityEngine;
 
 public class AITank : Tank
 {
-    [SerializeField] Transform sensorPoint;
+    [SerializeField] Transform sensorPointF, sensorPointFR, sensorPointFL, sensorPointL, sensorPointR;
+
+    public enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
+    float rayLength = 6f;
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    public bool CheckFrontSensor()
+    public Sensor CheckSensors()
     {
-        Ray frontRay = new Ray(sensorPoint.position, transform.forward);
+        Ray frontRay = new Ray(sensorPointF.position, sensorPointF.forward);
+        Ray frontRightRay = new Ray(sensorPointFR.position, sensorPointFR.forward);
+        Ray frontLeftRay = new Ray(sensorPointFL.position, sensorPointFL.forward);
+        Ray leftRay = new Ray(sensorPointL.position, sensorPointL.forward);
+        Ray rightRay = new Ray(sensorPointR.position, sensorPointR.forward);
 
+        Debug.DrawRay(sensorPointF.position, sensorPointF.forward * rayLength);
+        Debug.DrawRay(sensorPointFR.position, sensorPointFR.forward * rayLength);
+        Debug.DrawRay(sensorPointFL.position, sensorPointFL.forward * rayLength);
+        Debug.DrawRay(sensorPointL.position, sensorPointL.forward * rayLength);
+        Debug.DrawRay(sensorPointR.position, sensorPointR.forward * rayLength);
+
+        
         RaycastHit hitInfo;
-        if (Physics.Raycast(frontRay, out hitInfo, 6f))
+        if (Physics.Raycast(frontRay, out hitInfo, rayLength))
         {
-            return true;
+            return Sensor.Front;
         }
-        return false;
+        if (Physics.Raycast(frontRightRay, out hitInfo, rayLength))
+        {
+            return Sensor.FrontRight;
+        }
+        if (Physics.Raycast(frontLeftRay, out hitInfo, rayLength))
+        {
+            return Sensor.FrontLeft;
+        }
+        if (Physics.Raycast(leftRay, out hitInfo, rayLength))
+        {
+            return Sensor.Left;
+        }
+        if (Physics.Raycast(rightRay, out hitInfo, rayLength))
+        {
+            return Sensor.Right;
+        }
+        return Sensor.None;
     }
 
     public bool ElevateBarrel(Vector3 aimEuler)

@@ -25,6 +25,8 @@ public class AIController : MonoBehaviour
     float timeUntilFire = 0f;
     bool playersExist = false;
     float randomDirection = 1;
+    bool axisXOverriden = false;
+    bool axisYOverriden = false;
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class AIController : MonoBehaviour
         AITank.Aim(hitPoint);
         if (playersExist)
         {
-            //ManageFireInput();
+            ManageFireInput();
         }
     }
 
@@ -69,47 +71,93 @@ public class AIController : MonoBehaviour
 
     void CheckSensors()
     {
-        if (AITank.CheckFrontSensor())
+        AITank.Sensor sensor = AITank.CheckSensors();
+        switch (sensor)
         {
-            axisX = randomDirection;
-            axisY = 0;
+            case AITank.Sensor.Front:
+                axisX = randomDirection;
+                axisY = 0;
+                axisXOverriden = true;
+                axisYOverriden = true;
+                break;
+            case AITank.Sensor.FrontRight:
+                axisX = -1;
+                axisXOverriden = true;
+                axisYOverriden = false;
+                break;
+            case AITank.Sensor.FrontLeft:
+                axisX = 1;
+                axisXOverriden = true;
+                axisYOverriden = false;
+                break;
+            case AITank.Sensor.Left:
+                if(axisX < 0)
+                {
+                    axisX = 0;
+                    axisXOverriden = true;
+                    axisYOverriden = false;
+                }
+                else
+                {
+                    axisXOverriden = false;
+                    axisYOverriden = false;
+                }
+                break;
+            case AITank.Sensor.Right:
+                if (axisX > 0)
+                {
+                    axisX = 0;
+                    axisXOverriden = true;
+                    axisYOverriden = false;
+                }
+                else
+                {
+                    axisXOverriden = false;
+                    axisYOverriden = false;
+                }
+                break;
+            default:
+                float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 2));
+                if (num == 0) { num = -1; }
+                randomDirection = num;
+                
+                axisXOverriden = false;
+                axisYOverriden = false;
+                break;
         }
-        else
-        {
-            float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 1));
-            if (num == 0) { num = -1; }
-            randomDirection = num;
-            ManageMovement();
-        }
+        ManageMovement();
     }
 
     private void ManageMovement()
     {
         if ((hitPoint - transform.position).magnitude > maxDistance)
         {
-            axisY = 1;
+            if (!axisYOverriden) { axisY = 1; }
 
-            // Calculate direction of target for rotation
-            float frontAngle = Vector3.Angle(transform.forward, hitPoint - transform.position);
-            float rightAngle = Vector3.Angle(transform.right, hitPoint - transform.position);
+            if (!axisXOverriden)
+            {
+                // Calculate direction of target for rotation
+                float frontAngle = Vector3.Angle(transform.forward, hitPoint - transform.position);
+                float rightAngle = Vector3.Angle(transform.right, hitPoint - transform.position);
 
-            if(frontAngle > 10f && rightAngle > 90f)
-            {
-                axisX = -1f;
-            }
-            else if(frontAngle > 10f && rightAngle < 90f)
-            {
-                axisX = 1f;
-            }
-            else
-            {
-                axisX = 0;
+                if (frontAngle > 10f && rightAngle > 90f)
+                {
+                    axisX = -1f;
+                }
+                else if (frontAngle > 10f && rightAngle < 90f)
+                {
+                    axisX = 1f;
+                }
+                else
+                {
+                    axisX = 0;
+                }
             }
         }
         else
         {
-            axisX = 0;
-            axisY = 0;
+            if (!axisXOverriden) { axisX = 0; }
+            if (!axisYOverriden) { axisY = 0; }
         }
     }
 
