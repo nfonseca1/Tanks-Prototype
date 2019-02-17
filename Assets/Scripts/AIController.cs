@@ -27,6 +27,10 @@ public class AIController : MonoBehaviour
     float randomDirection = 1;
     bool axisXOverriden = false;
     bool axisYOverriden = false;
+    float flightTime;
+    enum TrajectoryStatus { Success, Fail, Standby }
+    TrajectoryStatus flightStatus = TrajectoryStatus.Standby;
+    float repositionTime = 0f;
 
     void Start()
     {
@@ -66,6 +70,14 @@ public class AIController : MonoBehaviour
         else
         {
             playersExist = true;
+        }
+    }
+
+    void ManageFlightStatus()
+    {
+        if(flightStatus == TrajectoryStatus.Fail)
+        {
+            maxDistance = 5;
         }
     }
 
@@ -156,8 +168,27 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            if (!axisXOverriden) { axisX = 0; }
-            if (!axisYOverriden) { axisY = 0; }
+            if(flightStatus == TrajectoryStatus.Fail)
+            {
+                ChangePosition();
+                if (!axisXOverriden) { axisX = 0; }
+                if (!axisYOverriden) { axisY = 1; }
+            }
+            else
+            {
+                if (!axisXOverriden) { axisX = 0; }
+                if (!axisYOverriden) { axisY = 0; }
+            }
+        }
+    }
+
+    private void ChangePosition()
+    {
+        repositionTime += Time.deltaTime;
+        if(repositionTime >= 3f)
+        {
+            repositionTime = 0;
+            flightStatus = TrajectoryStatus.Standby;
         }
     }
 
@@ -201,6 +232,7 @@ public class AIController : MonoBehaviour
 
                 if (aimStatus == true)
                 {
+                    flightTime = AITank.GetTrajectoryTime();
                     Shell shell = AITank.Fire();
                     shell.SetAITankSource(this);
                     timeUntilFire = fireRate;
@@ -261,6 +293,13 @@ public class AIController : MonoBehaviour
 
     public void SetProjectileTime(float time)
     {
-        print(time);
+        if(time / flightTime >= 0.95f)
+        {
+            flightStatus = TrajectoryStatus.Success;
+        }
+        else
+        {
+            flightStatus = TrajectoryStatus.Fail;
+        }
     }
 }

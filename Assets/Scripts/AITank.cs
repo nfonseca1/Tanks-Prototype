@@ -74,4 +74,11 @@ public class AITank : Tank
         return new Vector3(-aimAngle, defaultBarrelRot.y, defaultBarrelRot.z);
     }
 
+    public float GetTrajectoryTime()
+    {
+        float gravity = Mathf.Abs(Physics.gravity.y);
+        float time = (2 * launchVelocity * Mathf.Sin(barrelWheel.eulerAngles.x * Mathf.Deg2Rad)) / gravity;
+        return time;
+    }
+
 }
