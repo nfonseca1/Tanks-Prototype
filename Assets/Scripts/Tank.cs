@@ -22,7 +22,7 @@ public class Tank : MonoBehaviour
     protected Rigidbody rigidbody;
     protected Vector3 barrelScale = new Vector3(1, 1, 1);
     protected Vector3 defaultBarrelRot = new Vector3(0, 180, 0);
-    protected float maxBarrelHeight = 45f; 
+    protected float maxBarrelHeight = 45f;
 
     public void Move(float input)
     {
@@ -40,7 +40,7 @@ public class Tank : MonoBehaviour
         rigidbody.MoveRotation(turn);
     }
 
-    public void Fire()
+    public Shell Fire()
     {
         Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
         currentShell.ApplyForce(launchVelocity);
@@ -48,6 +48,8 @@ public class Tank : MonoBehaviour
 
         rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+
+        return currentShell;
     }
 
     public void Aim(Vector3 hitPoint)

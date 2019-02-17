@@ -10,6 +10,9 @@ public class Shell : MonoBehaviour
     [SerializeField] float explosionRadius = 5f;
 
     Rigidbody rigidbody;
+    AIController AIController;
+
+    float totalFlightTime = 0f;
 
     private void Awake()
     {
@@ -19,6 +22,8 @@ public class Shell : MonoBehaviour
     private void Update()
     {
         transform.LookAt(transform.position + rigidbody.velocity);
+
+        totalFlightTime += Time.deltaTime;
     }
 
     public void ApplyForce(float velocity)
@@ -28,8 +33,18 @@ public class Shell : MonoBehaviour
 
     }
 
+    public void SetAITankSource(AIController controller)
+    {
+        AIController = controller;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        if(AIController != null)
+        {
+            AIController.SetProjectileTime(totalFlightTime);
+        }
+        
         ShellExplosion thisExplosion = Instantiate(explosion, explosionPoint.position, explosionPoint.rotation);
         Destroy(thisExplosion, 5f);
         thisExplosion.Explode(explosionForce, explosionRadius);

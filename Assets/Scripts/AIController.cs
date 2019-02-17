@@ -201,7 +201,8 @@ public class AIController : MonoBehaviour
 
                 if (aimStatus == true)
                 {
-                    AITank.Fire();
+                    Shell shell = AITank.Fire();
+                    shell.SetAITankSource(this);
                     timeUntilFire = fireRate;
                 }
             }
@@ -256,5 +257,10 @@ public class AIController : MonoBehaviour
         hitPoint = closestPlayer.position;
 
         return true;
+    }
+
+    public void SetProjectileTime(float time)
+    {
+        print(time);
     }
 }

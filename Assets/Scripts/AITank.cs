@@ -8,10 +8,12 @@ public class AITank : Tank
 
     public enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
     float rayLength = 6f;
+    Trajectory trajectory;
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        trajectory = turret.GetComponent<Trajectory>();
     }
 
     public Sensor CheckSensors()
@@ -71,6 +73,5 @@ public class AITank : Tank
         float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
         return new Vector3(-aimAngle, defaultBarrelRot.y, defaultBarrelRot.z);
     }
-
 
 }

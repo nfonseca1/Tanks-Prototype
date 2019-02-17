@@ -19,7 +19,6 @@ public class PlayerTank : Tank
         {
             barrelWheel.localEulerAngles = new Vector3(maxBarrelHeight, defaultBarrelRot.y, defaultBarrelRot.z);
         }
-
-        trajectory.Calculate(barrelWheel.localEulerAngles.x, launchVelocity, emitter);
+        //trajectory.Calculate(barrelWheel.localEulerAngles.x, launchVelocity, emitter);
     }
 }
