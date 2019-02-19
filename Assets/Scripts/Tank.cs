@@ -44,7 +44,7 @@ public class Tank : MonoBehaviour
     {
         Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
         currentShell.ApplyForce(launchVelocity);
-        Destroy(currentShell, 10f);
+        Destroy(currentShell.gameObject, 10f);
 
         rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);

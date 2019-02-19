@@ -30,7 +30,6 @@ public class Shell : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.velocity = transform.forward * velocity;
-
     }
 
     public void SetAITankSource(AIController controller)
