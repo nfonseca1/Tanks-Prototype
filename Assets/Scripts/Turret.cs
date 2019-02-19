@@ -17,9 +17,12 @@ public class Turret : MonoBehaviour
     Vector3 hitPoint;
     float fireRate = 0.2f;
     float timeUntilFire = 0f;
+    float fireRateTotal = 2.5f;
+    float timeUntilTotalFire = 0f;
     bool leftBarrelIsNext = true;
     float launchVelocity = 20f;
     Vector3 barrelPosition;
+    int shotsFired = 0;
 
 
     void Start()
@@ -110,29 +113,41 @@ public class Turret : MonoBehaviour
 
     private void ManageFireInput()
     {
-        bool aimStatus = false;
-
-        if (timeUntilFire <= 0)
+        if (shotsFired >= 8)
         {
-            if (leftBarrelIsNext)
+            timeUntilTotalFire = fireRateTotal;
+            shotsFired = 0;
+        }
+
+        if (timeUntilTotalFire <= 0)
+        {
+            if (timeUntilFire <= 0)
             {
-                Fire(leftBarrel, leftEmitter);
-                leftBarrelIsNext = false;
+                if (leftBarrelIsNext)
+                {
+                    Fire(leftBarrel, leftEmitter);
+                    leftBarrelIsNext = false;
+                    shotsFired++;
+                }
+                else
+                {
+                    Fire(rightBarrel, rightEmitter);
+                    leftBarrelIsNext = true;
+                    shotsFired++;
+                }
+                timeUntilFire = fireRate;
             }
             else
             {
-                Fire(rightBarrel, rightEmitter);
-                leftBarrelIsNext = true;
+                timeUntilFire -= Time.deltaTime;
+                UpdateBarrel();
             }
-            timeUntilFire = fireRate;
         }
         else
         {
-            timeUntilFire -= Time.deltaTime;
-
+            timeUntilTotalFire -= Time.deltaTime;
             UpdateBarrel();
         }
-
     }
 
     private void Fire(Transform barrel, Transform emitter)
