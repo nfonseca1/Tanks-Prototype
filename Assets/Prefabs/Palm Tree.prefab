@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100004, guid: cac73f6221308324488f4165dd073469, type: 3}
       propertyPath: m_Name
-      value: Palm Tree Variant
+      value: Palm Tree
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: cac73f6221308324488f4165dd073469, type: 3}
       propertyPath: m_LocalPosition.x

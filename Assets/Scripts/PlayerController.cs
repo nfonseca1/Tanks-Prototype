@@ -111,5 +111,9 @@ public class PlayerController : MonoBehaviour
         {
             hitPoint = hitInfo.point;
         }
+        else
+        {
+            print("Did not hit");
+        }
     }
 }
