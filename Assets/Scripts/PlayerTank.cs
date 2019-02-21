@@ -4,12 +4,39 @@ using UnityEngine;
 
 public class PlayerTank : Tank
 {
+    [SerializeField] ParticleSystem particleSystem1;
+    [SerializeField] ParticleSystem particleSystem2;
+    ParticleSystem.EmissionModule frontEmission;
+    ParticleSystem.EmissionModule backEmission;
     Trajectory trajectory;
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         trajectory = turret.GetComponent<Trajectory>();
+        frontEmission = particleSystem1.emission;
+        backEmission = particleSystem2.emission;
+    }
+
+    public new void Move(float input)
+    {
+        base.Move(input);
+
+        if (input > 0)
+        {
+            frontEmission.enabled = true;
+            backEmission.enabled = false;
+        }
+        else if (input < 0)
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = true;
+        }
+        else
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = false;
+        }
     }
 
     public void ElevateBarrel()
