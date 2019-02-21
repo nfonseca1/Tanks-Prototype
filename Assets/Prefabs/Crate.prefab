@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &8280574112544289170
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7208403321707601398}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.000001, y: 2, z: 2}
+  m_Center: {x: -0.00000047683716, y: 1, z: 0}
 --- !u!114 &2386796535192769381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16,19 +29,6 @@ MonoBehaviour:
     type: 3}
   brokenCrate: {fileID: 6989905696584146801, guid: 16f47e8f82ebbb64e95abd30c3ffe4d0,
     type: 3}
---- !u!65 &8280574112544289170
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7208403321707601398}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.000001, y: 2, z: 2}
-  m_Center: {x: -0.00000047683716, y: 1, z: 0}
 --- !u!1001 &7208403321707633494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,7 +38,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 6dcee745c30650e41b6ee3646d5ea05b, type: 3}
       propertyPath: m_Name
-      value: Crate Variant
+      value: Crate
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6dcee745c30650e41b6ee3646d5ea05b, type: 3}
       propertyPath: m_LocalPosition.x
