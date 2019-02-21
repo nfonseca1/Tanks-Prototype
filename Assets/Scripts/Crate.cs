@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Crate : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Transform particles;
+    [SerializeField] Transform brokenCrate;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        Vector3 particlePosition = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+        Transform currentParticles = Instantiate(particles, particlePosition, transform.rotation);
+        Transform currentBrokenCrate = Instantiate(brokenCrate, transform.position, transform.rotation);
+
+        Destroy(currentParticles.gameObject, .5f);
+        Destroy(gameObject);
     }
 }
