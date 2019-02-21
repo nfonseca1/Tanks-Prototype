@@ -18,9 +18,11 @@ public class PlayerTank : Tank
         backEmission = particleSystem2.emission;
     }
 
-    public new void Move(float input)
+    public void Move(float input)
     {
-        base.Move(input);
+        Vector3 newPosition = transform.position + (transform.forward * speed * input * Time.deltaTime);
+        Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
+        rigidbody.MovePosition(newPositionXZ);
 
         if (input > 0)
         {

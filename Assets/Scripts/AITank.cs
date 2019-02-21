@@ -5,6 +5,10 @@ using UnityEngine;
 public class AITank : Tank
 {
     [SerializeField] Transform sensorPointF, sensorPointFR, sensorPointFL, sensorPointL, sensorPointR;
+    [SerializeField] ParticleSystem particleSystem1;
+    [SerializeField] ParticleSystem particleSystem2;
+    ParticleSystem.EmissionModule frontEmission;
+    ParticleSystem.EmissionModule backEmission;
 
     public enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
     float rayLength = 6f;
@@ -14,6 +18,31 @@ public class AITank : Tank
     {
         rigidbody = GetComponent<Rigidbody>();
         trajectory = turret.GetComponent<Trajectory>();
+        frontEmission = particleSystem1.emission;
+        backEmission = particleSystem2.emission;
+    }
+
+    public void Move(float input)
+    {
+        Vector3 newPosition = transform.position + (transform.forward * speed * input * Time.deltaTime);
+        Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
+        rigidbody.MovePosition(newPositionXZ);
+
+        if (input > 0)
+        {
+            frontEmission.enabled = true;
+            backEmission.enabled = false;
+        }
+        else if (input < 0)
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = true;
+        }
+        else
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = false;
+        }
     }
 
     public Sensor CheckSensors()

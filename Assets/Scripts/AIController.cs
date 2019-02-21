@@ -9,10 +9,10 @@ public class AIController : MonoBehaviour
     Vector3 hitPoint;
     PlayerTank[] players;
     Transform closestPlayer;
-    float maxDistance = 45f;
+    float maxDistance = 35f;
     float minDistance = 25f;
     float neutralDistance = 30f;
-    float maxShootDistance = 50f;
+    float maxShootDistance = 40f;
     bool isMoving = false;
 
     float axisX = 0;

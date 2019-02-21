@@ -24,13 +24,6 @@ public class Tank : MonoBehaviour
     protected Vector3 defaultBarrelRot = new Vector3(0, 180, 0);
     protected float maxBarrelHeight = 45f;
 
-    public void Move(float input)
-    {
-        Vector3 newPosition = transform.position + (transform.forward * speed * input * Time.deltaTime);
-        Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
-        rigidbody.MovePosition(newPositionXZ);
-    }
-
     public void Rotate(float input)
     {
         Quaternion turn = Quaternion.Euler(new Vector3(

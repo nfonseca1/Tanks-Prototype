@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     {
         if(target != null)
         {
-            transform.position = target.position + new Vector3(-25, 40, -25) * distance;
+            transform.position = target.position + new Vector3(-25, 50, -25) * distance;
             transform.LookAt(target);
         }
     }
