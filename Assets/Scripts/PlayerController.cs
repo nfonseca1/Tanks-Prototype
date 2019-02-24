@@ -14,10 +14,12 @@ public class PlayerController : MonoBehaviour
     float lerpLimitY = 0.25f;
     float fireRate = 2f;
     float timeUntilFire = 0f;
+    CameraController camera;
     
     void Start()
     {
         playerTank = GetComponent<PlayerTank>();
+        camera = FindObjectOfType<CameraController>();
     }
     
     void Update()
@@ -114,6 +116,31 @@ public class PlayerController : MonoBehaviour
         else
         {
             print("Did not hit");
+        }
+    }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Zone")
+        {
+            Vector3 zoneVector = other.gameObject.transform.position;
+            Vector3 zonePos = new Vector3(zoneVector.x, transform.position.y, zoneVector.z);
+
+            camera.playerPosIsBase = false;
+
+            float zoneDistance = (zonePos - transform.position).magnitude;
+            float zoneRadius = other.GetComponent<CapsuleCollider>().radius;
+            Vector3 zoneLerp = Vector3.Lerp(transform.position, zonePos, (zoneDistance / zoneRadius) / 2);
+            camera.SetPosition(zoneLerp);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Zone")
+        {
+            camera.playerPosIsBase = true;
+            camera.SetPosition(transform.position);
         }
     }
 }
