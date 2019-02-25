@@ -6,8 +6,16 @@ public class CameraController : MonoBehaviour
 {
     public bool playerPosIsBase = true;
     [SerializeField] Transform target;
-    [SerializeField] [Range(1, 10)] float distance = 1f;
+    [SerializeField] [Range(1, 10)] float baseDistance = 1f;
+    float distance;
+    float lerp;
     Vector3 basePos;
+
+    private void Start()
+    {
+        distance = baseDistance;
+        lerp = distance;
+    }
 
     // Update is called once per frame
     void Update()
@@ -15,7 +23,8 @@ public class CameraController : MonoBehaviour
         if (playerPosIsBase) { basePos = target.position; }
         if(target != null)
         {
-            transform.position = basePos + new Vector3(-25, 50, -25) * distance;
+            lerp = Mathf.Lerp(lerp, distance, 0.1f);
+            transform.position = basePos + new Vector3(-25, 50, -25) * lerp;
             transform.LookAt(basePos);
         }
     }
@@ -23,5 +32,10 @@ public class CameraController : MonoBehaviour
     public void SetPosition(Vector3 newPosition)
     {
         basePos = newPosition;
+    }
+
+    public void SetDistance(float distanceAdded)
+    {
+        distance = baseDistance + distanceAdded;
     }
 }

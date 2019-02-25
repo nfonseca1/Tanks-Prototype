@@ -126,12 +126,11 @@ public class PlayerController : MonoBehaviour
             Vector3 zoneVector = other.gameObject.transform.position;
             Vector3 zonePos = new Vector3(zoneVector.x, transform.position.y, zoneVector.z);
 
-            camera.playerPosIsBase = false;
+            camera.playerPosIsBase = true;
 
             float zoneDistance = (zonePos - transform.position).magnitude;
             float zoneRadius = other.GetComponent<CapsuleCollider>().radius;
-            Vector3 zoneLerp = Vector3.Lerp(transform.position, zonePos, (zoneDistance / zoneRadius) / 2);
-            camera.SetPosition(zoneLerp);
+            camera.SetDistance(1);
         }
     }
 
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
         if(other.tag == "Zone")
         {
             camera.playerPosIsBase = true;
-            camera.SetPosition(transform.position);
+            camera.SetDistance(0);
         }
     }
 }
