@@ -4,7 +4,11 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Knob
+    100004: Structure
     400000: //RootNode
+    400002: Knob
+    400004: Structure
     2100000: Front
     2100002: Top
     2100004: Ramp
@@ -12,10 +16,21 @@ ModelImporter:
     2100008: Door_Dark
     2100010: Door_Crease
     2100012: Top_Edge
+    2100014: One
+    2100016: Two
+    2100018: Inside
+    2100020: Three
+    2100022: Floor
     2300000: //RootNode
+    2300002: Knob
+    2300004: Structure
     3300000: //RootNode
+    3300002: Knob
+    3300004: Structure
     4300000: Cylinder
     4300002: Cube
+    4300004: Knob
+    4300006: Structure
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
