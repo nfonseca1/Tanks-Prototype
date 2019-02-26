@@ -116,6 +116,11 @@ public class Turret : MonoBehaviour
     {
         barrelWheel.LookAt(closestPlayer);
         barrelWheel.localEulerAngles = new Vector3(barrelWheel.localEulerAngles.x, 0, 0);
+
+        if (barrelWheel.localEulerAngles.x >= 40)
+        {
+            barrelWheel.localEulerAngles = new Vector3(40, 0, 0);
+        }
     }
 
     private void ManageFireInput()
