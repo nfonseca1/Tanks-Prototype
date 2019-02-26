@@ -43,7 +43,6 @@ public class ShellExplosion : MonoBehaviour
             Rigidbody colliderRB = collider.GetComponent<Rigidbody>();
             if (colliderRB != null)
             {
-                print(colliderRB.name);
                 colliderRB.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.5f);
             }
 
