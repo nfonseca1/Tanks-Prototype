@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    [SerializeField] Transform explosion;
     [SerializeField] Transform barrelWheel;
     [SerializeField] Transform leftBarrel;
     [SerializeField] Transform rightBarrel;
@@ -23,6 +24,8 @@ public class Turret : MonoBehaviour
     float launchVelocity = 20f;
     Vector3 barrelPosition;
     int shotsFired = 0;
+    bool isTowerMounted = false;
+    bool readyToBlowUp = false;
 
 
     void Start()
@@ -33,13 +36,16 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetPlayers();
-        if (playersExist)
+        if (!readyToBlowUp)
         {
-            CalculateAimTarget();
-            Rotate();
-            Aim();
-            ManageFireInput();
+            GetPlayers();
+            if (playersExist)
+            {
+                CalculateAimTarget();
+                Rotate();
+                Aim();
+                ManageFireInput();
+            }
         }
     }
 
@@ -179,5 +185,31 @@ public class Turret : MonoBehaviour
         {
             barrel.localPosition = barrelPosition;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Tower>() != null)
+        {
+            isTowerMounted = true;
+        }
+        else if (readyToBlowUp && collision.gameObject.layer == 11)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Tower>() != null)
+        {
+            readyToBlowUp = true;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(currentExplosion.gameObject, 3f);
     }
 }
