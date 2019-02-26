@@ -189,7 +189,7 @@ public class AIController : MonoBehaviour
     private void ChangePosition()
     {
         repositionTime += Time.deltaTime;
-        if(repositionTime >= 3f)
+        if(repositionTime >= 1.5f)
         {
             repositionTime = 0;
             flightStatus = TrajectoryStatus.Standby;
@@ -236,10 +236,18 @@ public class AIController : MonoBehaviour
 
                 if (aimStatus == true)
                 {
-                    flightTime = AITank.GetTrajectoryTime();
-                    Shell shell = AITank.Fire();
-                    shell.SetAITankSource(this);
-                    timeUntilFire = fireRate;
+                    bool clear = AITank.CheckBarrelClearance();
+                    if (clear)
+                    {
+                        flightTime = AITank.GetTrajectoryTime();
+                        Shell shell = AITank.Fire();
+                        shell.SetAITankSource(this);
+                        timeUntilFire = fireRate;
+                    }
+                    else
+                    {
+                        flightStatus = TrajectoryStatus.Fail;
+                    }
                 }
             }
         }

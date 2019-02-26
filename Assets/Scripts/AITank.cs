@@ -112,4 +112,14 @@ public class AITank : Tank
         return time;
     }
 
+    public bool CheckBarrelClearance()
+    {
+        Ray ray = new Ray(emitter.position, emitter.forward);
+        if (Physics.Raycast(ray, 8f))
+        {
+            return false;
+        }
+        return true;
+    }
+
 }
