@@ -33,10 +33,23 @@ public class ShellExplosion : MonoBehaviour
                 }
             }
 
+            Tower tb = collider.GetComponent<Tower>();
+
+            if (tb != null)
+            {
+                tb.activatePhysics();
+            }
+
             Rigidbody colliderRB = collider.GetComponent<Rigidbody>();
             if (colliderRB != null)
             {
+                print(colliderRB.name);
                 colliderRB.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.5f);
+            }
+
+            if (tb != null)
+            {
+                Destroy(tb.GetComponent<BoxCollider>(), 0.1f);
             }
         }
     }
