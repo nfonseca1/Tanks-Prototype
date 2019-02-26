@@ -20,6 +20,8 @@ public class AITank : Tank
         trajectory = turret.GetComponent<Trajectory>();
         frontEmission = particleSystem1.emission;
         backEmission = particleSystem2.emission;
+        frontEmission.enabled = false;
+        backEmission.enabled = false;
     }
 
     public void Move(float input)

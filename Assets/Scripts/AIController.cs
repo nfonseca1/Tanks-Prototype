@@ -31,6 +31,7 @@ public class AIController : MonoBehaviour
     enum TrajectoryStatus { Success, Fail, Standby }
     TrajectoryStatus flightStatus = TrajectoryStatus.Standby;
     float repositionTime = 0f;
+    bool engage = false;
 
     void Start()
     {
@@ -41,22 +42,25 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
-        GetPlayers();
-        if (playersExist)
+        if (engage)
         {
-            CalculateAimTarget();
-        }
+            GetPlayers();
+            if (playersExist)
+            {
+                CalculateAimTarget();
+            }
 
-        CheckSensors();
-        ManageAxisInput(axisX, ref lerpX, lerpLimitX);
-        ManageAxisInput(axisY, ref lerpY, lerpLimitY);
+            CheckSensors();
+            ManageAxisInput(axisX, ref lerpX, lerpLimitX);
+            ManageAxisInput(axisY, ref lerpY, lerpLimitY);
 
-        AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
-        AITank.Rotate(lerpX / lerpLimitX);
-        AITank.Aim(hitPoint);
-        if (playersExist)
-        {
-            ManageFireInput();
+            AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
+            AITank.Rotate(lerpX / lerpLimitX);
+            AITank.Aim(hitPoint);
+            if (playersExist)
+            {
+                ManageFireInput();
+            }
         }
     }
 
@@ -300,6 +304,18 @@ public class AIController : MonoBehaviour
         else
         {
             flightStatus = TrajectoryStatus.Fail;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Zone zone = other.GetComponent<Zone>();
+        if (zone != null)
+        {
+            if (zone.readyToAttack == true)
+            {
+                engage = true;
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ public class RocketTurret : MonoBehaviour
     int shotsFired = 0;
     bool isTowerMounted = false;
     bool readyToBlowUp = false;
+    bool engage = false;
 
 
     void Start()
@@ -31,7 +32,7 @@ public class RocketTurret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!readyToBlowUp)
+        if (!readyToBlowUp && engage)
         {
             GetPlayers();
             if (playersExist)
@@ -178,5 +179,17 @@ public class RocketTurret : MonoBehaviour
     {
         Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(currentExplosion.gameObject, 3f);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Zone zone = other.GetComponent<Zone>();
+        if (zone != null)
+        {
+            if (zone.readyToAttack == true)
+            {
+                engage = true;
+            }
+        }
     }
 }

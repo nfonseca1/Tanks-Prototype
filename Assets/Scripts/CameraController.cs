@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public bool playerPosIsBase = true;
     [SerializeField] Transform target;
-    [SerializeField] [Range(1, 10)] float baseDistance = 1f;
+    [SerializeField] [Range(1, 15)] float baseDistance = 1f;
     float distance;
     float lerp;
     Vector3 basePos;

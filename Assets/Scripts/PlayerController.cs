@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
             float zoneDistance = (zonePos - transform.position).magnitude;
             float zoneRadius = other.GetComponent<CapsuleCollider>().radius;
-            camera.SetDistance(1);
+            camera.SetDistance(2);
         }
     }
 
@@ -147,6 +147,6 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(currentExplosion, 3f);
+        Destroy(currentExplosion.gameObject, 3f);
     }
 }

@@ -22,6 +22,10 @@ public class TankHealth : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        else if(collision.gameObject.GetComponent<Missile>() != null)
+        {
+            Destroy(gameObject);
+        }
         else if(collision.gameObject.GetComponent<Bullet>() != null)
         {
             DecreaseHealth(.3f);
