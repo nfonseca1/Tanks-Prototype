@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Rigidbody rigidbody;
+
+    private void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivatePhysics()
     {
-        
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+
+        foreach (var rb in rigidbodies)
+        {
+            rb.isKinematic = false;
+        }
     }
 }

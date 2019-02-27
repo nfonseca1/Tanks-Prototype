@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public void activatePhysics()
+    public void ActivatePhysics()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
 

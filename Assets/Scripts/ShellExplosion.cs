@@ -34,10 +34,15 @@ public class ShellExplosion : MonoBehaviour
             }
 
             Tower tb = collider.GetComponent<Tower>();
+            Door door = collider.GetComponent<Door>();
 
             if (tb != null)
             {
-                tb.activatePhysics();
+                tb.ActivatePhysics();
+            }
+            else if (door != null)
+            {
+                door.ActivatePhysics();
             }
 
             Rigidbody colliderRB = collider.GetComponent<Rigidbody>();
@@ -49,6 +54,10 @@ public class ShellExplosion : MonoBehaviour
             if (tb != null)
             {
                 Destroy(tb.GetComponent<BoxCollider>(), 0.1f);
+            }
+            else if (door != null)
+            {
+                Destroy(door.GetComponent<BoxCollider>(), 0.1f);
             }
         }
     }
