@@ -6,16 +6,11 @@ public class Zone : MonoBehaviour
 {
     public bool readyToAttack = false;
     [SerializeField] AIController enemy;
+    [SerializeField] Transform[] spawnPoints;
 
     List<AIController> AI = new List<AIController>();
-    CapsuleCollider collider;
     float time = 0f;
     int numberOfAI = 0;
-
-    private void Start()
-    {
-        collider = GetComponent<CapsuleCollider>();
-    }
 
     private void Update()
     {
@@ -42,13 +37,10 @@ public class Zone : MonoBehaviour
 
     private void SpawnEnemy(AIController tank)
     {
-        float randomX = Random.Range(-1, 1);
-        float randomY = Random.Range(-1, 1);
-        float randomRadius = Random.Range(0, collider.radius);
+        int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
 
-        Vector3 pos = Vector3.Normalize(new Vector3(randomX, 0, randomY)) * randomRadius;
-
-        Vector3 spawnPosition = transform.position + new Vector3(pos.x, 50f, pos.z);
+        Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
+        Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
         AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
         AI.Remove(tank);
         AI.Add(currentEnemy);

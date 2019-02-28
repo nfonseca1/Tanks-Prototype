@@ -2726,6 +2726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyToAttack: 0
   enemy: {fileID: 0}
+  spawnPoints: []
 --- !u!1001 &586048568
 PrefabInstance:
   m_ObjectHideFlags: 0

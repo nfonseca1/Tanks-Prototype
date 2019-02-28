@@ -25,14 +25,6 @@ public class SpawnedEnemy : MonoBehaviour
         rigidbody.MovePosition(transform.position + new Vector3(0, fallSpeed * Time.deltaTime, 0));
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer == 11)
-        {
-            
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(parachute.gameObject, .1f);
