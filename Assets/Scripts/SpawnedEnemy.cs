@@ -7,6 +7,7 @@ public class SpawnedEnemy : MonoBehaviour
     [SerializeField] Transform parachute;
     CapsuleCollider collider;
     Rigidbody rigidbody;
+    AIController aiController;
     float fallSpeed = -10f;
 
     private void Start()
@@ -14,6 +15,8 @@ public class SpawnedEnemy : MonoBehaviour
         collider = parachute.GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
+        aiController = GetComponent<AIController>();
+        aiController.grounded = false;
     }
 
     // Update is called once per frame
@@ -35,5 +38,6 @@ public class SpawnedEnemy : MonoBehaviour
         Destroy(parachute.gameObject, .1f);
         rigidbody.useGravity = true;
         Destroy(this);
+        aiController.grounded = true;
     }
 }

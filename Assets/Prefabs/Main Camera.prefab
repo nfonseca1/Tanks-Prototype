@@ -57,9 +57,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 30
+  field of view: 5
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -95,5 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f7d72bc7d3a85498466fa1aeb4d388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPosIsBase: 1
   target: {fileID: 0}
-  distance: 2
+  baseDistance: 1

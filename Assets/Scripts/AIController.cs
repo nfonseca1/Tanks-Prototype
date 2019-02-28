@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
+    public bool grounded = true;
+
     AITank AITank;
     Vector3 hitPoint;
     PlayerTank[] players;
@@ -42,7 +44,7 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
-        if (engage)
+        if (engage && grounded)
         {
             GetPlayers();
             if (playersExist)
