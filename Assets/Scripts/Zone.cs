@@ -8,8 +8,14 @@ public class Zone : MonoBehaviour
     [SerializeField] AIController enemy;
 
     List<AIController> AI = new List<AIController>();
+    CapsuleCollider collider;
     float time = 0f;
     int numberOfAI = 0;
+
+    private void Start()
+    {
+        collider = GetComponent<CapsuleCollider>();
+    }
 
     private void Update()
     {
@@ -26,19 +32,27 @@ public class Zone : MonoBehaviour
     {
         foreach (var tank in AI)
         {
-            if (tank != null)
+            if (tank == null)
             {
-                print("still here");
-            }
-            else
-            {
-                print("not here");
-                Vector3 spawnPosition = new Vector3(transform.position.x, 50f, transform.position.z);
-                AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
-                AI.Remove(tank);
-                AI.Add(currentEnemy);
+                SpawnEnemy(tank);
+                break;
             }
         }
+    }
+
+    private void SpawnEnemy(AIController tank)
+    {
+        float randomX = Random.Range(-1, 1);
+        float randomY = Random.Range(-1, 1);
+        float randomRadius = Random.Range(0, collider.radius);
+
+        Vector3 pos = Vector3.Normalize(new Vector3(randomX, 0, randomY)) * randomRadius;
+
+        Vector3 spawnPosition = transform.position + new Vector3(pos.x, 50f, pos.z);
+        AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
+        print("SPAWNING");
+        AI.Remove(tank);
+        AI.Add(currentEnemy);
     }
 
     private void OnTriggerEnter(Collider other)
