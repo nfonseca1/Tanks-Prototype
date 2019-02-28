@@ -5,6 +5,8 @@ using UnityEngine;
 public class Zone : MonoBehaviour
 {
     public bool readyToAttack = false;
+    [SerializeField] AIController enemy;
+
     List<AIController> AI = new List<AIController>();
     float time = 0f;
     int numberOfAI = 0;
@@ -30,7 +32,11 @@ public class Zone : MonoBehaviour
             }
             else
             {
-                print("not here!");
+                print("not here");
+                Vector3 spawnPosition = new Vector3(transform.position.x, 50f, transform.position.z);
+                AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
+                AI.Remove(tank);
+                AI.Add(currentEnemy);
             }
         }
     }

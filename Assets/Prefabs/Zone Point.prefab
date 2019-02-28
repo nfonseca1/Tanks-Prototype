@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9063711100689959514}
   - component: {fileID: 8492356757909261762}
+  - component: {fileID: 7545437698556006621}
   m_Layer: 0
   m_Name: Zone Point
   m_TagString: Zone
@@ -45,3 +46,17 @@ CapsuleCollider:
   m_Height: 250
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7545437698556006621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104178995404336723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6654dc146ec45b34c96828f3db3fab17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  readyToAttack: 0
+  enemy: {fileID: 3541562311383984468, guid: 4932f990da66ffc4095437cb3a55ea76, type: 3}
