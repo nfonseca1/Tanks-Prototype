@@ -50,7 +50,6 @@ public class Zone : MonoBehaviour
 
         Vector3 spawnPosition = transform.position + new Vector3(pos.x, 50f, pos.z);
         AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
-        print("SPAWNING");
         AI.Remove(tank);
         AI.Add(currentEnemy);
     }
@@ -67,7 +66,6 @@ public class Zone : MonoBehaviour
             if (!AI.Contains(other.GetComponent<AIController>()))
             {
                 AI.Add(other.GetComponent<AIController>());
-                print(AI.ToArray().Length);
             }
         }
     }

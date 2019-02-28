@@ -5,6 +5,7 @@ using UnityEngine;
 public class TankHealth : MonoBehaviour
 {
     [SerializeField] float health = 100f;
+    [SerializeField] Transform explosion;
     
 
     public void DecreaseHealth(float damage)
@@ -12,7 +13,7 @@ public class TankHealth : MonoBehaviour
         health -= (100f * damage);
         if (health <= 0)
         {
-            Destroy(gameObject);
+            BlowUp();
         }
     }
 
@@ -20,11 +21,11 @@ public class TankHealth : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<Shell>() != null)
         {
-            Destroy(gameObject);
+            BlowUp();
         }
         else if(collision.gameObject.GetComponent<Missile>() != null)
         {
-            Destroy(gameObject);
+            BlowUp();
         }
         else if(collision.gameObject.GetComponent<Bullet>() != null)
         {
@@ -32,8 +33,10 @@ public class TankHealth : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void BlowUp()
     {
-        print("dead");
+        Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(currentExplosion.gameObject, 3f);
+        Destroy(gameObject);
     }
 }

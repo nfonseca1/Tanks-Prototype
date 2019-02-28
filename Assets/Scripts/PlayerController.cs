@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Transform explosion;
     PlayerTank playerTank;
     Vector3 hitPoint;
     
@@ -142,11 +141,5 @@ public class PlayerController : MonoBehaviour
             camera.playerPosIsBase = true;
             camera.SetDistance(0);
         }
-    }
-
-    private void OnDestroy()
-    {
-        Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(currentExplosion.gameObject, 3f);
     }
 }

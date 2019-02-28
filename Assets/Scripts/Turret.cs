@@ -202,6 +202,8 @@ public class Turret : MonoBehaviour
         }
         else if (readyToBlowUp && collision.gameObject.layer == 11)
         {
+            Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(currentExplosion.gameObject, 3f);
             Destroy(gameObject);
         }
     }
@@ -212,12 +214,6 @@ public class Turret : MonoBehaviour
         {
             readyToBlowUp = true;
         }
-    }
-
-    private void OnDestroy()
-    {
-        Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(currentExplosion.gameObject, 3f);
     }
 
     private void OnTriggerStay(Collider other)
