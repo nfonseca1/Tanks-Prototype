@@ -59,4 +59,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readyToAttack: 0
-  enemy: {fileID: 3541562311383984468, guid: 4932f990da66ffc4095437cb3a55ea76, type: 3}
+  enemy: {fileID: 6822960559406841251, guid: 60b2637e629120448a93a4471acaabf7, type: 3}
