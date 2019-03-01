@@ -5,10 +5,14 @@ using UnityEngine;
 public class SpawnedEnemy : MonoBehaviour
 {
     [SerializeField] Transform parachute;
+    [SerializeField] MeshRenderer[] renderingTargets;
     CapsuleCollider collider;
     Rigidbody rigidbody;
     AIController aiController;
+    MeshRenderer[] renderers;
     float fallSpeed = -10f;
+    bool meshVisibilityChecked = false;
+    bool isGrounded = false;
 
     private void Start()
     {
@@ -17,12 +21,46 @@ public class SpawnedEnemy : MonoBehaviour
         rigidbody.useGravity = false;
         aiController = GetComponent<AIController>();
         aiController.grounded = false;
+
+        renderers = GetComponentsInChildren<MeshRenderer>();
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+        foreach (var renderingTarget in renderingTargets)
+        {
+            renderingTarget.enabled = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        rigidbody.MovePosition(transform.position + new Vector3(0, fallSpeed * Time.deltaTime, 0));
+        if (!meshVisibilityChecked)
+        {
+            foreach (var renderingTarget in renderingTargets)
+            {
+                if (renderingTarget.isVisible)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y + 100, transform.position.z);
+                    break;
+                }
+            }
+            TurnOnRenderers();
+            meshVisibilityChecked = true;
+        }
+        if (!isGrounded)
+        {
+            rigidbody.MovePosition(transform.position + new Vector3(0, fallSpeed * Time.deltaTime, 0));
+        }
+    }
+
+    private void TurnOnRenderers()
+    {
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = true;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
