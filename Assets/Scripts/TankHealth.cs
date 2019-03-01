@@ -15,7 +15,6 @@ public class TankHealth : MonoBehaviour
     {
         if (GetComponent<PlayerController>() != null)
         {
-            print("good");
             playerHealth = true;
         }
     }
@@ -34,7 +33,6 @@ public class TankHealth : MonoBehaviour
         if (playerHealth)
         {
             healthBar.value = health / 100;
-            print("health val: " + healthBar.value);
         }
     }
 

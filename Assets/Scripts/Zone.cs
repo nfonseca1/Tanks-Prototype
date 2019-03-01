@@ -11,16 +11,23 @@ public class Zone : MonoBehaviour
     CapturePoint capturePoint;
     List<AIController> AI = new List<AIController>();
     float time = 0f;
-    int numberOfAI = 0;
+    float timeUntilSpawn = 0f;
+
+    const float spawnTime = 5f;
 
     private void Update()
     {
         time += Time.deltaTime;
         if (time >= 1f && capturePoint != null && !capturePoint.isCaptured)
         {
-            numberOfAI = AI.ToArray().Length;
-
-            CheckForAI();
+            if (timeUntilSpawn <= 0)
+            {
+                CheckForAI();
+            }
+            else
+            {
+                timeUntilSpawn -= Time.deltaTime;
+            }
         }
     }
 
@@ -45,6 +52,8 @@ public class Zone : MonoBehaviour
         AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
         AI.Remove(tank);
         AI.Add(currentEnemy);
+
+        timeUntilSpawn = spawnTime;
     }
 
     private void OnTriggerEnter(Collider other)
