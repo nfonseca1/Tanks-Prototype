@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Image captureImage;
     PlayerTank playerTank;
     Vector3 hitPoint;
     
@@ -15,7 +17,7 @@ public class PlayerController : MonoBehaviour
     float fireRate = 2f;
     float timeUntilFire = 0f;
     CameraController camera;
-    
+
     void Start()
     {
         playerTank = GetComponent<PlayerTank>();
@@ -141,5 +143,12 @@ public class PlayerController : MonoBehaviour
             camera.playerPosIsBase = true;
             camera.SetDistance(0);
         }
+    }
+
+    public void DisplayZoneCaptureText()
+    {
+        captureImage.enabled = true;
+        Animation textAnimation = captureImage.GetComponent<Animation>();
+        textAnimation.Play();
     }
 }

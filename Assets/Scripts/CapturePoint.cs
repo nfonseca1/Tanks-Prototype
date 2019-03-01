@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class CapturePoint : MonoBehaviour
 {
+    public bool isCaptured = false;
     [SerializeField] Transform flag;
+    PlayerController player;
     float points = 0f;
     bool capturing = false;
-    bool isCaptured = false;
+    bool triggeredSuccessText = false;
 
-    const float pointsForSuccess = 12f;
+    const float pointsForSuccess = 15f;
     const float minHeight = 6.0f;
     const float maxHeight = 25.6f;
 
@@ -25,6 +27,11 @@ public class CapturePoint : MonoBehaviour
         if (isCaptured)
         {
             flag.position = new Vector3(flag.position.x, maxHeight, flag.position.z);
+            if (!triggeredSuccessText)
+            {
+                player.DisplayZoneCaptureText();
+                triggeredSuccessText = true;
+            }
         }
         else
         {
@@ -54,6 +61,14 @@ public class CapturePoint : MonoBehaviour
 
         float flagHeight = Mathf.Lerp(minHeight, maxHeight, points / pointsForSuccess);
         flag.position = new Vector3(flag.position.x, flagHeight, flag.position.z);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            player = other.GetComponent<PlayerController>();
+        }
     }
 
     private void OnTriggerStay(Collider other)

@@ -8,6 +8,7 @@ public class Zone : MonoBehaviour
     [SerializeField] AIController enemy;
     [SerializeField] Transform[] spawnPoints;
 
+    CapturePoint capturePoint;
     List<AIController> AI = new List<AIController>();
     float time = 0f;
     int numberOfAI = 0;
@@ -15,7 +16,7 @@ public class Zone : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        if (time >= 1f)
+        if (time >= 1f && capturePoint != null && !capturePoint.isCaptured)
         {
             numberOfAI = AI.ToArray().Length;
 
@@ -59,6 +60,11 @@ public class Zone : MonoBehaviour
             {
                 AI.Add(other.GetComponent<AIController>());
             }
+        }
+
+        if (other.GetComponent<CapturePoint>() != null)
+        {
+            capturePoint = other.GetComponent<CapturePoint>();
         }
     }
 }
