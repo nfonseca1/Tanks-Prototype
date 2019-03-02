@@ -4,13 +4,18 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Cylinder
     400000: //RootNode
+    400002: Cylinder
     2100000: unnamed
     2100002: Edge
     2100004: Base
     2300000: //RootNode
+    2300002: Cylinder
     3300000: //RootNode
+    3300002: Cylinder
     4300000: Cylinder
+    4300002: Cube
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

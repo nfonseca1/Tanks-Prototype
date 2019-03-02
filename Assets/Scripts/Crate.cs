@@ -6,6 +6,7 @@ public class Crate : MonoBehaviour
 {
     [SerializeField] Transform particles;
     [SerializeField] Transform brokenCrate;
+    [SerializeField] Transform[] powerups;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -17,6 +18,9 @@ public class Crate : MonoBehaviour
             //Transform currentBrokenCrate = Instantiate(brokenCrate, transform.position, transform.rotation);
 
             Destroy(currentParticles.gameObject, .5f);
+
+            int random = Mathf.RoundToInt(Random.Range(0, powerups.Length));
+            Instantiate(powerups[random], transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
