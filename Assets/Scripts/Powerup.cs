@@ -12,9 +12,8 @@ public class Powerup : MonoBehaviour
         camera = FindObjectOfType<Camera>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        transform.LookAt(camera.transform.position);
+        transform.Rotate(new Vector3(0, 180 * Time.deltaTime, 0));
     }
 }

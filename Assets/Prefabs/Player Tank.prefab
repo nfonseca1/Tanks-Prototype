@@ -39,7 +39,7 @@ MonoBehaviour:
   explosionPoint: {fileID: 5480427136837021907}
   particleSystem1: {fileID: 187874263724732818}
   particleSystem2: {fileID: 5732799861264317422}
---- !u!114 &4989995501515879372
+--- !u!114 &4518483934577129729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,13 +48,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1354103162841360331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02e544d05704c564f91073d0a1f50a1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 45681555f5615f9408c98684f88e3337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  explosion: {fileID: 7708098233846128501, guid: 41460e8e219c56e4d9ef734a1055423f,
-    type: 3}
-  healthBar: {fileID: 675490946846859658}
 --- !u!114 &1216003603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,18 +381,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b09328f18f46256439e4cff8df741ec6, type: 3}
---- !u!114 &675490946846859658 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4728258267240993115, guid: b09328f18f46256439e4cff8df741ec6,
-    type: 3}
-  m_PrefabInstance: {fileID: 5242742712829522129}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &2491064159594268914 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7661747903985776675, guid: b09328f18f46256439e4cff8df741ec6,

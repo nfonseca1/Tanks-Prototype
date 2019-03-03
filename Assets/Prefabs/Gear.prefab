@@ -87,7 +87,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3247113836064138931}
-  - component: {fileID: 731819281688511447}
   - component: {fileID: 8534792735451287736}
   m_Layer: 0
   m_Name: Gear
@@ -111,25 +110,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!95 &731819281688511447
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8485072050133789048}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2874b8e5234b120439a3d29aa71b0705, type: 3}
-  m_Controller: {fileID: 9100000, guid: df2831e3a18ccb941b7afe757ecc1df1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8534792735451287736
 MonoBehaviour:
   m_ObjectHideFlags: 0
