@@ -16,9 +16,13 @@ public class CapturePoint : MonoBehaviour
     const float minHeight = 6.0f;
     const float maxHeight = 25.6f;
 
+    const int gateSet = 1;
+    LevelManager levelManager;
+
 
     private void Start()
     {
+        levelManager = FindObjectOfType<LevelManager>();
         flag.position = new Vector3(flag.position.x, minHeight, flag.position.z);
     }
 
@@ -48,6 +52,7 @@ public class CapturePoint : MonoBehaviour
             {
                 points = pointsForSuccess;
                 isCaptured = true;
+                levelManager.OpenGates(1);
             }
         }
         else

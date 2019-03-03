@@ -28,6 +28,15 @@ public class TankHealth : MonoBehaviour
         }
     }
 
+    public void IncreaseHealth(float health)
+    {
+        health += (100f * health);
+        if (health >= 100)
+        {
+            health = 100;
+        }
+    }
+
     private void Update()
     {
         if (playerHealth)
@@ -49,6 +58,14 @@ public class TankHealth : MonoBehaviour
         else if(collision.gameObject.GetComponent<Bullet>() != null)
         {
             DecreaseHealth(.3f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Health" && playerHealth)
+        {
+            IncreaseHealth(0.3f);
         }
     }
 
