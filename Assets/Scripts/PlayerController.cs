@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool grounded = true;
     [SerializeField] Image captureImage;
     PlayerTank playerTank;
     Vector3 hitPoint;
@@ -26,13 +27,20 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        CheckInput();
-        CalculateAimTarget();
-        ManageFireInput();
+        if (grounded)
+        {
+            CheckInput();
+            CalculateAimTarget();
+            ManageFireInput();
 
-        playerTank.Move(lerpY / lerpLimitY); // lerp / lerplimit dictates the percentage of movement
-        playerTank.Rotate(lerpX / lerpLimitX);
-        playerTank.Aim(hitPoint);
+            playerTank.Move(lerpY / lerpLimitY); // lerp / lerplimit dictates the percentage of movement
+            playerTank.Rotate(lerpX / lerpLimitX);
+            playerTank.Aim(hitPoint);
+        }
+        else
+        {
+            playerTank.Move(0);
+        }
     }
 
     private void CheckInput()

@@ -52,16 +52,23 @@ public class AIController : MonoBehaviour
                 CalculateAimTarget();
             }
 
-            CheckSensors();
-            ManageAxisInput(axisX, ref lerpX, lerpLimitX);
-            ManageAxisInput(axisY, ref lerpY, lerpLimitY);
-
-            AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
-            AITank.Rotate(lerpX / lerpLimitX);
-            AITank.Aim(hitPoint);
-            if (playersExist)
+            if (closestPlayer)
             {
-                ManageFireInput();
+                CheckSensors();
+                ManageAxisInput(axisX, ref lerpX, lerpLimitX);
+                ManageAxisInput(axisY, ref lerpY, lerpLimitY);
+
+                AITank.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
+                AITank.Rotate(lerpX / lerpLimitX);
+                AITank.Aim(hitPoint);
+                if (playersExist)
+                {
+                    ManageFireInput();
+                }
+            }
+            else
+            {
+                AITank.Move(0);
             }
         }
     }
@@ -267,7 +274,7 @@ public class AIController : MonoBehaviour
         while (true)
         {
             GetPlayers();
-            if(players[0] == null)
+            if(players.Length == 0)
             {
                 playersExist = false;
             }
@@ -282,25 +289,48 @@ public class AIController : MonoBehaviour
 
     private void GetClosestPlayerNow()
     {
-        closestPlayer = players[0].transform;
-        float closestDistance = (players[0].transform.position - transform.position).magnitude;
+        float closestDistance;
+        if (players[0].GetComponent<PlayerController>().grounded)
+        {
+            closestPlayer = players[0].transform;
+            closestDistance = (players[0].transform.position - transform.position).magnitude;
+        }
+        else
+        {
+            closestPlayer = null;
+            closestDistance = 1000000f;
+        }
 
         for (var i = 0; i < players.Length; i++)
         {
             if (i == 0) { continue; }
 
-            float distanceToCheck = (players[i].transform.position - transform.position).magnitude;
-            if (distanceToCheck < closestDistance)
+            if (players[i].GetComponent<PlayerController>().grounded)
             {
-                closestPlayer = players[i].transform;
-                closestDistance = distanceToCheck;
+                float distanceToCheck = (players[i].transform.position - transform.position).magnitude;
+                if (distanceToCheck < closestDistance)
+                {
+                    closestPlayer = players[i].transform;
+                    closestDistance = distanceToCheck;
+                }
+            }
+            else
+            {
+                continue;
             }
         }
     }
 
     private bool CalculateAimTarget()
     {
-        hitPoint = closestPlayer.position;
+        if (closestPlayer != null)
+        {
+            hitPoint = closestPlayer.position;
+        }
+        else
+        {
+            GetClosestPlayerNow();
+        }
 
         return true;
     }

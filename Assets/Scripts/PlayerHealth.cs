@@ -7,8 +7,13 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] float health = 100f;
     [SerializeField] Transform explosion;
-    [SerializeField] Slider healthBar;
-    
+    Slider healthBar;
+
+
+    private void Awake()
+    {
+        healthBar = GetComponentInChildren<Slider>();
+    }
 
     public void DecreaseHealth(float damage)
     {
@@ -63,6 +68,9 @@ public class PlayerHealth : MonoBehaviour
 
     private void BlowUp()
     {
+        print("blow up");
+        FindObjectOfType<LevelManager>().Respawn(transform.position);
+
         Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(currentExplosion.gameObject, 3f);
         Destroy(gameObject);

@@ -70,7 +70,7 @@ public class RocketTurret : MonoBehaviour
         while (true)
         {
             GetPlayers();
-            if (players[0] == null)
+            if (players.Length == 0)
             {
                 playersExist = false;
             }

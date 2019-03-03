@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] Transform player;
     Gate[] gates;
+    int lives = 3;
 
 
     private void Start()
@@ -21,5 +23,10 @@ public class LevelManager : MonoBehaviour
                 gate.OpenGate();
             }
         }
+    }
+
+    public void Respawn(Vector3 location)
+    {
+        Instantiate(player.gameObject, new Vector3(location.x, location.y + 50, location.z), Quaternion.identity);
     }
 }
