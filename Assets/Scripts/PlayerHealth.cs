@@ -68,7 +68,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void BlowUp()
     {
-        print("blow up");
         FindObjectOfType<LevelManager>().Respawn(transform.position);
 
         Transform currentExplosion = Instantiate(explosion, transform.position, Quaternion.identity);

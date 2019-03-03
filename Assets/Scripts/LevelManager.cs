@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
     Gate[] gates;
     int lives = 3;
 
+    const float spawnDelay = 2f;
+
 
     private void Start()
     {
@@ -27,6 +29,21 @@ public class LevelManager : MonoBehaviour
 
     public void Respawn(Vector3 location)
     {
+        if (lives > 0)
+        {
+            StartCoroutine(SpawnNow(location));
+        }
+        else
+        {
+            print("No more lives");
+        }
+    }
+
+    private IEnumerator SpawnNow(Vector3 location)
+    {
+        yield return new WaitForSeconds(spawnDelay);
+
         Instantiate(player.gameObject, new Vector3(location.x, location.y + 50, location.z), Quaternion.identity);
+        lives--;
     }
 }
