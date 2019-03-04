@@ -45,15 +45,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Shell>() != null)
-        {
-            DecreaseHealth(.85f);
-        }
-        else if (collision.gameObject.GetComponent<Missile>() != null)
-        {
-            DecreaseHealth(.85f);
-        }
-        else if (collision.gameObject.GetComponent<Bullet>() != null)
+        if (collision.gameObject.GetComponent<Bullet>() != null)
         {
             DecreaseHealth(.3f);
         }

@@ -11,7 +11,7 @@ public class ShellExplosion : MonoBehaviour
         Collider[] overlapColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var collider in overlapColliders)
         {
-            TankHealth tankHealth = collider.GetComponent<TankHealth>();
+            PlayerHealth tankHealth = collider.GetComponent<PlayerHealth>();
             if (tankHealth != null)
             {
                 layerMask = ~layerMask;
@@ -24,10 +24,10 @@ public class ShellExplosion : MonoBehaviour
                     layerMask
                     ))
                 {
-                    if(hitInfo.collider.GetComponent<TankHealth>() == tankHealth)
+                    if(hitInfo.collider.GetComponent<PlayerHealth>() != null)
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
-                        if(damage > 0.9f) { damage = 1f; }
+                        if(damage > 0.9f) { damage = 0.85f; }
                         tankHealth.DecreaseHealth(damage);
                     }
                 }
