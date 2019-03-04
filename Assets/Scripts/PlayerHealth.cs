@@ -39,8 +39,8 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         healthBar.value = health / 100;
-        onPowerup = false;
         actionPressed = false;
+        onPowerup = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -61,21 +61,26 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Health")
+        if (other.gameObject.GetComponent<Powerup>() != null)
         {
-            if (!onPowerup)
+            if (currentPowerup == null)
             {
-                onPowerup = true;
                 currentPowerup = other.GetComponent<Powerup>();
                 currentPowerup.TurnOnButtonPrompt();
             }
             if (Input.GetButtonDown("Jump") && !actionPressed)
             {
-                actionPressed = true;
+                if (other.gameObject.tag == "Health") { IncreaseHealth(0.3f); }
                 Destroy(currentPowerup.gameObject);
-                IncreaseHealth(0.3f);
-                onPowerup = false;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<Powerup>() != null)
+        {
+            currentPowerup = null;
         }
     }
 
