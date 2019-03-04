@@ -45,7 +45,7 @@ public class Zone : MonoBehaviour
 
     private void SpawnEnemy(AIController tank)
     {
-        int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
+        int randomPoint = Mathf.FloorToInt(Random.Range(0, spawnPoints.Length));
 
         Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
         Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);

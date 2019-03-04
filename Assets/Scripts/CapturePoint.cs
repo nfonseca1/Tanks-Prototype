@@ -52,7 +52,7 @@ public class CapturePoint : MonoBehaviour
             {
                 points = pointsForSuccess;
                 isCaptured = true;
-                levelManager.OpenGates(1);
+                levelManager.CaptureZone(1);
             }
         }
         else
@@ -90,5 +90,10 @@ public class CapturePoint : MonoBehaviour
         {
             capturing = false;
         }
+    }
+
+    public int GetGateSet()
+    {
+        return gateSet;
     }
 }

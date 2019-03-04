@@ -19,12 +19,9 @@ public class Powerup : MonoBehaviour
         transform.Rotate(new Vector3(0, 180 * Time.deltaTime, 0));
     }
 
-    private void OnTriggerStay(Collider other)
+    public void TurnOnButtonPrompt()
     {
-        if (other.GetComponent<PlayerController>() != null)
-        {
-            canvas.enabled = true;
-        }
+        canvas.enabled = true;
     }
 
     private void OnTriggerExit(Collider other)

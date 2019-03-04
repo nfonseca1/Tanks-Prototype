@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] Transform explosion;
     Slider healthBar;
 
+    Powerup currentPowerup;
+    bool onPowerup = false;
+    bool actionPressed = false;
 
     private void Awake()
     {
@@ -36,6 +39,8 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         healthBar.value = health / 100;
+        onPowerup = false;
+        actionPressed = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -58,10 +63,18 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.gameObject.tag == "Health")
         {
-            if (Input.GetAxis("Jump") == 1)
+            if (!onPowerup)
             {
-                Destroy(other.gameObject);
+                onPowerup = true;
+                currentPowerup = other.GetComponent<Powerup>();
+                currentPowerup.TurnOnButtonPrompt();
+            }
+            if (Input.GetButtonDown("Jump") && !actionPressed)
+            {
+                actionPressed = true;
+                Destroy(currentPowerup.gameObject);
                 IncreaseHealth(0.3f);
+                onPowerup = false;
             }
         }
     }
@@ -74,4 +87,5 @@ public class PlayerHealth : MonoBehaviour
         Destroy(currentExplosion.gameObject, 3f);
         Destroy(gameObject);
     }
+
 }

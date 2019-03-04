@@ -265,7 +265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &160396395 stripped
 Transform:
@@ -1130,7 +1130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 116.582, y: 184.662, z: 232.563}
 --- !u!4 &383621660 stripped
 Transform:
@@ -3338,7 +3338,7 @@ PrefabInstance:
     - target: {fileID: 9063711100689959514, guid: 5b3f0b30c47f0634bbf6f870e6e36251,
         type: 3}
       propertyPath: m_RootOrder
-      value: 34
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 9063711100689959514, guid: 5b3f0b30c47f0634bbf6f870e6e36251,
         type: 3}
@@ -4352,18 +4352,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab4215726eda0fb43975798d10518a18, type: 3}
---- !u!114 &1594603106 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 675490946846859658, guid: 877d375d9beb27240a3e091455cbb9a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 2007363043}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1599410936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2872840414812507710, guid: fb657f6675c098749b1aeedd563c208a,
@@ -5863,11 +5851,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 839256489911500756, guid: 877d375d9beb27240a3e091455cbb9a8,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 4684825071946331863, guid: 877d375d9beb27240a3e091455cbb9a8,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5883,17 +5866,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4518483934577129729, guid: 877d375d9beb27240a3e091455cbb9a8,
-        type: 3}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 1594603106}
-    - target: {fileID: 4518483934577129729, guid: 877d375d9beb27240a3e091455cbb9a8,
-        type: 3}
-      propertyPath: explosion
-      value: 
-      objectReference: {fileID: 7708098233846128501, guid: 41460e8e219c56e4d9ef734a1055423f,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877d375d9beb27240a3e091455cbb9a8, type: 3}
 --- !u!1001 &2025765684

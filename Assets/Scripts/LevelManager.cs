@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] Transform player;
     Gate[] gates;
+    CapturePoint[] capturePoints;
     int lives = 3;
 
     const float spawnDelay = 2f;
@@ -14,6 +15,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         gates = FindObjectsOfType<Gate>();
+        capturePoints = FindObjectsOfType<CapturePoint>();
     }
 
     public void OpenGates(int gateSet)
@@ -24,6 +26,28 @@ public class LevelManager : MonoBehaviour
             {
                 gate.OpenGate();
             }
+        }
+    }
+
+    public void CaptureZone(int gateSet)
+    {
+        int totalZones = 0;
+        int capturedZones = 0;
+        foreach (var zone in capturePoints)
+        {
+            if (zone.GetGateSet() == gateSet)
+            {
+                totalZones++;
+            }
+            if (zone.isCaptured)
+            {
+                capturedZones++;
+            }
+        }
+
+        if (totalZones == capturedZones)
+        {
+            OpenGates(gateSet);
         }
     }
 
