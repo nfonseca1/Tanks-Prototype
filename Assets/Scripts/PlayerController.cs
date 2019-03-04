@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
             playerTank.Move(lerpY / lerpLimitY); // lerp / lerplimit dictates the percentage of movement
             playerTank.Rotate(lerpX / lerpLimitX);
             playerTank.Aim(hitPoint);
+
+            playerTank.ManageGrounding();
         }
         else
         {
