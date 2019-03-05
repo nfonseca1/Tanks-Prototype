@@ -60,6 +60,7 @@ public class PlayerTank : Tank
 
         //if (!grounded)
         //{
+        //    Move(0);
         //    print("fixing");
         //    float angleX = transform.localEulerAngles.x;
         //    angleX = (angleX > 180) ? angleX - 360 : angleX;
@@ -90,8 +91,8 @@ public class PlayerTank : Tank
     bool CheckIfGrounded()
     {
         Ray ray = new Ray(transform.position, -transform.up);
-        Debug.DrawRay(transform.position, -transform.up * 5);
-        if (Physics.Raycast(ray, 5f))
+        Debug.DrawRay(transform.position, -transform.up * 2);
+        if (Physics.Raycast(ray, 2f))
         {
             return true;
         }

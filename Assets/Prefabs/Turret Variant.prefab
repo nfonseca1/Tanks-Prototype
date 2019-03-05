@@ -49,6 +49,11 @@ MonoBehaviour:
   leftEmitter: {fileID: 5693626974244454544}
   rightEmitter: {fileID: 2917003078872721155}
   bullet: {fileID: 7256458461689293051, guid: 3776cc945ae5f3744855aae838f051a5, type: 3}
+  fireRate: 0.2
+  fireRateTotal: 2.5
+  launchVelocity: 20
+  maxShots: 8
+  bulletLifetime: 2
 --- !u!1 &5521491488128638147
 GameObject:
   m_ObjectHideFlags: 0

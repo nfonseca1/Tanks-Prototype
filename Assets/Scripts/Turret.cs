@@ -12,16 +12,18 @@ public class Turret : MonoBehaviour
     [SerializeField] Transform rightEmitter;
     [SerializeField] Bullet bullet;
 
+    [SerializeField] float fireRate = 0.2f;
+    [SerializeField] float fireRateTotal = 2.5f;
+    [SerializeField] float launchVelocity = 20f;
+    [SerializeField] int maxShots = 8;
+    [SerializeField] float bulletLifetime = 2f;
     PlayerTank[] players;
     bool playersExist = false;
     Transform closestPlayer;
     Vector3 hitPoint;
-    float fireRate = 0.2f;
     float timeUntilFire = 0f;
-    float fireRateTotal = 2.5f;
     float timeUntilTotalFire = 0f;
     bool leftBarrelIsNext = true;
-    float launchVelocity = 20f;
     Vector3 barrelPosition;
     int shotsFired = 0;
     bool isTowerMounted = false;
@@ -149,7 +151,7 @@ public class Turret : MonoBehaviour
 
     private void ManageFireInput()
     {
-        if (shotsFired >= 8)
+        if (shotsFired >= maxShots)
         {
             timeUntilTotalFire = fireRateTotal;
             shotsFired = 0;
@@ -190,7 +192,7 @@ public class Turret : MonoBehaviour
     {
         Bullet currentBullet = Instantiate(bullet, emitter.position, emitter.rotation);
         currentBullet.ApplyForce(launchVelocity);
-        Destroy(currentBullet.gameObject, 2.0f);
+        Destroy(currentBullet.gameObject, bulletLifetime);
         
         barrel.localPosition = new Vector3(barrel.localPosition.x, barrel.localPosition.y, -0.1f);
     }

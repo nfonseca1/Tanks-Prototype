@@ -38,6 +38,11 @@ MonoBehaviour:
   emitter: {fileID: 8069209314581162370}
   shell: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970, type: 3}
   explosionPoint: {fileID: 5480427136837021907}
+  wheels:
+  - {fileID: 4035534833402926704}
+  - {fileID: 5870810354981823251}
+  - {fileID: 1387799388201752796}
+  - {fileID: 488680071527309521}
   particleSystem1: {fileID: 187874263724732818}
   particleSystem2: {fileID: 5732799861264317422}
 --- !u!114 &4518483934577129729
@@ -190,6 +195,30 @@ GameObject:
 --- !u!4 &1354103162841332651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2172667559984161416, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    type: 3}
+  m_PrefabInstance: {fileID: 931224795767183651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &4035534833402926704 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 3813838085180837715, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    type: 3}
+  m_PrefabInstance: {fileID: 931224795767183651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &5870810354981823251 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 6743347613268802096, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    type: 3}
+  m_PrefabInstance: {fileID: 931224795767183651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &1387799388201752796 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 2282784275851379199, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    type: 3}
+  m_PrefabInstance: {fileID: 931224795767183651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &488680071527309521 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 730783716364761586, guid: 3ca37e00c12bebb41b89740a0ff89c77,
     type: 3}
   m_PrefabInstance: {fileID: 931224795767183651}
   m_PrefabAsset: {fileID: 0}
