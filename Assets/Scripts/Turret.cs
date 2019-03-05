@@ -18,6 +18,8 @@ public class Turret : MonoBehaviour
     [SerializeField] int maxShots = 8;
     [SerializeField] float bulletLifetime = 2f;
     PlayerTank[] players;
+    Animation leftBarrelAnim;
+    Animation rightBarrelAnim;
     bool playersExist = false;
     Transform closestPlayer;
     Vector3 hitPoint;
@@ -35,6 +37,9 @@ public class Turret : MonoBehaviour
     {
         StartCoroutine(GetClosestPlayerWithDelay());
         timeUntilTotalFire = Random.Range(0, fireRateTotal);
+
+        leftBarrelAnim = leftBarrel.GetComponent<Animation>();
+        rightBarrelAnim = rightBarrel.GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -178,13 +183,11 @@ public class Turret : MonoBehaviour
             else
             {
                 timeUntilFire -= Time.deltaTime;
-                UpdateBarrel();
             }
         }
         else
         {
             timeUntilTotalFire -= Time.deltaTime;
-            UpdateBarrel();
         }
     }
 
@@ -194,7 +197,14 @@ public class Turret : MonoBehaviour
         currentBullet.ApplyForce(launchVelocity);
         Destroy(currentBullet.gameObject, bulletLifetime);
         
-        barrel.localPosition = new Vector3(barrel.localPosition.x, barrel.localPosition.y, -0.1f);
+        if (leftBarrelIsNext)
+        {
+            leftBarrelAnim.Play();
+        }
+        else
+        {
+            rightBarrelAnim.Play();
+        }
     }
 
     private void UpdateBarrel()
