@@ -17,13 +17,18 @@ public class AIController : MonoBehaviour
     Transform closestPlayer;
     bool isMoving = false;
 
+    [SerializeField] float fireRate = 2f;
+    [SerializeField] bool hasCooloff = false;
+    [SerializeField] int shotsBeforeCooloff = 8;
+    [SerializeField] float cooloffTime = 4f;
+    float currentCooloff = 0f;
+    int shotsFired = 0;
     float axisX = 0;
     float axisY = 0;
     float lerpX = 0;
     float lerpY = 0;
     float lerpLimitX = 0.25f;
     float lerpLimitY = 0.5f;
-    float fireRate = 2f;
     float timeUntilFire = 0f;
     bool playersExist = false;
     float randomDirection = 1;
@@ -236,7 +241,16 @@ public class AIController : MonoBehaviour
     {
         bool aimStatus = false;
 
-        if (timeUntilFire <= 0)
+        if (hasCooloff && shotsFired >= shotsBeforeCooloff)
+        {
+            currentCooloff += Time.deltaTime;
+            if (currentCooloff >= cooloffTime)
+            {
+                currentCooloff = 0;
+                shotsFired = 0;
+            }
+        }
+        if (timeUntilFire <= 0 && currentCooloff == 0)
         {
             if (lerpY == 0)
             {
@@ -251,6 +265,7 @@ public class AIController : MonoBehaviour
                         flightTime = AITank.GetTrajectoryTime();
                         Shell shell = AITank.Fire();
                         shell.SetAITankSource(this);
+                        shotsFired++;
                         timeUntilFire = fireRate;
                     }
                     else
