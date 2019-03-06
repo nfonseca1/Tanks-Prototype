@@ -103,6 +103,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grounded: 1
+  maxDistance: 35
+  minDistance: 25
+  neutralDistance: 30
+  maxShootDistance: 40
 --- !u!114 &4114815989362833007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +122,6 @@ MonoBehaviour:
   health: 100
   explosion: {fileID: 7708098233846128501, guid: 41460e8e219c56e4d9ef734a1055423f,
     type: 3}
-  healthBar: {fileID: 0}
 --- !u!114 &7071230418004738024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +299,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 76e5e9e87b1cac7409e76dd861c121ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 271c3e21ad41508439170499bb6fd081, type: 2}
     - target: {fileID: 2172667559986061386, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -7,14 +7,14 @@ public class AIController : MonoBehaviour
 {
     public bool grounded = true;
 
+    [SerializeField] float maxDistance = 35f;
+    [SerializeField] float minDistance = 25f;
+    [SerializeField] float neutralDistance = 30f;
+    [SerializeField] float maxShootDistance = 40f;
     AITank AITank;
     Vector3 hitPoint;
     PlayerTank[] players;
     Transform closestPlayer;
-    float maxDistance = 35f;
-    float minDistance = 25f;
-    float neutralDistance = 30f;
-    float maxShootDistance = 40f;
     bool isMoving = false;
 
     float axisX = 0;

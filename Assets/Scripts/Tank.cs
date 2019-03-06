@@ -40,7 +40,10 @@ public class Tank : MonoBehaviour
         Destroy(currentShell.gameObject, 10f);
 
         rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
-        barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+        if (barrel != null)
+        {
+            barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+        }
 
         return currentShell;
     }
@@ -55,19 +58,26 @@ public class Tank : MonoBehaviour
 
     public bool UpdateBarrel()
     {
-        barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
-
-        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-        if (barrelWheel.localEulerAngles.x > 180)
+        if (barrel != null)
         {
-            barrelWheel.localEulerAngles = defaultBarrelRot;
+            barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
 
-            if (barrel.localScale.z >= 0.95f)
+            barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+            if (barrelWheel.localEulerAngles.x > 180)
             {
-                barrel.localScale = barrelScale;
-                return true;
+                barrelWheel.localEulerAngles = defaultBarrelRot;
+
+                if (barrel.localScale.z >= 0.95f)
+                {
+                    barrel.localScale = barrelScale;
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        else
+        {
+            return true;
+        }
     }
 }

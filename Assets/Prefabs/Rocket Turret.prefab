@@ -88,22 +88,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket Turret
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_Name
-      value: Barrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_LocalPosition.x
       value: 236.11902
@@ -148,35 +132,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2a8e6092b289a6c4992bc3f2c659a226, type: 2}
-    - target: {fileID: 2300000, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
-    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 444c7d645565800438761c61ac9aec39, type: 2}
-    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2a8e6092b289a6c4992bc3f2c659a226, type: 2}
-    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
-    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_Name
+      value: Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2a8e6092b289a6c4992bc3f2c659a226, type: 2}
-    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      objectReference: {fileID: 2100000, guid: 271c3e21ad41508439170499bb6fd081, type: 2}
+    - target: {fileID: 2300000, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
+      objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
+    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 2100000, guid: 444c7d645565800438761c61ac9aec39, type: 2}
-    - target: {fileID: 2300004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a8e6092b289a6c4992bc3f2c659a226, type: 2}
+    - target: {fileID: 2300002, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}

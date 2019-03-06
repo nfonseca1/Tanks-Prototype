@@ -30,22 +30,6 @@ Transform:
   m_Father: {fileID: 3330257836117317983}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!111 &3330257836117345636
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330257836117345635}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 035e6b478389b934e9d4dd0e6e17d112, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 035e6b478389b934e9d4dd0e6e17d112, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!54 &7998316713067157830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -131,6 +115,22 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!111 &3330257836117345636
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330257836117345635}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 035e6b478389b934e9d4dd0e6e17d112, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 035e6b478389b934e9d4dd0e6e17d112, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7956000228818759798
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100008, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Name
-      value: Machine Gun Turret
+      value: Machine Gun Turret Variant
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -231,7 +231,7 @@ PrefabInstance:
     - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2a8e6092b289a6c4992bc3f2c659a226, type: 2}
+      objectReference: {fileID: 2100000, guid: 271c3e21ad41508439170499bb6fd081, type: 2}
     - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 

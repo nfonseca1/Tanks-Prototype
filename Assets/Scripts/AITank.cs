@@ -121,5 +121,4 @@ public class AITank : Tank
         }
         return true;
     }
-
 }
