@@ -15,7 +15,9 @@ public class Tank : MonoBehaviour
     [SerializeField] protected Transform turret;
     [SerializeField] protected Transform barrelWheel;
     [SerializeField] protected Transform barrel;
+    [SerializeField] protected Transform barrel2;
     [SerializeField] protected Transform emitter;
+    [SerializeField] protected Transform emitter2;
     [SerializeField] protected Shell shell;
     [SerializeField] protected Transform explosionPoint;
 
@@ -23,6 +25,7 @@ public class Tank : MonoBehaviour
     protected Vector3 barrelScale = new Vector3(1, 1, 1);
     protected Vector3 defaultBarrelRot = new Vector3(0, 180, 0);
     protected float maxBarrelHeight = 45f;
+    bool barrel2IsNext = false;
 
     public void Rotate(float input)
     {
@@ -35,16 +38,26 @@ public class Tank : MonoBehaviour
 
     public Shell Fire()
     {
-        Shell currentShell = Instantiate(shell, emitter.position, emitter.rotation);
+        Transform thisBarrel = barrel;
+        Transform thisEmitter = emitter;
+        if (barrel2 != null)
+        {
+            if (barrel2IsNext)
+            {
+                thisBarrel = barrel2;
+                thisEmitter = emitter2;
+            }
+        }
+        Shell currentShell = Instantiate(shell, thisEmitter.position, thisEmitter.rotation);
         currentShell.ApplyForce(launchVelocity);
         Destroy(currentShell.gameObject, 10f);
 
         rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         if (barrel != null)
         {
-            barrel.localScale = new Vector3(barrel.localScale.x, barrel.localScale.y, barrel.localScale.z * 0.7f);
+            thisBarrel.localScale = new Vector3(thisBarrel.localScale.x, thisBarrel.localScale.y, thisBarrel.localScale.z * 0.7f);
+            barrel2IsNext = !barrel2IsNext;
         }
-
         return currentShell;
     }
 
@@ -58,26 +71,26 @@ public class Tank : MonoBehaviour
 
     public bool UpdateBarrel()
     {
-        if (barrel != null)
+        Transform thisBarrel = barrel;
+        if (barrel == null) { return true; }
+        if (barrel2 != null)
         {
-            barrel.localScale = Vector3.Lerp(barrel.localScale, barrelScale, 0.2f);
+            if (barrel2IsNext) { thisBarrel = barrel2; }
+        }
 
-            barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
-            if (barrelWheel.localEulerAngles.x > 180)
+        thisBarrel.localScale = Vector3.Lerp(thisBarrel.localScale, barrelScale, 0.2f);
+
+        barrelWheel.Rotate(new Vector3(-elevateSpeed * Time.deltaTime, 0, 0), Space.Self);
+        if (barrelWheel.localEulerAngles.x > 180)
+        {
+            barrelWheel.localEulerAngles = defaultBarrelRot;
+
+            if (thisBarrel.localScale.z >= 0.95f)
             {
-                barrelWheel.localEulerAngles = defaultBarrelRot;
-
-                if (barrel.localScale.z >= 0.95f)
-                {
-                    barrel.localScale = barrelScale;
-                    return true;
-                }
+                thisBarrel.localScale = barrelScale;
+                return true;
             }
-            return false;
         }
-        else
-        {
-            return true;
-        }
+        return false;
     }
 }
