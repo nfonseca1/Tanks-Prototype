@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AITank : Tank
+public class AIGunTank : Tank
 {
     [SerializeField] Transform sensorPointF, sensorPointFR, sensorPointFL, sensorPointL, sensorPointR;
     [SerializeField] ParticleSystem particleSystem1;
@@ -13,6 +13,7 @@ public class AITank : Tank
     public enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
     float rayLength = 6f;
     Trajectory trajectory;
+    Vector3 currentHitpoint;
 
     private void Start()
     {
@@ -55,7 +56,7 @@ public class AITank : Tank
         Ray leftRay = new Ray(sensorPointL.position, sensorPointL.forward);
         Ray rightRay = new Ray(sensorPointR.position, sensorPointR.forward);
 
-        
+
         RaycastHit hitInfo;
         if (Physics.Raycast(frontRay, out hitInfo, rayLength))
         {
@@ -82,34 +83,31 @@ public class AITank : Tank
 
     public bool ElevateBarrel(Vector3 aimEuler)
     {
-        barrelWheel.localEulerAngles = Vector3.Lerp(barrelWheel.localEulerAngles, aimEuler, 0.2f);
+        barrelWheel.LookAt(aimEuler);
+        barrelWheel.localEulerAngles = new Vector3(barrelWheel.localEulerAngles.x, 0, 0);
 
-        if(aimEuler.x - barrelWheel.localEulerAngles.x < 1)
+        if (barrelWheel.localEulerAngles.x >= 40)
         {
-            barrelWheel.localEulerAngles = aimEuler;
-            return true;
+            barrelWheel.localEulerAngles = new Vector3(40, 0, 0);
         }
-        return false;
+        return true;
     }
 
     public Vector3 CalculateAimAngle(Vector3 hitPoint)
     {
-        float aimDistance = (new Vector3(hitPoint.x, transform.position.y, hitPoint.z) - transform.position).magnitude;
-        float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
-        return new Vector3(-aimAngle, defaultBarrelRot.y, defaultBarrelRot.z);
+        currentHitpoint = hitPoint;
+        return hitPoint;
     }
 
     public float GetTrajectoryTime()
     {
-        float gravity = Mathf.Abs(Physics.gravity.y);
-        float time = (2 * launchVelocity * Mathf.Sin(barrelWheel.eulerAngles.x * Mathf.Deg2Rad)) / gravity;
-        return time;
+        return 1;
     }
 
     public bool CheckBarrelClearance()
     {
         Ray ray = new Ray(emitter.position, emitter.forward);
-        if (Physics.Raycast(ray, 8f))
+        if (Physics.Raycast(ray, (currentHitpoint - transform.position).magnitude))
         {
             return false;
         }

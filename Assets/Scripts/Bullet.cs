@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : Shell
+public class Bullet : MonoBehaviour
 {
     new Rigidbody rigidbody;
     [SerializeField] Transform explosion;
     
 
-    new public void ApplyForce(float velocity)
+    public void ApplyForce(float velocity)
     {
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.velocity = transform.forward * velocity;
