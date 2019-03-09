@@ -172,18 +172,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Machine Gun Turret Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.476
-      objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_LocalPosition.x
       value: 185.2
@@ -228,14 +216,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.487
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.044
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.02292085
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.476
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300018, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 271c3e21ad41508439170499bb6fd081, type: 2}
-    - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
+      objectReference: {fileID: 2100000, guid: 444c7d645565800438761c61ac9aec39, type: 2}
     - target: {fileID: 2300010, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -256,26 +264,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
-    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.487
-      objectReference: {fileID: 0}
-    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.044
-      objectReference: {fileID: 0}
-    - target: {fileID: 400014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.02292085
-      objectReference: {fileID: 0}
     - target: {fileID: 2300014, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 444c7d645565800438761c61ac9aec39, type: 2}
-    - target: {fileID: 2300018, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+    - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 444c7d645565800438761c61ac9aec39, type: 2}
+      objectReference: {fileID: 2100000, guid: 271c3e21ad41508439170499bb6fd081, type: 2}
+    - target: {fileID: 2300002, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a09970a4f6dffb14a8ebc8ad807343f4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
 --- !u!1 &3330257836117345657 stripped

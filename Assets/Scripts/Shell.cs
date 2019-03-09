@@ -10,7 +10,7 @@ public class Shell : MonoBehaviour
     [SerializeField] float explosionRadius = 5f;
 
     Rigidbody rigidbody;
-    AIController AIController;
+    AIBasicTank ai;
 
     float totalFlightTime = 0f;
 
@@ -32,16 +32,16 @@ public class Shell : MonoBehaviour
         rigidbody.velocity = transform.forward * velocity;
     }
 
-    public void SetAITankSource(AIController controller)
+    public void SetAITankSource(AIBasicTank controller)
     {
-        AIController = controller;
+        ai = controller;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(AIController != null)
+        if(ai != null)
         {
-            AIController.SetProjectileTime(totalFlightTime);
+            ai.SetProjectileTime(totalFlightTime);
         }
         
         ShellExplosion thisExplosion = Instantiate(explosion, explosionPoint.position, explosionPoint.rotation);
