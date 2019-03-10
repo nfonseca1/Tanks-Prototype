@@ -8,7 +8,7 @@ public class SpawnedEnemy : MonoBehaviour
     [SerializeField] MeshRenderer[] renderingTargets;
     CapsuleCollider collider;
     Rigidbody rigidbody;
-    AIController aiController;
+    AIBasicTank aiBasicTank;
     MeshRenderer[] renderers;
     float fallSpeed = -10f;
     bool meshVisibilityChecked = false;
@@ -19,8 +19,8 @@ public class SpawnedEnemy : MonoBehaviour
         collider = parachute.GetComponent<CapsuleCollider>();
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.useGravity = false;
-        aiController = GetComponent<AIController>();
-        aiController.grounded = false;
+        aiBasicTank = GetComponent<AIBasicTank>();
+        aiBasicTank.SetGrounded(false);
 
         renderers = GetComponentsInChildren<MeshRenderer>();
         foreach (var renderer in renderers)
@@ -68,6 +68,6 @@ public class SpawnedEnemy : MonoBehaviour
         Destroy(parachute.gameObject, .1f);
         rigidbody.useGravity = true;
         Destroy(this);
-        aiController.grounded = true;
+        aiBasicTank.SetGrounded(true);
     }
 }

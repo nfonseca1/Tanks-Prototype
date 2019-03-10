@@ -7,16 +7,30 @@ public class AIAiming : MonoBehaviour
     Transform turret;
     Transform barrelWheel;
     Transform[] barrels;
+    Transform[] emitters;
     int currentBarrel = 0;
     Shell shell;
 
+    int shotsBeforeCooloff = 0;
+    float cooloff = 4f;
+    float fireRate = 2f;
 
-    public AIAiming(Transform turretParam, Transform barrelWheelParam, Transform[] barrelsParam)
+    int shotsFired = 0;
+    float currentCooloff = 0;
+    float fireRateTime = 0;
+
+
+    public AIAiming(Transform turretParam, Transform barrelWheelParam, Transform[] barrelsParam, 
+        Transform[] emittersParam, Shell shellParam, int shotsBeforeCooloffParam, float cooloffParam, float fireRateParam)
     {
         turret = turretParam;
         barrelWheel = barrelWheelParam;
         barrels = barrelsParam;
-        shell = new Shell();
+        emitters = emittersParam;
+        shell = shellParam;
+        shotsBeforeCooloff = shotsBeforeCooloffParam;
+        cooloff = cooloffParam;
+        fireRate = fireRateParam;
     }
 
     public void AimTurret(Vector3 hitPoint)
@@ -41,10 +55,12 @@ public class AIAiming : MonoBehaviour
 
     public Shell Fire(float launchVelocity)
     {
-        Transform thisEmitter = barrels[currentBarrel].GetComponentInChildren<Transform>();
-        Shell currentShell = Instantiate(shell, thisEmitter.position, thisEmitter.rotation);
+        //Transform thisEmitter = barrels[currentBarrel].GetComponentInChildren<Transform>();
+        Shell currentShell = Instantiate(shell, emitters[currentBarrel].position, emitters[currentBarrel].rotation);
         currentShell.ApplyForce(launchVelocity);
         Destroy(currentShell.gameObject, 10f);
+        shotsFired++;
+        fireRateTime = fireRate;
 
         //rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         currentBarrel++;
@@ -65,6 +81,28 @@ public class AIAiming : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public bool CheckIfReadyToFire()
+    {
+        if (shotsFired >= shotsBeforeCooloff)
+        {
+            currentCooloff += Time.deltaTime;
+            if (currentCooloff >= cooloff)
+            {
+                currentCooloff = 0;
+                shotsFired = 0;
+            }
+        }
+        if (fireRateTime <= 0 && currentCooloff == 0)
+        {
+            return true;
+        }
+        else
+        {
+            fireRateTime -= Time.deltaTime;
+        }
+        return false;
     }
 
     public float GetTrajectoryTime(float launchVelocity)

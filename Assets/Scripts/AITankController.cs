@@ -264,7 +264,7 @@ public class AITankController : MonoBehaviour
                     {
                         flightTime = AITank.GetTrajectoryTime();
                         Shell shell = AITank.Fire();
-                        shell.SetAITankSource(this);
+                        //shell.SetAITankSource(this);
                         shotsFired++;
                         timeUntilFire = fireRate;
                     }

@@ -27,6 +27,12 @@ public class AIBasicTank : MonoBehaviour
     [SerializeField] Transform turret;
     [SerializeField] Transform barrelWheel;
     [SerializeField] Transform[] barrels;
+    [SerializeField] Transform[] emitters;
+    [SerializeField] Shell shell;
+    [SerializeField] ParticleSystem frontParticles;
+    [SerializeField] ParticleSystem backParticles;
+    ParticleSystem.EmissionModule frontEmission;
+    ParticleSystem.EmissionModule backEmission;
 
     AIController aiController;
     AIMovement aiMovement;
@@ -50,9 +56,14 @@ public class AIBasicTank : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        aiController = new AIController(maxShots, coolDown, fireRate);
-        aiMovement = new AIMovement(rigidbody, speed, torque, sensors);
-        aiAiming = new AIAiming(turret, barrelWheel, barrels);
+        aiController = new AIController();
+        aiMovement = new AIMovement(ref rigidbody, speed, torque, sensors);
+        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, shell, maxShots, coolDown, fireRate);
+
+        frontEmission = frontParticles.emission;
+        backEmission = backParticles.emission;
+        frontEmission.enabled = false;
+        backEmission.enabled = false;
 
         StartCoroutine(GetClosestPlayerInterval());
     }
@@ -74,18 +85,40 @@ public class AIBasicTank : MonoBehaviour
                 aiMovement.ManageAxisInput(axisX, ref lerpX, lerpLimitX);
                 aiMovement.ManageAxisInput(axisY, ref lerpY, lerpLimitY);
 
-                aiMovement.Move(lerpY / lerpLimitY); // lerp / lerpLimit dictates the percentage of movement
-                aiMovement.Rotate(lerpX / lerpLimitX);
+                float inputY = lerpY / lerpLimitY;
+                aiMovement.Move(inputY, transform); // lerp / lerpLimit dictates the percentage of movement
+                ManageMovementParticles(inputY);
+                aiMovement.Rotate(lerpX / lerpLimitX, transform);
                 aiAiming.AimTurret(target);
-                if (players.Length > 1 && aiController.CheckIfReadyToFire())
+                if (players.Length > 0 && aiAiming.CheckIfReadyToFire())
                 {
                     ManageFireInput();
                 }
             }
             else
             {
-                aiMovement.Move(0);
+                aiMovement.Move(0, transform);
+                ManageMovementParticles(0);
             }
+        }
+    }
+
+    void ManageMovementParticles(float input)
+    {
+        if (input > 0)
+        {
+            frontEmission.enabled = true;
+            backEmission.enabled = false;
+        }
+        else if (input < 0)
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = true;
+        }
+        else
+        {
+            frontEmission.enabled = false;
+            backEmission.enabled = false;
         }
     }
 
@@ -196,9 +229,9 @@ public class AIBasicTank : MonoBehaviour
 
         if (lerpY == 0)
         {
-            float aimAngle = aiController.CalculateAimAngle(target, launchVelocity, true);
-            aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, 0, 0));
-
+            float aimAngle = aiController.CalculateAimAngle(target, launchVelocity, true, transform);
+            aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
+            
             if (aimStatus == true)
             {
                 bool clear = aiAiming.CheckBarrelClearance(sensorLength);
@@ -210,6 +243,7 @@ public class AIBasicTank : MonoBehaviour
                 }
                 else
                 {
+                    print("Barrel Not Clear");
                     flightStatus = TrajectoryStatus.Fail;
                 }
             }
@@ -233,7 +267,7 @@ public class AIBasicTank : MonoBehaviour
             players = aiController.GetPlayers();
             if (players.Length > 0)
             {
-                closestPlayer = aiController.GetClosestPlayer(players);
+                closestPlayer = aiController.GetClosestPlayer(players, transform);
             }
             yield return new WaitForSeconds(5f);
         }
@@ -247,7 +281,7 @@ public class AIBasicTank : MonoBehaviour
         }
         else
         {
-            closestPlayer = aiController.GetClosestPlayer(players);
+            closestPlayer = aiController.GetClosestPlayer(players, transform);
         }
 
         return true;
@@ -263,6 +297,11 @@ public class AIBasicTank : MonoBehaviour
         {
             flightStatus = TrajectoryStatus.Fail;
         }
+    }
+
+    public void SetGrounded(bool isGrounded)
+    {
+        grounded = isGrounded;
     }
 
     private void OnTriggerStay(Collider other)

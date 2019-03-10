@@ -11,7 +11,7 @@ public class AIMovement : MonoBehaviour
 
     public enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
 
-    public AIMovement(Rigidbody rigidbodyParam, float speedParam, float torqueParam, Transform[] sensors)
+    public AIMovement(ref Rigidbody rigidbodyParam, float speedParam, float torqueParam, Transform[] sensors)
     {
         rigidbody = rigidbodyParam;
         speed = speedParam;
@@ -24,19 +24,19 @@ public class AIMovement : MonoBehaviour
         sensorPointR = sensors[4];
     }
 
-    public void Move(float input)
+    public void Move(float input, Transform currentTransform)
     {
-        Vector3 newPosition = transform.position + (transform.forward * speed * input * Time.deltaTime);
-        Vector3 newPositionXZ = new Vector3(newPosition.x, transform.position.y, newPosition.z);
+        Vector3 newPosition = currentTransform.position + (currentTransform.forward * speed * input * Time.deltaTime);
+        Vector3 newPositionXZ = new Vector3(newPosition.x, currentTransform.position.y, newPosition.z);
         rigidbody.MovePosition(newPositionXZ);
     }
 
-    public void Rotate(float input)
+    public void Rotate(float input, Transform currentTransform)
     {
         Quaternion turn = Quaternion.Euler(new Vector3(
-            transform.localEulerAngles.x,
-            transform.localEulerAngles.y + torque * input * Time.deltaTime,
-            transform.localEulerAngles.z));
+            currentTransform.localEulerAngles.x,
+            currentTransform.localEulerAngles.y + torque * input * Time.deltaTime,
+            currentTransform.localEulerAngles.z));
         rigidbody.MoveRotation(turn);
     }
 

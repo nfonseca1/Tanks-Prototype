@@ -4,35 +4,19 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    int shotsBeforeCooloff = 0;
-    float cooloff = 4f;
-    float fireRate = 2f;
-
-    int shotsFired = 0;
-    float currentCooloff = 0;
-    float fireRateTime = 0;
-
-    
-    public AIController(int shotsParam, float cooloffParam, float fireRateParam)
-    {
-        shotsBeforeCooloff = shotsParam;
-        cooloff = cooloffParam;
-        fireRate = fireRateParam;
-    }
-
     public PlayerTank[] GetPlayers()
     {
         return FindObjectsOfType<PlayerTank>();
     }
 
-    public Transform GetClosestPlayer(PlayerTank[] players)
+    public Transform GetClosestPlayer(PlayerTank[] players, Transform currentTransform)
     {
         Transform closestPlayer = null;
         float closestDistance = 1000000f;
         if (players[0].GetComponent<PlayerController>().grounded)
         {
             closestPlayer = players[0].transform;
-            closestDistance = (players[0].transform.position - transform.position).magnitude;
+            closestDistance = (players[0].transform.position - currentTransform.position).magnitude;
         }
 
         for (var i = 0; i < players.Length; i++)
@@ -41,7 +25,7 @@ public class AIController : MonoBehaviour
 
             if (players[i].GetComponent<PlayerController>().grounded)
             {
-                float distanceToCheck = (players[i].transform.position - transform.position).magnitude;
+                float distanceToCheck = (players[i].transform.position - currentTransform.position).magnitude;
                 if (distanceToCheck < closestDistance)
                 {
                     closestPlayer = players[i].transform;
@@ -57,47 +41,25 @@ public class AIController : MonoBehaviour
         return closestPlayer;
     }
 
-    public float CalculateAimAngle(Vector3 hitPoint, float launchVelocity, bool aimByLowArc)
+    public float CalculateAimAngle(Vector3 hitPoint, float launchVelocity, bool aimByLowArc, Transform currentTransform)
     {
         if (aimByLowArc)
         {
-            float aimDistance = (new Vector3(hitPoint.x, transform.position.y, hitPoint.z) - transform.position).magnitude;
+            float aimDistance = (new Vector3(hitPoint.x, currentTransform.position.y, hitPoint.z) - currentTransform.position).magnitude;
             float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
             return -aimAngle;
         }
         else
         {
-            float aimDistance = (new Vector3(hitPoint.x, transform.position.y, hitPoint.z) - transform.position).magnitude;
+            float aimDistance = (new Vector3(hitPoint.x, currentTransform.position.y, hitPoint.z) - currentTransform.position).magnitude;
             float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
             return -(90 - aimAngle);
         }
         
     }
 
-    public float CalculateAimAngle(Vector3 hitPoint, Transform barrel)
+    public float CalculateAimAngle(Vector3 hitPoint, Transform barrel, Transform currentTransform)
     {
-        return Vector3.Angle(barrel.forward, (hitPoint - transform.position));
-    }
-
-    public bool CheckIfReadyToFire()
-    {
-        if (shotsFired >= shotsBeforeCooloff)
-        {
-            currentCooloff += Time.deltaTime;
-            if (currentCooloff >= cooloff)
-            {
-                currentCooloff = 0;
-                shotsFired = 0;
-            }
-        }
-        if (fireRateTime <= 0 && currentCooloff == 0)
-        {
-            return true;
-        }
-        else
-        {
-            fireRateTime -= Time.deltaTime;
-        }
-        return false;
+        return Vector3.Angle(barrel.forward, (hitPoint - currentTransform.position));
     }
 }
