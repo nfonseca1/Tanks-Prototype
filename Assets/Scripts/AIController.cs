@@ -58,8 +58,10 @@ public class AIController : MonoBehaviour
         
     }
 
-    public float CalculateAimAngle(Vector3 hitPoint, Transform barrel, Transform currentTransform)
+    public float CalculateAimAngle(Vector3 hitPoint, Transform barrelWheel, Transform currentTransform)
     {
-        return Vector3.Angle(barrel.forward, (hitPoint - currentTransform.position));
+        Vector3 reference = new Vector3(hitPoint.x, barrelWheel.position.y, hitPoint.z);
+        float angle = Vector3.Angle(hitPoint - barrelWheel.position, reference - barrelWheel.position);
+        return angle;
     }
 }

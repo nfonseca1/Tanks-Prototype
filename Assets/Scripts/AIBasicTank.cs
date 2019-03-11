@@ -243,7 +243,6 @@ public class AIBasicTank : MonoBehaviour
                 }
                 else
                 {
-                    print("Barrel Not Clear");
                     flightStatus = TrajectoryStatus.Fail;
                 }
             }
