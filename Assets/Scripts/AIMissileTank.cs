@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIGunTank : MonoBehaviour
+public class AIMissileTank : MonoBehaviour
 {
-    const int maxShots = 8;
-    const float coolDown = 5f;
+    const int maxShots = 4;
+    const float coolDown = 4f;
     const float fireRate = .2f;
-    const float sensorLength = 5f;
+    const float sensorLength = 8f;
     const float maxDistance = 35f;
     const float minDistance = 25f;
     const float neutralDistance = 30f;
@@ -229,21 +229,13 @@ public class AIGunTank : MonoBehaviour
 
         if (lerpY == 0)
         {
-            float aimAngle = aiController.CalculateAimAngle(target, barrelWheel, transform);
+            float aimAngle = aiController.CalculateAimAngle(target, launchVelocity, false, transform);
             aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
 
             if (aimStatus == true)
             {
-                bool clear = aiAiming.CheckBarrelClearance(sensorLength);
-                if (clear)
-                {
-                    flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
-                    aiAiming.Fire(launchVelocity);
-                }
-                else
-                {
-                    flightStatus = TrajectoryStatus.Fail;
-                }
+                flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
+                aiAiming.Fire(launchVelocity);
             }
         }
     }

@@ -28,6 +28,8 @@ ModelImporter:
     100044: Right_Track
     100046: Rotar
     100048: Turret
+    100050: Cube
+    100052: Cube_001
     400000: //RootNode
     400002: Body
     400004: Cylinder_000
@@ -53,6 +55,8 @@ ModelImporter:
     400044: Right_Track
     400046: Rotar
     400048: Turret
+    400050: Cube
+    400052: Cube_001
     2100000: unnamed
     2100002: Material
     2300000: Body
@@ -79,6 +83,8 @@ ModelImporter:
     2300042: Right_Track
     2300044: Rotar
     2300046: Turret
+    2300048: Cube
+    2300050: Cube_001
     3300000: Body
     3300002: Cylinder_000
     3300004: Cylinder_001
@@ -103,6 +109,8 @@ ModelImporter:
     3300042: Right_Track
     3300044: Rotar
     3300046: Turret
+    3300048: Cube
+    3300050: Cube_001
     4300000: Turret
     4300002: Right_Support
     4300004: Left_Support
@@ -127,6 +135,8 @@ ModelImporter:
     4300042: Cylinder_005
     4300044: Cylinder_004
     4300046: Cylinder_009
+    4300048: Cube
+    4300050: Cube_001
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

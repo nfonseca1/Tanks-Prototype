@@ -7,7 +7,7 @@ public class AIBasicTank : MonoBehaviour
     const int maxShots = 4;
     const float coolDown = 4f;
     const float fireRate = 3f;
-    const float sensorLength = 8f;
+    const float sensorLength = 5f;
     const float maxDistance = 35f;
     const float minDistance = 25f;
     const float neutralDistance = 30f;

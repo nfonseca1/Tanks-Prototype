@@ -52,8 +52,8 @@ public class AIController : MonoBehaviour
         else
         {
             float aimDistance = (new Vector3(hitPoint.x, currentTransform.position.y, hitPoint.z) - currentTransform.position).magnitude;
-            float aimAngle = 0.5f * (Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2)) * Mathf.Rad2Deg);
-            return -(90 - aimAngle);
+            float aimAngle = (0.5f * Mathf.Asin((Physics.gravity.y * aimDistance) / Mathf.Pow(launchVelocity, 2))) * Mathf.Rad2Deg;
+            return (90 - -aimAngle);
         }
         
     }

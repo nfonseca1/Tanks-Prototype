@@ -64,7 +64,7 @@ public class AIAiming : MonoBehaviour
 
         //rigidbody.AddExplosionForce(explosionForce, explosionPoint.position, 100f, explosionLift);
         currentBarrel++;
-        if (currentBarrel > barrels.Length - 1)
+        if (currentBarrel > emitters.Length - 1)
         {
             currentBarrel = 0;
         }
@@ -74,7 +74,7 @@ public class AIAiming : MonoBehaviour
 
     public bool CheckBarrelClearance(float sensorLength)
     {
-        Transform emitter = barrels[currentBarrel].GetComponentInChildren<Transform>();
+        Transform emitter = emitters[currentBarrel].GetComponentInChildren<Transform>();
         Ray ray = new Ray(emitter.position, emitter.forward);
         if (Physics.Raycast(ray, sensorLength))
         {
