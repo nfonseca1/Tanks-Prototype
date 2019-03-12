@@ -11,20 +11,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.1885376, y: 9.34909, z: 4.1885986}
-  m_Center: {x: 0.015472412, y: 4.6696525, z: 0.0154800415}
---- !u!114 &3893985738814237970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8021179798089386999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Size: {x: 4.291092, y: 9.34909, z: 4.283592}
+  m_Center: {x: -0.0011291504, y: 4.6696525, z: -0.004878998}
 --- !u!114 &2395873324457585095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,6 +26,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &3893985738814237970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8021179798089386999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &4712925251936777463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100032, guid: 77da016c264292a42abb1341faa5c07e, type: 3}
       propertyPath: m_Name
-      value: Tower Variant
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 100032, guid: 77da016c264292a42abb1341faa5c07e, type: 3}
       propertyPath: m_TagString

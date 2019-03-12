@@ -26,7 +26,7 @@ public class ShellExplosion : MonoBehaviour
                     layerMask
                     ))
                 {
-                    if(hitInfo.collider.GetComponent<TankHealth>() != null)
+                    if (hitInfo.collider.GetComponent<TankHealth>() != null)
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if(damage > 0.9f) { damage = 1f; }
