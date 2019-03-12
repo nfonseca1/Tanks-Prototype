@@ -11,6 +11,7 @@ public class TankHealth : MonoBehaviour
 
     public void DecreaseHealth(float damage)
     {
+        print(gameObject.name + " Damage : " + damage);
         health -= (100f * damage);
         if (health <= 0)
         {
