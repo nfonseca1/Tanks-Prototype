@@ -231,7 +231,7 @@ public class Turret : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Tower>() != null)
+        if (collision.gameObject.tag == "Tower")
         {
             isTowerMounted = true;
         }
@@ -245,7 +245,7 @@ public class Turret : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Tower>() != null)
+        if (collision.gameObject.tag == "Tower")
         {
             readyToBlowUp = true;
         }

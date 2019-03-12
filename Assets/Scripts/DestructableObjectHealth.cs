@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class DestructableObjectHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float health = 100f;
 
-    // Update is called once per frame
-    void Update()
+
+    public void DecreaseHealth(float damage)
     {
-        
+        health -= (100f * damage);
+        if (health <= 0)
+        {
+            GetComponent<DestructableObject>().ActivatePhysics();
+        }
     }
 }

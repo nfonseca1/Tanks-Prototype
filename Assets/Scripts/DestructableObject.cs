@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class DestructableObject : MonoBehaviour
 {
-    Rigidbody rigidbody;
-
-    private void Start()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-    }
-
     public void ActivatePhysics()
     {
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -19,5 +12,7 @@ public class Door : MonoBehaviour
         {
             rb.isKinematic = false;
         }
+
+        Destroy(GetComponent<Collider>(), 0.1f);
     }
 }
