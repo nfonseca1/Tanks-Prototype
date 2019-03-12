@@ -155,6 +155,21 @@ MonoBehaviour:
   shell: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970, type: 3}
   frontParticles: {fileID: 4298837285915435767}
   backParticles: {fileID: 8555994867658975371}
+--- !u!114 &2016507522497663560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416525901850263250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e544d05704c564f91073d0a1f50a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  explosion: {fileID: 7708098233846128501, guid: 41460e8e219c56e4d9ef734a1055423f,
+    type: 3}
 --- !u!1 &8817015188969258318
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,15 +297,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 525165580620179191, guid: 3ca37e00c12bebb41b89740a0ff89c77,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 2172667559984161422, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 525165580620179191, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2172667559984161410, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
@@ -322,11 +337,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
-    - target: {fileID: 3633551007490722757, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    - target: {fileID: 2172667559986061390, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
-      propertyPath: m_Name
-      value: Front Track Dust
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 76e5e9e87b1cac7409e76dd861c121ef, type: 2}
+    - target: {fileID: 2172667559986061480, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6c2ce2bde969b3a4faf8b2e1591733fa, type: 2}
     - target: {fileID: 2172667559984161450, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -357,16 +377,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
-    - target: {fileID: 2172667559986061390, guid: 3ca37e00c12bebb41b89740a0ff89c77,
+    - target: {fileID: 3633551007490722757, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 76e5e9e87b1cac7409e76dd861c121ef, type: 2}
-    - target: {fileID: 2172667559986061480, guid: 3ca37e00c12bebb41b89740a0ff89c77,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6c2ce2bde969b3a4faf8b2e1591733fa, type: 2}
+      propertyPath: m_Name
+      value: Front Track Dust
+      objectReference: {fileID: 0}
     - target: {fileID: 2172667559986061484, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
