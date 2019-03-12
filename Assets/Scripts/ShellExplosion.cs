@@ -5,24 +5,27 @@ using UnityEngine;
 public class ShellExplosion : MonoBehaviour
 {
     int layerMask = 1 << 9;
+    List<string> objectsHit = new List<string>();
 
     public void Explode(float explosionForce, float explosionRadius)
     {
-        Collider[] overlapColliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (var collider in overlapColliders)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        for (var i = 0; i < colliders.Length; i++)
         {
-            PlayerHealth playerHealth = collider.GetComponent<PlayerHealth>();
-            TankHealth tankHealth = collider.GetComponent<TankHealth>();
-            DestructableObjectHealth desObjHealth = collider.GetComponent<DestructableObjectHealth>();
+            if (objectsHit.Contains(colliders[i].gameObject.name)) { continue; }
+            objectsHit.Add(colliders[i].gameObject.name);
+            PlayerHealth playerHealth = colliders[i].GetComponent<PlayerHealth>();
+            TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
+            DestructableObjectHealth desObjHealth = colliders[i].GetComponent<DestructableObjectHealth>();
             if (playerHealth != null || tankHealth != null || desObjHealth != null)
             {
                 layerMask = ~layerMask;
                 RaycastHit hitInfo;
                 if(Physics.Raycast(
                     transform.position,
-                    (collider.transform.position - transform.position),
+                    (colliders[i].transform.position - transform.position),
                     out hitInfo,
-                    (collider.transform.position - transform.position).magnitude,
+                    (colliders[i].transform.position - transform.position).magnitude,
                     layerMask
                     ))
                 {
@@ -36,6 +39,7 @@ public class ShellExplosion : MonoBehaviour
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if (damage > 0.9f) { damage = 0.85f; }
+                        
                         playerHealth.DecreaseHealth(damage);
                     }
                     if (hitInfo.collider.GetComponent<DestructableObjectHealth>() != null)
@@ -47,7 +51,7 @@ public class ShellExplosion : MonoBehaviour
                 }
             }
 
-            Rigidbody colliderRB = collider.GetComponent<Rigidbody>();
+            Rigidbody colliderRB = colliders[i].GetComponent<Rigidbody>();
             if (colliderRB != null)
             {
                 colliderRB.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.5f);

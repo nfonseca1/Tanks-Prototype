@@ -35,7 +35,9 @@ MonoBehaviour:
   turret: {fileID: 1354103162841332653}
   barrelWheel: {fileID: 1354103162841332641}
   barrel: {fileID: 1354103162841332617}
+  barrel2: {fileID: 0}
   emitter: {fileID: 8069209314581162370}
+  emitter2: {fileID: 0}
   shell: {fileID: 6243852489327503438, guid: cdcc6e02c8a9f724294847f1bc04b970, type: 3}
   explosionPoint: {fileID: 5480427136837021907}
   particleSystem1: {fileID: 187874263724732818}

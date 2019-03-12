@@ -66,7 +66,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator SpawnNow(Vector3 location)
     {
         yield return new WaitForSeconds(spawnDelay);
-
+        print("spawn");
         Instantiate(player.gameObject, new Vector3(location.x, location.y + 50, location.z), Quaternion.identity);
         lives--;
     }
