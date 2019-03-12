@@ -58,7 +58,7 @@ public class AIMissileTank : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         aiController = new AIController();
         aiMovement = new AIMovement(ref rigidbody, speed, torque, sensors);
-        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, shell, maxShots, coolDown, fireRate);
+        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, maxShots, coolDown, fireRate);
 
         frontEmission = frontParticles.emission;
         backEmission = backParticles.emission;
@@ -235,7 +235,7 @@ public class AIMissileTank : MonoBehaviour
             if (aimStatus == true)
             {
                 flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
-                aiAiming.Fire(launchVelocity);
+                aiAiming.Fire(launchVelocity, shell);
             }
         }
     }

@@ -28,7 +28,7 @@ public class AIGunTank : MonoBehaviour
     [SerializeField] Transform barrelWheel;
     [SerializeField] Transform[] barrels;
     [SerializeField] Transform[] emitters;
-    [SerializeField] Shell shell;
+    [SerializeField] Bullet bullet;
     [SerializeField] ParticleSystem frontParticles;
     [SerializeField] ParticleSystem backParticles;
     ParticleSystem.EmissionModule frontEmission;
@@ -58,7 +58,7 @@ public class AIGunTank : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         aiController = new AIController();
         aiMovement = new AIMovement(ref rigidbody, speed, torque, sensors);
-        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, shell, maxShots, coolDown, fireRate);
+        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, maxShots, coolDown, fireRate);
 
         frontEmission = frontParticles.emission;
         backEmission = backParticles.emission;
@@ -238,7 +238,7 @@ public class AIGunTank : MonoBehaviour
                 if (clear)
                 {
                     flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
-                    aiAiming.Fire(launchVelocity);
+                    aiAiming.Fire(launchVelocity, bullet);
                 }
                 else
                 {

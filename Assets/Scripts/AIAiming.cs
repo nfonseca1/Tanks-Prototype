@@ -9,7 +9,6 @@ public class AIAiming : MonoBehaviour
     Transform[] barrels;
     Transform[] emitters;
     int currentBarrel = 0;
-    Shell shell;
 
     int shotsBeforeCooloff = 0;
     float cooloff = 4f;
@@ -20,14 +19,13 @@ public class AIAiming : MonoBehaviour
     float fireRateTime = 0;
 
 
-    public AIAiming(Transform turretParam, Transform barrelWheelParam, Transform[] barrelsParam, 
-        Transform[] emittersParam, Shell shellParam, int shotsBeforeCooloffParam, float cooloffParam, float fireRateParam)
+    public AIAiming(Transform turretParam, Transform barrelWheelParam, Transform[] barrelsParam, Transform[] emittersParam, 
+        int shotsBeforeCooloffParam, float cooloffParam, float fireRateParam)
     {
         turret = turretParam;
         barrelWheel = barrelWheelParam;
         barrels = barrelsParam;
         emitters = emittersParam;
-        shell = shellParam;
         shotsBeforeCooloff = shotsBeforeCooloffParam;
         cooloff = cooloffParam;
         fireRate = fireRateParam;
@@ -53,12 +51,26 @@ public class AIAiming : MonoBehaviour
         return false;
     }
 
-    public Shell Fire(float launchVelocity)
+    public Shell Fire(float launchVelocity, Shell shell)
     {
-        //Transform thisEmitter = barrels[currentBarrel].GetComponentInChildren<Transform>();
         Shell currentShell = Instantiate(shell, emitters[currentBarrel].position, emitters[currentBarrel].rotation);
         currentShell.ApplyForce(launchVelocity);
         Destroy(currentShell.gameObject, 10f);
+        ApplyFireSettings();
+        return currentShell;
+    }
+
+    public void Fire(float launchVelocity, Bullet bullet)
+    {
+        Bullet currentBullet = Instantiate(bullet, emitters[currentBarrel].position, emitters[currentBarrel].rotation);
+        currentBullet.ApplyForce(launchVelocity);
+        Destroy(currentBullet.gameObject, 10f);
+        ApplyFireSettings();
+    }
+
+    private void ApplyFireSettings()
+    {
+        
         shotsFired++;
         fireRateTime = fireRate;
 
@@ -68,8 +80,6 @@ public class AIAiming : MonoBehaviour
         {
             currentBarrel = 0;
         }
-        
-        return currentShell;
     }
 
     public bool CheckBarrelClearance(float sensorLength)

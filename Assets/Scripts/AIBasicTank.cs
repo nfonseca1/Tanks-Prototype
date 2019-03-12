@@ -58,7 +58,7 @@ public class AIBasicTank : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         aiController = new AIController();
         aiMovement = new AIMovement(ref rigidbody, speed, torque, sensors);
-        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, shell, maxShots, coolDown, fireRate);
+        aiAiming = new AIAiming(turret, barrelWheel, barrels, emitters, maxShots, coolDown, fireRate);
 
         frontEmission = frontParticles.emission;
         backEmission = backParticles.emission;
@@ -238,8 +238,8 @@ public class AIBasicTank : MonoBehaviour
                 if (clear)
                 {
                     flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
-                    Shell shell = aiAiming.Fire(launchVelocity);
-                    shell.SetAITankSource(this);
+                    Shell projectile = aiAiming.Fire(launchVelocity, shell);
+                    projectile.SetAITankSource(this);
                 }
                 else
                 {

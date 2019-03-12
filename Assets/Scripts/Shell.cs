@@ -9,7 +9,7 @@ public class Shell : MonoBehaviour
     [SerializeField] float explosionForce = 10f;
     [SerializeField] float explosionRadius = 5f;
 
-    Rigidbody rigidbody;
+    new Rigidbody rigidbody;
     AIBasicTank ai;
 
     float totalFlightTime = 0f;
