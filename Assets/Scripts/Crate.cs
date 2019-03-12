@@ -20,6 +20,7 @@ public class Crate : MonoBehaviour
             Destroy(currentParticles.gameObject, .5f);
 
             int random = Mathf.RoundToInt(Random.Range(0, powerups.Length));
+            print(gameObject.name + " spawn powerup");
             Instantiate(powerups[random], transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

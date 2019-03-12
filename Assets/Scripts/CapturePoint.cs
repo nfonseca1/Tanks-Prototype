@@ -7,6 +7,7 @@ public class CapturePoint : MonoBehaviour
 {
     public bool isCaptured = false;
     [SerializeField] Transform flag;
+    [SerializeField] int gateSet = 1;
     PlayerController player;
     float points = 0f;
     bool capturing = false;
@@ -15,8 +16,7 @@ public class CapturePoint : MonoBehaviour
     const float pointsForSuccess = 15f;
     const float minHeight = 6.0f;
     const float maxHeight = 25.6f;
-
-    const int gateSet = 1;
+    
     LevelManager levelManager;
 
 

@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readyToAttack: 0
-  enemy: {fileID: 6822960559406841251, guid: 60b2637e629120448a93a4471acaabf7, type: 3}
+  enemy: {fileID: 4294682775887374919, guid: 4932f990da66ffc4095437cb3a55ea76, type: 3}
   spawnPoints:
   - {fileID: 8488180605223413298}
   - {fileID: 5719532739402952030}

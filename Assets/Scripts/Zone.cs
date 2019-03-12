@@ -5,11 +5,11 @@ using UnityEngine;
 public class Zone : MonoBehaviour
 {
     public bool readyToAttack = false;
-    [SerializeField] AIController enemy;
+    [SerializeField] AIBasicTank enemy;
     [SerializeField] Transform[] spawnPoints;
 
     CapturePoint capturePoint;
-    List<AIController> AI = new List<AIController>();
+    List<AIBasicTank> AI = new List<AIBasicTank>();
     float time = 0f;
     float timeUntilSpawn = 0f;
 
@@ -43,13 +43,13 @@ public class Zone : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(AIController tank)
+    private void SpawnEnemy(AIBasicTank tank)
     {
         int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
 
         Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
         Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
-        AIController currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
+        AIBasicTank currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
         AI.Remove(tank);
         AI.Add(currentEnemy);
 
@@ -63,11 +63,11 @@ public class Zone : MonoBehaviour
             readyToAttack = true;
         }
 
-        if (other.GetComponent<AIController>() != null)
+        if (other.GetComponent<AIBasicTank>() != null)
         {
-            if (!AI.Contains(other.GetComponent<AIController>()))
+            if (!AI.Contains(other.GetComponent<AIBasicTank>()))
             {
-                AI.Add(other.GetComponent<AIController>());
+                AI.Add(other.GetComponent<AIBasicTank>());
             }
         }
 

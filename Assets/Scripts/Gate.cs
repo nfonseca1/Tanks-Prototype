@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] CapturePoint[] capturePoints;
     Animation animation;
 
-    const int gateSet = 1;
+    [SerializeField] int gateSet = 1;
 
     // Start is called before the first frame update
     void Start()
