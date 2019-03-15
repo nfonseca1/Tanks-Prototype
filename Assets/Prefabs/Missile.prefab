@@ -4768,6 +4768,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Explosive
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 209a13dbffbb18442b3f1ea9b12dd7cf, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 209a13dbffbb18442b3f1ea9b12dd7cf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 178.05992

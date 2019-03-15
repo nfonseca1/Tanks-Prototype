@@ -52,7 +52,7 @@ public class CapturePoint : MonoBehaviour
             {
                 points = pointsForSuccess;
                 isCaptured = true;
-                levelManager.CaptureZone(1);
+                levelManager.CaptureZone(gateSet);
             }
         }
         else
@@ -80,7 +80,14 @@ public class CapturePoint : MonoBehaviour
     {
         if (other.GetComponent<PlayerController>() != null)
         {
-            capturing = true;
+            if (other.GetComponent<SpawnedPlayer>() == null)
+            {
+                capturing = true;
+            }
+            else
+            {
+                capturing = false;
+            }
         }
     }
 
