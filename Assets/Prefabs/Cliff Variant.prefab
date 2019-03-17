@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: a685a6c433a3890498ea32a6c69bd930, type: 3}
       propertyPath: m_Name
-      value: Cliff
+      value: Cliff Variant
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a685a6c433a3890498ea32a6c69bd930, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,6 +58,6 @@ PrefabInstance:
     - target: {fileID: 2300000, guid: a685a6c433a3890498ea32a6c69bd930, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: b9e1628081b0c784ab9a7441784f5d32, type: 2}
+      objectReference: {fileID: 2100000, guid: b2ff1326c2d100543ab9d9e1b911b40c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a685a6c433a3890498ea32a6c69bd930, type: 3}
