@@ -1,18 +1,14 @@
 fileFormatVersion: 2
-guid: c1a081dcdd03bde44afb241f92e90c00
+guid: 10a206b4c360cc248911859407f844f3
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Base
-    2100002: Edge
-    2100004: Dark
-    2100006: unnamed
+    2100000: unnamed
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cylinder
-    4300002: Cube
+    4300000: Icosphere
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
