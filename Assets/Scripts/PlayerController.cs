@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public bool grounded = true;
     [SerializeField] Image captureImage;
+    [SerializeField] Transform cargoTransform;
     PlayerTank playerTank;
     Vector3 hitPoint;
     
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     float fireRate = 2f;
     float timeUntilFire = 0f;
     CameraController camera;
+    bool cargoSlotTaken = false;
 
     void Start()
     {
@@ -160,5 +162,22 @@ public class PlayerController : MonoBehaviour
         captureImage.enabled = true;
         Animation textAnimation = captureImage.GetComponent<Animation>();
         textAnimation.Play();
+    }
+
+    public Transform GetCargoTransform()
+    {
+        if (!cargoSlotTaken)
+        {
+            return cargoTransform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void ClearCargoSlot()
+    {
+        cargoSlotTaken = false;
     }
 }

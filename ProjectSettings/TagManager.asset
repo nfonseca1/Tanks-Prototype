@@ -8,6 +8,7 @@ TagManager:
   - Health
   - Tower
   - Explosive
+  - Resource Dropoff
   layers:
   - Default
   - TransparentFX
