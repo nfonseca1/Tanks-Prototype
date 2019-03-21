@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform player;
     Gate[] gates;
     CapturePoint[] capturePoints;
+    PressurePad[] pressurePads;
     int lives = 3;
 
     const float spawnDelay = 2f;
@@ -16,6 +17,18 @@ public class LevelManager : MonoBehaviour
     {
         gates = FindObjectsOfType<Gate>();
         capturePoints = FindObjectsOfType<CapturePoint>();
+        pressurePads = FindObjectsOfType<PressurePad>();
+    }
+
+    public void ToggleSwitch(int group, bool activeStatus)
+    {
+        foreach (var pad in pressurePads)
+        {
+            if (pad.GetGroup() == group)
+            {
+                pad.SetActive(activeStatus);
+            }
+        }
     }
 
     public void OpenGates(int gateSet)
