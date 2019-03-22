@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zone : MonoBehaviour
+public class SequentialZone : MonoBehaviour
 {
     public bool readyToAttack = false;
-    [SerializeField] AIEnemy enemy;
+    [SerializeField] AIEnemy[] enemies;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] Transform[] turretSpawnPoints;
 
     CapturePoint capturePoint;
     List<AIEnemy> AI = new List<AIEnemy>();
     float time = 0f;
     float timeUntilSpawn = 0f;
+    int nextEnemy = 0;
 
     const float spawnTime = 5f;
 
     private void Update()
     {
         time += Time.deltaTime;
-        if (time >= 1f && capturePoint != null && !capturePoint.isCaptured)
+        if (time >= 1f && capturePoint != null && !capturePoint.isCaptured && nextEnemy < enemies.Length)
         {
             if (timeUntilSpawn <= 0)
             {
@@ -50,10 +50,11 @@ public class Zone : MonoBehaviour
 
         Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
         Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
-        AIEnemy currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
+        AIEnemy currentEnemy = Instantiate(enemies[nextEnemy], spawnPosition, Quaternion.identity);
         AI.Remove(tank);
         AI.Add(currentEnemy);
 
+        nextEnemy++;
         timeUntilSpawn = spawnTime;
     }
 
@@ -62,13 +63,13 @@ public class Zone : MonoBehaviour
         if (other.GetComponent<PlayerController>() != null)
         {
             readyToAttack = true;
-        } 
+        }
 
-        if (other.GetComponent<AIBasicTank>() != null)
+        if (other.GetComponent<AIEnemy>() != null)
         {
-            if (!AI.Contains(other.GetComponent<AIBasicTank>()))
+            if (!AI.Contains(other.GetComponent<AIEnemy>()))
             {
-                AI.Add(other.GetComponent<AIBasicTank>());
+                AI.Add(other.GetComponent<AIEnemy>());
             }
         }
 

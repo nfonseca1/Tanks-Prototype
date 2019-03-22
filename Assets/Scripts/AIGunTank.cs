@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIGunTank : MonoBehaviour
+public class AIGunTank : AIEnemy
 {
     const int maxShots = 8;
     const float coolDown = 5f;
@@ -50,7 +50,6 @@ public class AIGunTank : MonoBehaviour
     bool axisXOverriden = false;
     bool axisYOverriden = false;
     bool engage = false;
-    bool grounded = true;
 
     // Start is called before the first frame update
     void Start()
@@ -297,14 +296,9 @@ public class AIGunTank : MonoBehaviour
         }
     }
 
-    public void SetGrounded(bool isGrounded)
-    {
-        grounded = isGrounded;
-    }
-
     private void OnTriggerStay(Collider other)
     {
-        Zone zone = other.GetComponent<Zone>();
+        CPZone zone = other.GetComponent<CPZone>();
         if (zone != null)
         {
             if (zone.readyToAttack == true)

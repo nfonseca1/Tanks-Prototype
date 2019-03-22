@@ -31,8 +31,8 @@ MonoBehaviour:
   torque: 180
   launchVelocity: 25
   elevateSpeed: 75
-  explosionForce: 200
-  explosionLift: 1
+  explosionForce: 0
+  explosionLift: 0
   turret: {fileID: 1354103162841332653}
   barrelWheel: {fileID: 1354103162841332641}
   barrel: {fileID: 1354103162841332617}

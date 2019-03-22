@@ -9,6 +9,9 @@ TagManager:
   - Tower
   - Explosive
   - Resource Dropoff
+  - AIBasicTank
+  - AIGunTank
+  - AIMissileTank
   layers:
   - Default
   - TransparentFX

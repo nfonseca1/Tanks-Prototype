@@ -312,36 +312,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Front Track Dust
       objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: InitialModule.startSize.minMaxState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: InitialModule.startSizeY.minMaxState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: InitialModule.startSizeZ.minMaxState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 0.76
-      objectReference: {fileID: 0}
     - target: {fileID: 6111701632148280900, guid: a2fa0468a16711f4cab55a4bcc738490,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -392,26 +362,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a2fa0468a16711f4cab55a4bcc738490, type: 3}
---- !u!198 &8578702827488913019 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
-    type: 3}
-  m_PrefabInstance: {fileID: 147083559186496035}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5956239348605615158
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 8889200306719775044}
-    m_Modifications:
-    - target: {fileID: 290850564698469712, guid: a2fa0468a16711f4cab55a4bcc738490,
-        type: 3}
-      propertyPath: m_Name
-      value: Back Track Dust
-      objectReference: {fileID: 0}
     - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
         type: 3}
       propertyPath: InitialModule.startSize.minMaxState
@@ -441,6 +391,26 @@ PrefabInstance:
         type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.76
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a2fa0468a16711f4cab55a4bcc738490, type: 3}
+--- !u!198 &8578702827488913019 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+    type: 3}
+  m_PrefabInstance: {fileID: 147083559186496035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5956239348605615158
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8889200306719775044}
+    m_Modifications:
+    - target: {fileID: 290850564698469712, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: m_Name
+      value: Back Track Dust
       objectReference: {fileID: 0}
     - target: {fileID: 6111701632148280900, guid: a2fa0468a16711f4cab55a4bcc738490,
         type: 3}
@@ -487,6 +457,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: InitialModule.startSize.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432752201268583512, guid: a2fa0468a16711f4cab55a4bcc738490,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.76
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fa0468a16711f4cab55a4bcc738490, type: 3}
 --- !u!198 &2859776226427838574 stripped
@@ -505,6 +505,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 93d5e8a5150026f4fab3fe2bbc1cab7b, type: 3}
       propertyPath: m_Name
       value: Artillery Tank Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 93d5e8a5150026f4fab3fe2bbc1cab7b, type: 3}
+      propertyPath: m_TagString
+      value: AIMissileTank
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 93d5e8a5150026f4fab3fe2bbc1cab7b, type: 3}
       propertyPath: m_LocalPosition.x

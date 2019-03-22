@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zone : MonoBehaviour
+public class CPZone : MonoBehaviour
 {
     public bool readyToAttack = false;
-    [SerializeField] AIEnemy enemy;
+    [SerializeField] AIEnemy[] enemiesToSpawn;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] Transform[] turretSpawnPoints;
 
     CapturePoint capturePoint;
-    List<AIEnemy> AI = new List<AIEnemy>();
+    Dictionary<AIEnemy, string> currentAI = new Dictionary<AIEnemy, string>();
     float time = 0f;
     float timeUntilSpawn = 0f;
 
     const float spawnTime = 5f;
 
-    private void Update()
+    
+
+    // Update is called once per frame
+    void Update()
     {
         time += Time.deltaTime;
         if (time >= 1f && capturePoint != null && !capturePoint.isCaptured)
@@ -34,9 +37,9 @@ public class Zone : MonoBehaviour
 
     private void CheckForAI()
     {
-        foreach (var tank in AI)
+        foreach (var tank in currentAI)
         {
-            if (tank == null)
+            if (tank.Key == null)
             {
                 SpawnEnemy(tank);
                 break;
@@ -44,15 +47,28 @@ public class Zone : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(AIEnemy tank)
+    private void SpawnEnemy(KeyValuePair<AIEnemy, string> tank)
     {
         int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
 
         Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
         Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
-        AIEnemy currentEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity);
-        AI.Remove(tank);
-        AI.Add(currentEnemy);
+
+        string enemyType = tank.Value;
+        AIEnemy currentEnemy = null;
+        for (var i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            if (enemiesToSpawn[i].tag == enemyType)
+            {
+                currentEnemy = Instantiate(enemiesToSpawn[i], spawnPosition, Quaternion.identity);
+                break;
+            }
+        }
+        currentAI.Remove(tank.Key);
+        if (currentEnemy != null)
+        {
+            currentAI.Add(currentEnemy, currentEnemy.tag);
+        }
 
         timeUntilSpawn = spawnTime;
     }
@@ -62,13 +78,14 @@ public class Zone : MonoBehaviour
         if (other.GetComponent<PlayerController>() != null)
         {
             readyToAttack = true;
-        } 
+        }
 
-        if (other.GetComponent<AIBasicTank>() != null)
+        if (other.GetComponent<AIEnemy>() != null)
         {
-            if (!AI.Contains(other.GetComponent<AIBasicTank>()))
+            if (!currentAI.ContainsKey(other.GetComponent<AIEnemy>()))
             {
-                AI.Add(other.GetComponent<AIBasicTank>());
+                AIEnemy newAI = other.GetComponent<AIEnemy>();
+                currentAI.Add(newAI, newAI.tag);
             }
         }
 

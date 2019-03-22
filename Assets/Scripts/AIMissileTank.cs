@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIMissileTank : MonoBehaviour
+public class AIMissileTank : AIEnemy
 {
     const int maxShots = 4;
     const float coolDown = 4f;
