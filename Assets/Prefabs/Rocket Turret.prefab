@@ -77,6 +77,21 @@ MonoBehaviour:
   barrel: {fileID: 5728615132755426507}
   emitter: {fileID: 3258007350893095967}
   missile: {fileID: 5500363949796898442, guid: 5bf9124db359dfd42a142bc9035a2526, type: 3}
+--- !u!114 &6298050209142025938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5728615132755910893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e544d05704c564f91073d0a1f50a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  explosion: {fileID: 7708098233846128501, guid: ae7952b60be49694094172e1eb9a1681,
+    type: 3}
 --- !u!1001 &5728615132755813961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +102,10 @@ PrefabInstance:
     - target: {fileID: 100004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_Name
       value: Rocket Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
+      propertyPath: m_TagString
+      value: AIRocketTurret
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 790351762eaa65546afe1ea470298ada, type: 3}
       propertyPath: m_LocalPosition.x

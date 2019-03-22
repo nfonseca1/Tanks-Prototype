@@ -49,12 +49,22 @@ public class CPZone : MonoBehaviour
 
     private void SpawnEnemy(KeyValuePair<AIEnemy, string> tank)
     {
-        int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
-
-        Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
-        Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
-
         string enemyType = tank.Value;
+        Vector3 spawnPosition;
+
+        if (enemyType == "AITurret" || enemyType == "AIGunTurret" || enemyType == "RocketTurret")
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, turretSpawnPoints.Length));
+            Vector3 spawnPositionRaw = turretSpawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
+        else
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
+            Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
+        
         AIEnemy currentEnemy = null;
         for (var i = 0; i < enemiesToSpawn.Length; i++)
         {

@@ -12,6 +12,9 @@ TagManager:
   - AIBasicTank
   - AIGunTank
   - AIMissileTank
+  - AITurret
+  - AIRocketTurret
+  - AIGunTurret
   layers:
   - Default
   - TransparentFX

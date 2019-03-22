@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : AIEnemy
 {
     [SerializeField] Transform explosion;
     [SerializeField] Transform barrelWheel;
@@ -45,7 +45,7 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!readyToBlowUp && engage)
+        if (!readyToBlowUp && engage && grounded)
         {
             GetPlayers();
             if (playersExist && closestPlayer)
@@ -253,7 +253,7 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Zone zone = other.GetComponent<Zone>();
+        CPZone zone = other.GetComponent<CPZone>();
         if (zone != null)
         {
             if (zone.readyToAttack == true)

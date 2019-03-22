@@ -84,6 +84,21 @@ MonoBehaviour:
   launchVelocity: 30
   maxShots: 12
   bulletLifetime: 1
+--- !u!114 &1300419389776781767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330257836117345657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e544d05704c564f91073d0a1f50a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  explosion: {fileID: 7708098233846128501, guid: ae7952b60be49694094172e1eb9a1681,
+    type: 3}
 --- !u!111 &2053566680
 Animation:
   m_ObjectHideFlags: 0
@@ -155,7 +170,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100008, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_Name
-      value: Machine Gun Turret Variant
+      value: Machine Gun Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
+      propertyPath: m_TagString
+      value: AIGunTurret
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 65e7a04033002dc41ba4b40a1ef8e9ac, type: 3}
       propertyPath: m_LocalPosition.x
