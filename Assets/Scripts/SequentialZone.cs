@@ -5,21 +5,25 @@ using UnityEngine;
 public class SequentialZone : MonoBehaviour
 {
     public bool readyToAttack = false;
-    [SerializeField] AIEnemy[] enemies;
+    [SerializeField] AIEnemy[] enemiesToSpawn;
     [SerializeField] Transform[] spawnPoints;
+    [SerializeField] Transform[] turretSpawnPoints;
 
     CapturePoint capturePoint;
-    List<AIEnemy> AI = new List<AIEnemy>();
+    Dictionary<AIEnemy, string> currentAI = new Dictionary<AIEnemy, string>();
     float time = 0f;
     float timeUntilSpawn = 0f;
-    int nextEnemy = 0;
+    int nextEnemyIndex = 0;
+    bool maxIndexReached = false;
 
     const float spawnTime = 5f;
 
-    private void Update()
+
+    // Update is called once per frame
+    void Update()
     {
         time += Time.deltaTime;
-        if (time >= 1f && capturePoint != null && !capturePoint.isCaptured && nextEnemy < enemies.Length)
+        if (time >= 1f && capturePoint != null && !capturePoint.isCaptured && !maxIndexReached)
         {
             if (timeUntilSpawn <= 0)
             {
@@ -34,27 +38,80 @@ public class SequentialZone : MonoBehaviour
 
     private void CheckForAI()
     {
-        foreach (var tank in AI)
+        foreach (var tank in currentAI)
         {
-            if (tank == null)
+            if (tank.Key == null)
             {
-                SpawnEnemy(tank);
+                SpawnNextEnemy(tank);
                 break;
             }
         }
     }
 
-    private void SpawnEnemy(AIEnemy tank)
+    private void SpawnNextEnemy(KeyValuePair<AIEnemy, string> tank)
     {
-        int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
+        string enemyType = tank.Value;
+        Vector3 spawnPosition;
 
-        Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
-        Vector3 spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
-        AIEnemy currentEnemy = Instantiate(enemies[nextEnemy], spawnPosition, Quaternion.identity);
-        AI.Remove(tank);
-        AI.Add(currentEnemy);
+        if (enemyType == "AITurret" || enemyType == "AIGunTurret" || enemyType == "RocketTurret")
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, turretSpawnPoints.Length));
+            Vector3 spawnPositionRaw = turretSpawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
+        else
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
+            Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
 
-        nextEnemy++;
+        currentAI.Remove(tank.Key);
+        print("Spawning..." + nextEnemyIndex);
+        AIEnemy currentEnemy = Instantiate(enemiesToSpawn[nextEnemyIndex], spawnPosition, Quaternion.identity);
+        currentAI.Add(currentEnemy, currentEnemy.tag);
+
+        nextEnemyIndex++;
+        if (nextEnemyIndex >= enemiesToSpawn.Length)
+        {
+            maxIndexReached = true;
+        }
+        timeUntilSpawn = spawnTime;
+    }
+
+    private void RespawnEnemy(KeyValuePair<AIEnemy, string> tank)
+    {
+        string enemyType = tank.Value;
+        Vector3 spawnPosition;
+
+        if (enemyType == "AITurret" || enemyType == "AIGunTurret" || enemyType == "RocketTurret")
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, turretSpawnPoints.Length));
+            Vector3 spawnPositionRaw = turretSpawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
+        else
+        {
+            int randomPoint = Mathf.RoundToInt(Random.Range(0, spawnPoints.Length));
+            Vector3 spawnPositionRaw = spawnPoints[randomPoint].position;
+            spawnPosition = new Vector3(spawnPositionRaw.x, 50f, spawnPositionRaw.z);
+        }
+
+        AIEnemy currentEnemy = null;
+        for (var i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            if (enemiesToSpawn[i].tag == enemyType)
+            {
+                currentEnemy = Instantiate(enemiesToSpawn[i], spawnPosition, Quaternion.identity);
+                break;
+            }
+        }
+        currentAI.Remove(tank.Key);
+        if (currentEnemy != null)
+        {
+            currentAI.Add(currentEnemy, currentEnemy.tag);
+        }
+
         timeUntilSpawn = spawnTime;
     }
 
@@ -67,9 +124,10 @@ public class SequentialZone : MonoBehaviour
 
         if (other.GetComponent<AIEnemy>() != null)
         {
-            if (!AI.Contains(other.GetComponent<AIEnemy>()))
+            if (!currentAI.ContainsKey(other.GetComponent<AIEnemy>()))
             {
-                AI.Add(other.GetComponent<AIEnemy>());
+                AIEnemy newAI = other.GetComponent<AIEnemy>();
+                currentAI.Add(newAI, newAI.tag);
             }
         }
 

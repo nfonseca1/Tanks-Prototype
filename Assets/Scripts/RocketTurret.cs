@@ -179,10 +179,15 @@ public class RocketTurret : AIEnemy
 
     private void OnTriggerStay(Collider other)
     {
-        CPZone zone = other.GetComponent<CPZone>();
-        if (zone != null)
+        if (!engage)
         {
-            if (zone.readyToAttack == true)
+            CPZone zone = other.GetComponent<CPZone>();
+            SequentialZone sZone = other.GetComponent<SequentialZone>();
+            if (zone != null && zone.readyToAttack == true)
+            {
+                engage = true;
+            }
+            else if (sZone != null && sZone.readyToAttack == true)
             {
                 engage = true;
             }

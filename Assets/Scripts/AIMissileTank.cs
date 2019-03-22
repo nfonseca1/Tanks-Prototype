@@ -50,7 +50,6 @@ public class AIMissileTank : AIEnemy
     bool axisXOverriden = false;
     bool axisYOverriden = false;
     bool engage = false;
-    bool grounded = true;
 
     // Start is called before the first frame update
     void Start()
@@ -296,10 +295,15 @@ public class AIMissileTank : AIEnemy
 
     private void OnTriggerStay(Collider other)
     {
-        Zone zone = other.GetComponent<Zone>();
-        if (zone != null)
+        if (!engage)
         {
-            if (zone.readyToAttack == true)
+            CPZone zone = other.GetComponent<CPZone>();
+            SequentialZone sZone = other.GetComponent<SequentialZone>();
+            if (zone != null && zone.readyToAttack == true)
+            {
+                engage = true;
+            }
+            else if (sZone != null && sZone.readyToAttack == true)
             {
                 engage = true;
             }
