@@ -67,7 +67,6 @@ public class SequentialZone : MonoBehaviour
         }
 
         currentAI.Remove(tank.Key);
-        print("Spawning..." + nextEnemyIndex);
         AIEnemy currentEnemy = Instantiate(enemiesToSpawn[nextEnemyIndex], spawnPosition, Quaternion.identity);
         currentAI.Add(currentEnemy, currentEnemy.tag);
 
