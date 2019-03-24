@@ -9,6 +9,7 @@ public class RocketTurret : AIEnemy
     [SerializeField] Transform barrel;
     [SerializeField] Transform emitter;
     [SerializeField] Missile missile;
+    [SerializeField] float maxAimAngle = 40f;
 
     PlayerTank[] players;
     bool playersExist = false;
@@ -112,9 +113,9 @@ public class RocketTurret : AIEnemy
         barrelWheel.LookAt(closestPlayer);
         barrelWheel.localEulerAngles = new Vector3(barrelWheel.localEulerAngles.x, 0, 0);
 
-        if (barrelWheel.localEulerAngles.x >= 40)
+        if (barrelWheel.localEulerAngles.x >= maxAimAngle)
         {
-            barrelWheel.localEulerAngles = new Vector3(40, 0, 0);
+            barrelWheel.localEulerAngles = new Vector3(maxAimAngle, 0, 0);
         }
     }
 

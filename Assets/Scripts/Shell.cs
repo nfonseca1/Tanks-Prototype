@@ -43,7 +43,7 @@ public class Shell : MonoBehaviour
         {
             ai.SetProjectileTime(totalFlightTime);
         }
-        
+        print(explosionPoint.position);
         ShellExplosion thisExplosion = Instantiate(explosion, explosionPoint.position, explosionPoint.rotation);
         Destroy(thisExplosion.gameObject, 5f);
         thisExplosion.Explode(explosionForce, explosionRadius);

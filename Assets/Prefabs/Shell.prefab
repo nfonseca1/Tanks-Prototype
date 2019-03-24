@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4343168950114970649}
   - component: {fileID: 8249444857622443221}
   - component: {fileID: 8088778646053080167}
-  - component: {fileID: 2121099639945105915}
   - component: {fileID: 90036425748868937}
   - component: {fileID: 6243852489327503438}
   - component: {fileID: 104994261690414514}
+  - component: {fileID: 5525753819905472998}
   m_Layer: 12
   m_Name: Shell
   m_TagString: Explosive
@@ -82,20 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &2121099639945105915
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3714562794508191630}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2076106
-  m_Height: 0.6553362
-  m_Direction: 2
-  m_Center: {x: 0, y: -1.8119104e-16, z: 0.112249784}
 --- !u!54 &90036425748868937
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -224,6 +210,20 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!64 &5525753819905472998
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3714562794508191630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 0d655d9c8d208ce41bf48aad53fab447, type: 3}
 --- !u!1 &7152400123317161611
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7152400123317161611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0.369}
+  m_LocalPosition: {x: 0, y: 0, z: 0.277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4343168950114970649}

@@ -44,6 +44,7 @@ public class ShellExplosion : MonoBehaviour
                     }
                     if (hitInfo.collider.GetComponent<DestructableObjectHealth>() != null)
                     {
+                        print("Hit " + hitInfo.collider.gameObject.name);
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if (damage > 0.9f) { damage = 1f; }
                         desObjHealth.DecreaseHealth(damage);
