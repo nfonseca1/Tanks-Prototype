@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7708098233846128501}
   - component: {fileID: 2106740944776871214}
   - component: {fileID: 2679280815255126674}
-  - component: {fileID: 4922227499028486264}
+  - component: {fileID: 4873175572500198310}
   m_Layer: 0
-  m_Name: Shell Explosion
+  m_Name: Mine Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4717,7 +4717,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4922227499028486264
+--- !u!114 &4873175572500198310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4726,9 +4726,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2520746046115478657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df181d0ae307bef4c8cc8cec22ee1d9d, type: 3}
+  m_Script: {fileID: 11500000, guid: 84daf1ecffd6e4443b66822e7f055207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 5431

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellExplosion : MonoBehaviour
+public class MineExplosion : MonoBehaviour
 {
-    [SerializeField] LayerMask layerMask;
+    int layerMask = 10;
     List<string> objectsHit = new List<string>();
 
     public void Explode(float explosionForce, float explosionRadius)
@@ -15,13 +15,12 @@ public class ShellExplosion : MonoBehaviour
             if (objectsHit.Contains(colliders[i].gameObject.name)) { continue; }
             objectsHit.Add(colliders[i].gameObject.name);
             PlayerHealth playerHealth = colliders[i].GetComponent<PlayerHealth>();
-            TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
-            DestructableObjectHealth desObjHealth = colliders[i].GetComponent<DestructableObjectHealth>();
-
-            if (playerHealth != null || tankHealth != null || desObjHealth != null)
+            if (playerHealth != null)
             {
+                float damage = 0;
+
                 RaycastHit hitInfo;
-                if(Physics.Raycast(
+                if (Physics.Raycast(
                     transform.position,
                     (colliders[i].transform.position - transform.position),
                     out hitInfo,
@@ -29,26 +28,19 @@ public class ShellExplosion : MonoBehaviour
                     layerMask
                     ))
                 {
-                    if (hitInfo.collider.GetComponent<TankHealth>() != null)
-                    {
-                        float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
-                        if(damage > 0.9f) { damage = 1f; }
-                        tankHealth.DecreaseHealth(damage);
-                    }
                     if (hitInfo.collider.GetComponent<PlayerHealth>() != null)
                     {
-                        float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
-                        if (damage > 0.9f) { damage = 0.85f; }
-                        
-                        playerHealth.DecreaseHealth(damage);
-                    }
-                    if (hitInfo.collider.GetComponent<DestructableObjectHealth>() != null)
-                    {
-                        float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
-                        if (damage > 0.9f) { damage = 1f; }
-                        desObjHealth.DecreaseHealth(damage);
+                        damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                     }
                 }
+                else
+                {
+                    float playerDistance = (colliders[i].gameObject.transform.position - transform.position).magnitude;
+                    damage = ((explosionRadius - playerDistance) / explosionRadius);
+                }
+
+                if (damage > 0.9f) { damage = 0.85f; }
+                playerHealth.DecreaseHealth(damage);
             }
 
             Rigidbody colliderRB = colliders[i].GetComponent<Rigidbody>();
