@@ -6,7 +6,7 @@ public class Mine : MonoBehaviour
 {
     [SerializeField] MineExplosion explosion;
     [SerializeField] float explosionForce = 10f;
-    [SerializeField] float explosionRadius = 5f;
+    [SerializeField] float explosionRadius = 7f;
     MeshCollider meshCollider;
     Material inside;
     float flashTime = 0;
@@ -64,7 +64,7 @@ public class Mine : MonoBehaviour
 
     IEnumerator BlowUp()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         Vector3 explodePoint = new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z);
 

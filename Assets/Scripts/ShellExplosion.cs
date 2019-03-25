@@ -17,8 +17,9 @@ public class ShellExplosion : MonoBehaviour
             PlayerHealth playerHealth = colliders[i].GetComponent<PlayerHealth>();
             TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
             DestructableObjectHealth desObjHealth = colliders[i].GetComponent<DestructableObjectHealth>();
+            ExplosiveHealth expHealth = colliders[i].GetComponent<ExplosiveHealth>();
 
-            if (playerHealth != null || tankHealth != null || desObjHealth != null)
+            if (playerHealth != null || tankHealth != null || desObjHealth != null || expHealth != null)
             {
                 RaycastHit hitInfo;
                 if(Physics.Raycast(
@@ -35,18 +36,24 @@ public class ShellExplosion : MonoBehaviour
                         if(damage > 0.9f) { damage = 1f; }
                         tankHealth.DecreaseHealth(damage);
                     }
-                    if (hitInfo.collider.GetComponent<PlayerHealth>() != null)
+                    else if (hitInfo.collider.GetComponent<PlayerHealth>() != null)
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if (damage > 0.9f) { damage = 0.85f; }
                         
                         playerHealth.DecreaseHealth(damage);
                     }
-                    if (hitInfo.collider.GetComponent<DestructableObjectHealth>() != null)
+                    else if (hitInfo.collider.GetComponent<DestructableObjectHealth>() != null)
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if (damage > 0.9f) { damage = 1f; }
                         desObjHealth.DecreaseHealth(damage);
+                    }
+                    else if (hitInfo.collider.GetComponent<ExplosiveHealth>() != null)
+                    {
+                        float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
+                        if (damage > 0.9f) { damage = 1f; }
+                        expHealth.DecreaseHealth(damage);
                     }
                 }
             }
