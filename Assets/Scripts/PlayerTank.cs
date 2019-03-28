@@ -98,4 +98,9 @@ public class PlayerTank : Tank
         }
         return false;
     }
+
+    public Transform GetEmitter()
+    {
+        return emitter;
+    }
 }

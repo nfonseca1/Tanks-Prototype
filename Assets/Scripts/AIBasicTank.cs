@@ -43,6 +43,7 @@ public class AIBasicTank : AIEnemy
     float repositionTime = 0;
     PlayerTank[] players;
     Transform closestPlayer;
+    PlayerController playerController;
     Vector3 target;
     float randomDirection = 1;
     float axisX = 0;
@@ -93,6 +94,7 @@ public class AIBasicTank : AIEnemy
                 {
                     ManageFireInput();
                 }
+                CheckToEvade();
             }
             else
             {
@@ -276,6 +278,7 @@ public class AIBasicTank : AIEnemy
         if (closestPlayer != null)
         {
             target = closestPlayer.position;
+            playerController = closestPlayer.GetComponent<PlayerController>();
         }
         else
         {
@@ -294,6 +297,19 @@ public class AIBasicTank : AIEnemy
         else
         {
             flightStatus = TrajectoryStatus.Fail;
+        }
+    }
+
+    public void CheckToEvade()
+    {
+        if (playerController.CheckIfFiring())
+        {
+            float angle = playerController.GetTurretAngle(transform.position);
+            print("Angle: " + angle);
+            if (angle <= 5f)
+            {
+                
+            }
         }
     }
 

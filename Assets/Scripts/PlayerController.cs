@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     float timeUntilFire = 0f;
     CameraController camera;
     bool cargoSlotTaken = false;
+    bool isFiring = false;
 
     void Start()
     {
@@ -96,11 +97,13 @@ public class PlayerController : MonoBehaviour
             else if (Input.GetMouseButtonUp(0))
             {
                 playerTank.Fire();
+                isFiring = true;
                 timeUntilFire = fireRate;
             }
         }
         else
         {
+            isFiring = false;
             timeUntilFire -= Time.deltaTime;
             playerTank.UpdateBarrel();
         }
@@ -179,5 +182,16 @@ public class PlayerController : MonoBehaviour
     public void ClearCargoSlot()
     {
         cargoSlotTaken = false;
+    }
+
+    public bool CheckIfFiring()
+    {
+        return isFiring;
+    }
+
+    public float GetTurretAngle(Vector3 targetPos)
+    {
+        Vector3 newTargetPos = new Vector3(targetPos.x, playerTank.GetEmitter().position.y, targetPos.z);
+        return Vector3.Angle(newTargetPos - transform.position, playerTank.GetEmitter().forward);
     }
 }
