@@ -1,31 +1,14 @@
 fileFormatVersion: 2
-guid: fa9fe77f8acec41458e4076c01839787
+guid: d31c6312c05a0544b9dc1d2b15cd8b88
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Cube
-    100004: Cube_001
-    100006: Cube_002
     400000: //RootNode
-    400002: Cube
-    400004: Cube_001
-    400006: Cube_002
-    2100000: Roof
-    2100002: Base
-    2100004: Edge
-    2100006: Base_001
+    2100000: Base
     2300000: //RootNode
-    2300002: Cube
-    2300004: Cube_001
-    2300006: Cube_002
     3300000: //RootNode
-    3300002: Cube
-    3300004: Cube_001
-    3300006: Cube_002
     4300000: Cube
-    4300002: Cube_002
-    4300004: Cube_001
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
