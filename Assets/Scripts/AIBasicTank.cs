@@ -55,6 +55,7 @@ public class AIBasicTank : AIEnemy
     bool axisXOverriden = false;
     bool axisYOverriden = false;
     bool engage = false;
+    Coroutine lastCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +118,7 @@ public class AIBasicTank : AIEnemy
             {
                 axisXType = axisType;
                 axisX = newAxisVal;
+                print("Axis X: " + newAxisVal);
                 return true;
             }
         }
@@ -126,6 +128,7 @@ public class AIBasicTank : AIEnemy
             {
                 axisYType = axisType;
                 axisY = newAxisVal;
+                print("Axis X: " + newAxisVal);
                 return true;
             }
         }
@@ -240,6 +243,8 @@ public class AIBasicTank : AIEnemy
             // Calculate direction of target for rotation
             float frontAngle = Vector3.Angle(transform.forward, target - transform.position);
             float rightAngle = Vector3.Angle(transform.right, target - transform.position);
+            
+            print("Front " + frontAngle + " ; Right " + rightAngle);
 
             if (frontAngle > 10f && rightAngle > 90f)
             {
@@ -254,19 +259,21 @@ public class AIBasicTank : AIEnemy
                 SetAxis(0, AxisType.TowardsPlayer, Axis.X);
             }
         }
-        else
+        else if (flightStatus == TrajectoryStatus.Fail)
         {
-            if (flightStatus == TrajectoryStatus.Fail)
+            SetAxis(0, AxisType.TowardsPlayer, Axis.X);
+            SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
+            if (lastCoroutine != null)
             {
-                DelayAutoMovement();
-                SetAxis(0, AxisType.TowardsPlayer, Axis.X);
-                SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
+                StopCoroutine(lastCoroutine);
             }
-            else
-            {
-                StopAxis(AxisType.TowardsPlayer, Axis.X);
-                StopAxis(AxisType.TowardsPlayer, Axis.Y);
-            }
+            lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.TowardsPlayer, 1.5f));
+            flightStatus = TrajectoryStatus.Standby;
+        }
+        else if (flightStatus == TrajectoryStatus.Success)
+        {
+            StopAxis(AxisType.TowardsPlayer, Axis.X);
+            StopAxis(AxisType.TowardsPlayer, Axis.Y);
         }
     }
 
@@ -293,6 +300,19 @@ public class AIBasicTank : AIEnemy
                     flightStatus = TrajectoryStatus.Fail;
                 }
             }
+        }
+    }
+
+    IEnumerator StopAxesAfterDuration(AxisType axisType, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        StopAxis(axisType, Axis.X);
+        StopAxis(axisType, Axis.Y);
+
+        if (axisType == AxisType.TowardsPlayer)
+        {
+            flightStatus = TrajectoryStatus.Success;
         }
     }
 
