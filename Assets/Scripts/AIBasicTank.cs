@@ -118,7 +118,6 @@ public class AIBasicTank : AIEnemy
             {
                 axisXType = axisType;
                 axisX = newAxisVal;
-                print("Axis X: " + newAxisVal);
                 return true;
             }
         }
@@ -128,7 +127,6 @@ public class AIBasicTank : AIEnemy
             {
                 axisYType = axisType;
                 axisY = newAxisVal;
-                print("Axis X: " + newAxisVal);
                 return true;
             }
         }
@@ -243,8 +241,6 @@ public class AIBasicTank : AIEnemy
             // Calculate direction of target for rotation
             float frontAngle = Vector3.Angle(transform.forward, target - transform.position);
             float rightAngle = Vector3.Angle(transform.right, target - transform.position);
-            
-            print("Front " + frontAngle + " ; Right " + rightAngle);
 
             if (frontAngle > 10f && rightAngle > 90f)
             {
@@ -261,14 +257,17 @@ public class AIBasicTank : AIEnemy
         }
         else if (flightStatus == TrajectoryStatus.Fail)
         {
-            SetAxis(0, AxisType.TowardsPlayer, Axis.X);
-            SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
-            if (lastCoroutine != null)
+            bool xCheck = SetAxis(0, AxisType.TowardsPlayer, Axis.X);
+            bool yCheck = SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
+            if (xCheck && yCheck)
             {
-                StopCoroutine(lastCoroutine);
+                if (lastCoroutine != null)
+                {
+                    StopCoroutine(lastCoroutine);
+                }
+                lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.TowardsPlayer, 1.5f));
+                flightStatus = TrajectoryStatus.Standby;
             }
-            lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.TowardsPlayer, 1.5f));
-            flightStatus = TrajectoryStatus.Standby;
         }
         else if (flightStatus == TrajectoryStatus.Success)
         {
@@ -371,16 +370,30 @@ public class AIBasicTank : AIEnemy
         if (playerController.CheckIfFiring())
         {
             float angle = playerController.GetTurretAngle(transform.position);
-            if (angle <= 5f)
+            if (angle <= 7f)
             {
-                print("evade");
+                if (axisXType != AxisType.Evasion)
+                {
+                    Evade();
+                }
             }
         }
     }
 
     public void Evade()
     {
-        
+        float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 2));
+        if (num == 0) { num = -1; }
+        bool xCheck = SetAxis(num, AxisType.Evasion, Axis.X);
+        bool yCheck = SetAxis(1, AxisType.Evasion, Axis.Y);
+        if (xCheck && yCheck)
+        {
+            if (lastCoroutine != null)
+            {
+                StopCoroutine(lastCoroutine);
+            }
+            lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.Evasion, 0.75f));
+        }
     }
 
     private void OnTriggerStay(Collider other)

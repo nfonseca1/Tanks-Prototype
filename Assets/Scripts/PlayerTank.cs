@@ -103,4 +103,9 @@ public class PlayerTank : Tank
     {
         return emitter;
     }
+
+    public Transform GetTurret()
+    {
+        return turret;
+    }
 }

@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
 
     public float GetTurretAngle(Vector3 targetPos)
     {
-        Vector3 newTargetPos = new Vector3(targetPos.x, playerTank.GetEmitter().position.y, targetPos.z);
-        return Vector3.Angle(newTargetPos - transform.position, playerTank.GetEmitter().forward);
+        Vector3 newTargetPos = new Vector3(targetPos.x, playerTank.GetTurret().position.y, targetPos.z);
+        return Vector3.Angle(newTargetPos - transform.position, playerTank.GetTurret().forward);
     }
 }

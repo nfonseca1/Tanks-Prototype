@@ -70,7 +70,6 @@ public class AIGunTank : AIEnemy
     // Update is called once per frame
     void Update()
     {
-        print(grounded + " and " + engage);
         if (engage && grounded)
         {
             players = aiController.GetPlayers();
