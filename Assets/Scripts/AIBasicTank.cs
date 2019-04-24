@@ -9,6 +9,7 @@ public class AIBasicTank : AIEnemy
     const float fireRate = 3f;
     const float sensorLength = 5f;
     const float maxDistance = 35f;
+    const float maxRepositionDistance = 10f;
     const float minDistance = 25f;
     const float neutralDistance = 30f;
     const float maxShootDistance = 40f;
@@ -48,7 +49,7 @@ public class AIBasicTank : AIEnemy
     PlayerTank[] players;
     Transform closestPlayer;
     PlayerController playerController;
-    Vector3 target;
+    Vector3 target, repositionPoint;
     float randomDirection = 1;
     float axisX = 0;
     float axisY = 0;
@@ -56,6 +57,8 @@ public class AIBasicTank : AIEnemy
     bool axisYOverriden = false;
     bool engage = false;
     Coroutine lastCoroutine;
+    bool priorityIsPlayer = true;
+    bool arrivedAtRepositionPoint = true;
 
     // Start is called before the first frame update
     void Start()
@@ -229,7 +232,30 @@ public class AIBasicTank : AIEnemy
                 StopAxis(AxisType.SensorResponse, Axis.Y);
                 break;
         }
-        ManageMovement();
+        SelectMovementManagement();
+    }
+
+    private void SelectMovementManagement()
+    {
+        print("Arrived at point: " + arrivedAtRepositionPoint);
+        print("Priority: " + priorityIsPlayer);
+        if ((target - transform.position).magnitude > maxDistance)
+        {
+            priorityIsPlayer = true;
+        }
+        else if (!arrivedAtRepositionPoint)
+        {
+            priorityIsPlayer = false;
+        }
+
+        if (priorityIsPlayer == true)
+        {
+            ManageMovement();
+        }
+        else
+        {
+            ManageMovementTowardsReposition();
+        }
     }
 
     private void ManageMovement()
@@ -273,6 +299,37 @@ public class AIBasicTank : AIEnemy
         {
             StopAxis(AxisType.TowardsPlayer, Axis.X);
             StopAxis(AxisType.TowardsPlayer, Axis.Y);
+        }
+    }
+
+    private void ManageMovementTowardsReposition()
+    {
+        if ((repositionPoint - transform.position).magnitude > maxRepositionDistance)
+        {
+            SetAxis(1, AxisType.TowardsPosition, Axis.Y);
+
+            // Calculate direction of target for rotation
+            float frontAngle = Vector3.Angle(transform.forward, repositionPoint - transform.position);
+            float rightAngle = Vector3.Angle(transform.right, repositionPoint - transform.position);
+
+            if (frontAngle > 6f && rightAngle > 90f)
+            {
+                SetAxis(-1, AxisType.TowardsPosition, Axis.X);
+            }
+            else if (frontAngle > 6f && rightAngle < 90f)
+            {
+                SetAxis(1, AxisType.TowardsPosition, Axis.X);
+            }
+            else
+            {
+                SetAxis(0, AxisType.TowardsPosition, Axis.X);
+            }
+        }
+        else
+        {
+            StopAxis(AxisType.TowardsPosition, Axis.X);
+            StopAxis(AxisType.TowardsPosition, Axis.Y);
+            arrivedAtRepositionPoint = true;
         }
     }
 
@@ -333,8 +390,12 @@ public class AIBasicTank : AIEnemy
             if (players.Length > 0)
             {
                 closestPlayer = aiController.GetClosestPlayer(players, transform);
+                arrivedAtRepositionPoint = false;
+                repositionPoint = GetRepositionPoint();
+                print("RePo: " + repositionPoint);
+                //priority = AxisType.TowardsPosition;
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
         }
     }
 
@@ -349,6 +410,11 @@ public class AIBasicTank : AIEnemy
         {
             closestPlayer = aiController.GetClosestPlayer(players, transform);
         }
+
+        //if (priority == AxisType.TowardsPosition)
+        //{
+        //    target = GetRepositionPoint();
+        //}
 
         return true;
     }
@@ -394,6 +460,23 @@ public class AIBasicTank : AIEnemy
             }
             lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.Evasion, 0.75f));
         }
+    }
+
+    public Vector3 GetRepositionPoint()
+    {
+        float xVal = UnityEngine.Random.Range(-35, 35);
+        float zVal = UnityEngine.Random.Range(-35, 35);
+        Vector3 point = target + new Vector3(xVal, target.y, zVal);
+        Vector3 repositionPoint = point;
+
+        Ray ray = new Ray(target, point - target);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, (point - target).magnitude))
+        {
+            repositionPoint = hit.point;
+        }
+
+        return repositionPoint;
     }
 
     private void OnTriggerStay(Collider other)
