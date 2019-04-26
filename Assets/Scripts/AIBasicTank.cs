@@ -49,7 +49,7 @@ public class AIBasicTank : AIEnemy
     PlayerTank[] players;
     Transform closestPlayer;
     PlayerController playerController;
-    Vector3 target, repositionPoint;
+    Vector3 playerTarget, repositionPoint;
     float randomDirection = 1;
     float axisX = 0;
     float axisY = 0;
@@ -58,7 +58,7 @@ public class AIBasicTank : AIEnemy
     bool engage = false;
     Coroutine lastCoroutine;
     bool priorityIsPlayer = true;
-    bool arrivedAtRepositionPoint = true;
+    bool repositionOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +79,8 @@ public class AIBasicTank : AIEnemy
     // Update is called once per frame
     void Update()
     {
+        print("X: " + axisXType + " with a value of " + axisX);
+        print("Y: " + axisYType + " with a value of " + axisY);
         if (engage && grounded)
         {
             players = aiController.GetPlayers();
@@ -97,7 +99,7 @@ public class AIBasicTank : AIEnemy
                 aiMovement.Move(inputY, transform); // lerp / lerpLimit dictates the percentage of movement
                 ManageMovementParticles(inputY);
                 aiMovement.Rotate(lerpX / lerpLimitX, transform);
-                aiAiming.AimTurret(target);
+                aiAiming.AimTurret(playerTarget);
                 if (players.Length > 0 && aiAiming.CheckIfReadyToFire())
                 {
                     ManageFireInput();
@@ -237,18 +239,7 @@ public class AIBasicTank : AIEnemy
 
     private void SelectMovementManagement()
     {
-        print("Arrived at point: " + arrivedAtRepositionPoint);
-        print("Priority: " + priorityIsPlayer);
-        if ((target - transform.position).magnitude > maxDistance)
-        {
-            priorityIsPlayer = true;
-        }
-        else if (!arrivedAtRepositionPoint)
-        {
-            priorityIsPlayer = false;
-        }
-
-        if (priorityIsPlayer == true)
+        if ((playerTarget - transform.position).magnitude > maxDistance || repositionOn == false)
         {
             ManageMovement();
         }
@@ -256,17 +247,18 @@ public class AIBasicTank : AIEnemy
         {
             ManageMovementTowardsReposition();
         }
+        
     }
 
     private void ManageMovement()
     {
-        if ((target - transform.position).magnitude > maxDistance)
+        if ((playerTarget - transform.position).magnitude > maxDistance)
         {
             SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
             
             // Calculate direction of target for rotation
-            float frontAngle = Vector3.Angle(transform.forward, target - transform.position);
-            float rightAngle = Vector3.Angle(transform.right, target - transform.position);
+            float frontAngle = Vector3.Angle(transform.forward, playerTarget - transform.position);
+            float rightAngle = Vector3.Angle(transform.right, playerTarget - transform.position);
 
             if (frontAngle > 10f && rightAngle > 90f)
             {
@@ -285,7 +277,7 @@ public class AIBasicTank : AIEnemy
         {
             bool xCheck = SetAxis(0, AxisType.TowardsPlayer, Axis.X);
             bool yCheck = SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
-            if (xCheck && yCheck)
+            if (xCheck && yCheck) 
             {
                 if (lastCoroutine != null)
                 {
@@ -329,7 +321,7 @@ public class AIBasicTank : AIEnemy
         {
             StopAxis(AxisType.TowardsPosition, Axis.X);
             StopAxis(AxisType.TowardsPosition, Axis.Y);
-            arrivedAtRepositionPoint = true;
+            repositionOn = false;
         }
     }
 
@@ -339,7 +331,7 @@ public class AIBasicTank : AIEnemy
 
         if (lerpY == 0)
         {
-            float aimAngle = aiController.CalculateAimAngle(target, launchVelocity, true, transform);
+            float aimAngle = aiController.CalculateAimAngle(playerTarget, launchVelocity, true, transform);
             aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
             
             if (aimStatus == true)
@@ -390,7 +382,8 @@ public class AIBasicTank : AIEnemy
             if (players.Length > 0)
             {
                 closestPlayer = aiController.GetClosestPlayer(players, transform);
-                arrivedAtRepositionPoint = false;
+                GetTarget();
+                repositionOn = true;
                 repositionPoint = GetRepositionPoint();
                 print("RePo: " + repositionPoint);
                 //priority = AxisType.TowardsPosition;
@@ -403,7 +396,7 @@ public class AIBasicTank : AIEnemy
     {
         if (closestPlayer != null)
         {
-            target = closestPlayer.position;
+            playerTarget = closestPlayer.position;
             playerController = closestPlayer.GetComponent<PlayerController>();
         }
         else
@@ -464,16 +457,24 @@ public class AIBasicTank : AIEnemy
 
     public Vector3 GetRepositionPoint()
     {
-        float xVal = UnityEngine.Random.Range(-35, 35);
-        float zVal = UnityEngine.Random.Range(-35, 35);
-        Vector3 point = target + new Vector3(xVal, target.y, zVal);
-        Vector3 repositionPoint = point;
+        int layerMask = 1 << 10;
+        int inverseLayer = ~(layerMask);
 
-        Ray ray = new Ray(target, point - target);
+        float xVal = UnityEngine.Random.Range(-40f, 40f);
+        float zVal = UnityEngine.Random.Range(-40f, 40f);
+        Vector3 vectorAdd = new Vector3(xVal, playerTarget.y + 1f, zVal);
+        Vector3 point = playerTarget + vectorAdd;
+        Vector3 repositionPoint = point;
+        print("player target: " + playerTarget);
+        print("vector add: " + vectorAdd);
+        print("point: " + repositionPoint);
+
+        Ray ray = new Ray(playerTarget, point - playerTarget);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, (point - target).magnitude))
+        if(Physics.Raycast(ray, out hit, (point - playerTarget).magnitude, ~(layerMask)))
         {
             repositionPoint = hit.point;
+            print(hit.collider.name + " hit");
         }
 
         return repositionPoint;
