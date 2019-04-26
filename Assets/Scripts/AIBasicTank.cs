@@ -79,8 +79,6 @@ public class AIBasicTank : AIEnemy
     // Update is called once per frame
     void Update()
     {
-        print("X: " + axisXType + " with a value of " + axisX);
-        print("Y: " + axisYType + " with a value of " + axisY);
         if (engage && grounded)
         {
             players = aiController.GetPlayers();
@@ -194,11 +192,11 @@ public class AIBasicTank : AIEnemy
                 SetAxis(0, AxisType.SensorResponse, Axis.Y);
                 break;
             case AIMovement.Sensor.FrontRight:
-                SetAxis(-1, AxisType.SensorResponse, Axis.X);
+                SetAxis(-0.5f, AxisType.SensorResponse, Axis.X);
                 axisYOverriden = false;
                 break;
             case AIMovement.Sensor.FrontLeft:
-                SetAxis(1, AxisType.SensorResponse, Axis.X);
+                SetAxis(0.5f, AxisType.SensorResponse, Axis.X);
                 axisYOverriden = false;
                 break;
             case AIMovement.Sensor.Left:
@@ -398,6 +396,11 @@ public class AIBasicTank : AIEnemy
         {
             playerTarget = closestPlayer.position;
             playerController = closestPlayer.GetComponent<PlayerController>();
+            if ((playerTarget - transform.position).magnitude < 10f && axisYType == AxisType.Stop)
+            {
+                repositionOn = true;
+                repositionPoint = GetRepositionPoint();
+            }
         }
         else
         {
