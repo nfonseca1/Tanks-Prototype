@@ -79,6 +79,8 @@ public class AIBasicTank : AIEnemy
     // Update is called once per frame
     void Update()
     {
+        //print("X: " + axisXType + " : " + axisX);
+        //print("Y: " + axisYType + " : " + axisY);
         if (engage && grounded)
         {
             players = aiController.GetPlayers();
@@ -327,7 +329,7 @@ public class AIBasicTank : AIEnemy
     {
         bool aimStatus = false;
 
-        if (lerpY == 0)
+        if (axisYType == AxisType.Stop || axisYType == AxisType.TowardsPosition)
         {
             float aimAngle = aiController.CalculateAimAngle(playerTarget, launchVelocity, true, transform);
             aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
@@ -383,8 +385,6 @@ public class AIBasicTank : AIEnemy
                 GetTarget();
                 repositionOn = true;
                 repositionPoint = GetRepositionPoint();
-                print("RePo: " + repositionPoint);
-                //priority = AxisType.TowardsPosition;
             }
             yield return new WaitForSeconds(10f);
         }
@@ -406,11 +406,6 @@ public class AIBasicTank : AIEnemy
         {
             closestPlayer = aiController.GetClosestPlayer(players, transform);
         }
-
-        //if (priority == AxisType.TowardsPosition)
-        //{
-        //    target = GetRepositionPoint();
-        //}
 
         return true;
     }
@@ -468,9 +463,6 @@ public class AIBasicTank : AIEnemy
         Vector3 vectorAdd = new Vector3(xVal, playerTarget.y + 1f, zVal);
         Vector3 point = playerTarget + vectorAdd;
         Vector3 repositionPoint = point;
-        print("player target: " + playerTarget);
-        print("vector add: " + vectorAdd);
-        print("point: " + repositionPoint);
 
         Ray ray = new Ray(playerTarget, point - playerTarget);
         RaycastHit hit;
