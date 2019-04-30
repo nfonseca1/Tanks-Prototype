@@ -18,8 +18,9 @@ public class ShellExplosion : MonoBehaviour
             TankHealth tankHealth = colliders[i].GetComponent<TankHealth>();
             DestructableObjectHealth desObjHealth = colliders[i].GetComponent<DestructableObjectHealth>();
             ExplosiveHealth expHealth = colliders[i].GetComponent<ExplosiveHealth>();
+            Wall wallHealth = colliders[i].GetComponent<Wall>();
 
-            if (playerHealth != null || tankHealth != null || desObjHealth != null || expHealth != null)
+            if (playerHealth != null || tankHealth != null || desObjHealth != null || expHealth != null || wallHealth != null)
             {
                 RaycastHit hitInfo;
                 if(Physics.Raycast(
@@ -54,6 +55,13 @@ public class ShellExplosion : MonoBehaviour
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if (damage > 0.9f) { damage = 1f; }
                         expHealth.DecreaseHealth(damage);
+                    }
+                    else if (hitInfo.collider.GetComponent<Wall>() != null)
+                    {
+                        float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
+                        if (damage > 0.9f) { damage = 1f; }
+                        wallHealth.SetExplodeInfo(explosionForce, transform.position, explosionRadius);
+                        wallHealth.DecreaseHealth(damage);
                     }
                 }
             }
