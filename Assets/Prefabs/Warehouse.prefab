@@ -25,8 +25,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734d74440fb211147af7d8d5036bd3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roof1: {fileID: 1315333986057231523}
-  roof2: {fileID: 1315333986057231525}
+  roofs:
+  - {fileID: 1315333986057231523}
+  - {fileID: 1315333986057231525}
+  opaqueMaterial: {fileID: 2100000, guid: 00d0387f19dff8749a9cc320d8e986c8, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 838734cfaceea4044ae15d0be40d1680, type: 2}
 --- !u!65 &1674397950157444216
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118,18 +121,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7848053, y: 12.043452, z: 7.495364}
   m_Center: {x: -0.10759735, y: 0.00992012, z: 0.012356758}
---- !u!114 &8726934543053642106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315333986055225961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1380179601541876103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +134,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &8726934543053642106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315333986055225961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &863373569662903400
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -214,18 +217,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.74794006, y: 12.043452, z: 7.495364}
   m_Center: {x: 0.13204193, y: 0.00992012, z: 0.012356758}
---- !u!114 &7477720468748480814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315333986055225963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7346705428904290401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +230,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &7477720468748480814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315333986055225963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba82f7a850eb0641aff640c37a6b521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &548814787774412827
 Rigidbody:
   m_ObjectHideFlags: 0

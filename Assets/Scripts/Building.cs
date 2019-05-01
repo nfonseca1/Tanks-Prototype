@@ -4,33 +4,57 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    [SerializeField] Renderer roof1;
-    [SerializeField] Renderer roof2;
+    [SerializeField] Renderer[] roofs;
+    [SerializeField] Material opaqueMaterial;
+    [SerializeField] Material transparentMaterial;
     bool isInside = false;
+    bool isOpaque = true;
 
     private void Update()
     {
         if (isInside)
         {
-            Color roof1Color = roof1.material.color;
-            Color roof2Color = roof2.material.color;
+            if (isOpaque)
+            {
+                foreach (Renderer roof in roofs)
+                {
+                    roof.material = transparentMaterial;
+                }
+                isOpaque = false;
+            }
 
-            float alpha = Mathf.Lerp(roof1Color.a, .1f, 0.3f);
-            Color newColor = new Color(roof1Color.r, roof1Color.g, roof1Color.b, alpha);
+            Color roofColor = roofs[0].material.color;
 
-            roof1.material.color = newColor;
-            roof2.material.color = newColor;
+            float alpha = Mathf.Lerp(roofColor.a, .1f, 0.3f);
+            Color newColor = new Color(roofColor.r, roofColor.g, roofColor.b, alpha);
+
+            foreach (Renderer roof in roofs)
+            {
+                roof.material.color = newColor;
+            }
         }
         else
         {
-            Color roof1Color = roof1.material.color;
-            Color roof2Color = roof2.material.color;
+            Color roof1Color = roofs[0].material.color;
 
             float alpha = Mathf.Lerp(roof1Color.a, 1f, 0.3f);
             Color newColor = new Color(roof1Color.r, roof1Color.g, roof1Color.b, alpha);
 
-            roof1.material.color = newColor;
-            roof2.material.color = newColor;
+            if (alpha > .99f && !isOpaque)
+            {
+                foreach (Renderer roof in roofs)
+                {
+                    roof.material = opaqueMaterial;
+                }
+                isOpaque = true;
+            }
+            else
+            {
+                foreach (Renderer roof in roofs)
+                {
+                    roof.material.color = newColor;
+                }
+            }
         }
     }
 

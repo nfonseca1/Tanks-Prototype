@@ -33,7 +33,7 @@ public class Wall : MonoBehaviour
 
     public void SetExplodeInfo(float force, Vector3 position, float radius)
     {
-        explodeForce = force * 2f;
+        explodeForce = force;
         explodePoint = position;
         explodeRadius = radius;
     }
