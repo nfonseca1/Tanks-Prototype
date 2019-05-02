@@ -9,6 +9,7 @@ public class AIMissileTank : AIEnemy
     const float fireRate = .2f;
     const float sensorLength = 8f;
     const float maxDistance = 35f;
+    const float maxRepositionDistance = 10f;
     const float minDistance = 25f;
     const float neutralDistance = 30f;
     const float maxShootDistance = 40f;
@@ -40,16 +41,24 @@ public class AIMissileTank : AIEnemy
 
     enum TrajectoryStatus { Success, Fail, Standby }
     TrajectoryStatus flightStatus = TrajectoryStatus.Standby;
+    enum AxisType { TowardsPlayer = 3, TowardsPosition = 3, SensorResponse = 1, Evasion = 2, Stop = 4 }
+    AxisType axisXType = AxisType.TowardsPlayer;
+    AxisType axisYType = AxisType.TowardsPlayer;
+    enum Axis { X, Y }
     float repositionTime = 0;
     PlayerTank[] players;
     Transform closestPlayer;
-    Vector3 target;
+    PlayerController playerController;
+    Vector3 playerTarget, repositionPoint;
     float randomDirection = 1;
     float axisX = 0;
     float axisY = 0;
     bool axisXOverriden = false;
     bool axisYOverriden = false;
     bool engage = false;
+    Coroutine lastCoroutine;
+    bool priorityIsPlayer = true;
+    bool repositionOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -88,11 +97,12 @@ public class AIMissileTank : AIEnemy
                 aiMovement.Move(inputY, transform); // lerp / lerpLimit dictates the percentage of movement
                 ManageMovementParticles(inputY);
                 aiMovement.Rotate(lerpX / lerpLimitX, transform);
-                aiAiming.AimTurret(target);
-                if (players.Length > 0 && aiAiming.CheckIfReadyToFire())
+                aiAiming.AimTurret(playerTarget);
+                if (players.Length > 0 && aiAiming.CheckIfReadyToFire() && axisYType == AxisType.Stop)
                 {
                     ManageFireInput();
                 }
+                CheckToEvade();
             }
             else
             {
@@ -100,6 +110,57 @@ public class AIMissileTank : AIEnemy
                 ManageMovementParticles(0);
             }
         }
+    }
+
+    // Check to see if the axisType can be overriden. If so, set it to the appropriate value and return success status
+    bool SetAxis(float newAxisVal, AxisType axisType, Axis axisToModify)
+    {
+        if (axisToModify == Axis.X)
+        {
+            if ((int)axisType <= (int)axisXType)
+            {
+                axisXType = axisType;
+                axisX = newAxisVal;
+                return true;
+            }
+        }
+        else if (axisToModify == Axis.Y)
+        {
+            if ((int)axisType <= (int)axisXType)
+            {
+                axisYType = axisType;
+                axisY = newAxisVal;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // If the axisToCheck is the current axis type, set that axis type to stop and its value to 0
+    // Otherwise ignore it. We don't want to stop an axis that is in the middle of another process
+    bool StopAxis(AxisType axisToCheck, Axis axisToModify)
+    {
+        if (axisToModify == Axis.X)
+        {
+            if (axisToCheck == axisXType)
+            {
+                axisXType = AxisType.Stop;
+                axisX = 0;
+                return true;
+            }
+        }
+        else if (axisToModify == Axis.Y)
+        {
+            if (axisToCheck == axisYType)
+            {
+                axisYType = AxisType.Stop;
+                axisY = 0;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void ManageMovementParticles(float input)
@@ -127,45 +188,39 @@ public class AIMissileTank : AIEnemy
         switch (sensor)
         {
             case AIMovement.Sensor.Front:
-                axisX = randomDirection;
-                axisY = 0;
-                axisXOverriden = true;
-                axisYOverriden = true;
+                SetAxis(randomDirection, AxisType.SensorResponse, Axis.X);
+                SetAxis(0, AxisType.SensorResponse, Axis.Y);
                 break;
             case AIMovement.Sensor.FrontRight:
-                axisX = -1;
-                axisXOverriden = true;
+                SetAxis(-0.5f, AxisType.SensorResponse, Axis.X);
                 axisYOverriden = false;
                 break;
             case AIMovement.Sensor.FrontLeft:
-                axisX = 1;
-                axisXOverriden = true;
+                SetAxis(0.5f, AxisType.SensorResponse, Axis.X);
                 axisYOverriden = false;
                 break;
             case AIMovement.Sensor.Left:
                 if (axisX < 0)
                 {
-                    axisX = 0;
-                    axisXOverriden = true;
-                    axisYOverriden = false;
+                    SetAxis(0, AxisType.SensorResponse, Axis.X);
+                    StopAxis(AxisType.SensorResponse, Axis.Y);
                 }
                 else
                 {
-                    axisXOverriden = false;
-                    axisYOverriden = false;
+                    StopAxis(AxisType.SensorResponse, Axis.X);
+                    StopAxis(AxisType.SensorResponse, Axis.Y);
                 }
                 break;
             case AIMovement.Sensor.Right:
                 if (axisX > 0)
                 {
-                    axisX = 0;
-                    axisXOverriden = true;
-                    axisYOverriden = false;
+                    SetAxis(0, AxisType.SensorResponse, Axis.X);
+                    StopAxis(AxisType.SensorResponse, Axis.Y);
                 }
                 else
                 {
-                    axisXOverriden = false;
-                    axisYOverriden = false;
+                    StopAxis(AxisType.SensorResponse, Axis.X);
+                    StopAxis(AxisType.SensorResponse, Axis.Y);
                 }
                 break;
             default:
@@ -173,52 +228,99 @@ public class AIMissileTank : AIEnemy
                 if (num == 0) { num = -1; }
                 randomDirection = num;
 
-                axisXOverriden = false;
-                axisYOverriden = false;
+                StopAxis(AxisType.SensorResponse, Axis.X);
+                StopAxis(AxisType.SensorResponse, Axis.Y);
                 break;
         }
-        ManageMovement();
+        SelectMovementManagement();
+    }
+
+    private void SelectMovementManagement()
+    {
+        if ((playerTarget - transform.position).magnitude > maxDistance || repositionOn == false)
+        {
+            ManageMovement();
+        }
+        else
+        {
+            ManageMovementTowardsReposition();
+        }
+
     }
 
     private void ManageMovement()
     {
-        if ((target - transform.position).magnitude > maxDistance)
+        if ((playerTarget - transform.position).magnitude > maxDistance)
         {
-            if (!axisYOverriden) { axisY = 1; }
+            repositionOn = false;
+            SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
 
-            if (!axisXOverriden)
+            // Calculate direction of target for rotation
+            float frontAngle = Vector3.Angle(transform.forward, playerTarget - transform.position);
+            float rightAngle = Vector3.Angle(transform.right, playerTarget - transform.position);
+
+            if (frontAngle > 10f && rightAngle > 90f)
             {
-                // Calculate direction of target for rotation
-                float frontAngle = Vector3.Angle(transform.forward, target - transform.position);
-                float rightAngle = Vector3.Angle(transform.right, target - transform.position);
+                SetAxis(-1, AxisType.TowardsPlayer, Axis.X);
+            }
+            else if (frontAngle > 10f && rightAngle < 90f)
+            {
+                SetAxis(1, AxisType.TowardsPlayer, Axis.X);
+            }
+            else
+            {
+                SetAxis(0, AxisType.TowardsPlayer, Axis.X);
+            }
+        }
+        else if (flightStatus == TrajectoryStatus.Fail)
+        {
+            bool xCheck = SetAxis(0, AxisType.TowardsPlayer, Axis.X);
+            bool yCheck = SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
+            if (xCheck && yCheck)
+            {
+                if (lastCoroutine != null)
+                {
+                    StopCoroutine(lastCoroutine);
+                }
+                lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.TowardsPlayer, 1.5f));
+                flightStatus = TrajectoryStatus.Standby;
+            }
+        }
+        else if (flightStatus == TrajectoryStatus.Success)
+        {
+            StopAxis(AxisType.TowardsPlayer, Axis.X);
+            StopAxis(AxisType.TowardsPlayer, Axis.Y);
+        }
+    }
 
-                if (frontAngle > 10f && rightAngle > 90f)
-                {
-                    axisX = -1f;
-                }
-                else if (frontAngle > 10f && rightAngle < 90f)
-                {
-                    axisX = 1f;
-                }
-                else
-                {
-                    axisX = 0;
-                }
+    private void ManageMovementTowardsReposition()
+    {
+        if ((repositionPoint - transform.position).magnitude > maxRepositionDistance)
+        {
+            SetAxis(1, AxisType.TowardsPosition, Axis.Y);
+
+            // Calculate direction of target for rotation
+            float frontAngle = Vector3.Angle(transform.forward, repositionPoint - transform.position);
+            float rightAngle = Vector3.Angle(transform.right, repositionPoint - transform.position);
+
+            if (frontAngle > 6f && rightAngle > 90f)
+            {
+                SetAxis(-1, AxisType.TowardsPosition, Axis.X);
+            }
+            else if (frontAngle > 6f && rightAngle < 90f)
+            {
+                SetAxis(1, AxisType.TowardsPosition, Axis.X);
+            }
+            else
+            {
+                SetAxis(0, AxisType.TowardsPosition, Axis.X);
             }
         }
         else
         {
-            if (flightStatus == TrajectoryStatus.Fail)
-            {
-                DelayAutoMovement();
-                if (!axisXOverriden) { axisX = 0; }
-                if (!axisYOverriden) { axisY = 1; }
-            }
-            else
-            {
-                if (!axisXOverriden) { axisX = 0; }
-                if (!axisYOverriden) { axisY = 0; }
-            }
+            StopAxis(AxisType.TowardsPosition, Axis.X);
+            StopAxis(AxisType.TowardsPosition, Axis.Y);
+            repositionOn = false;
         }
     }
 
@@ -226,16 +328,30 @@ public class AIMissileTank : AIEnemy
     {
         bool aimStatus = false;
 
-        if (lerpY == 0)
+        if (axisYType == AxisType.Stop || axisYType == AxisType.TowardsPosition)
         {
-            float aimAngle = aiController.CalculateAimAngle(target, launchVelocity, false, transform);
+            float aimAngle = aiController.CalculateAimAngle(playerTarget, launchVelocity, false, transform);
             aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
 
             if (aimStatus == true)
             {
+                
                 flightTime = aiAiming.GetTrajectoryTime(launchVelocity);
                 aiAiming.Fire(launchVelocity, shell);
             }
+        }
+    }
+
+    IEnumerator StopAxesAfterDuration(AxisType axisType, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        StopAxis(axisType, Axis.X);
+        StopAxis(axisType, Axis.Y);
+
+        if (axisType == AxisType.TowardsPlayer)
+        {
+            flightStatus = TrajectoryStatus.Success;
         }
     }
 
@@ -257,8 +373,11 @@ public class AIMissileTank : AIEnemy
             if (players.Length > 0)
             {
                 closestPlayer = aiController.GetClosestPlayer(players, transform);
+                GetTarget();
+                repositionOn = true;
+                repositionPoint = GetRepositionPoint();
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
         }
     }
 
@@ -266,7 +385,13 @@ public class AIMissileTank : AIEnemy
     {
         if (closestPlayer != null)
         {
-            target = closestPlayer.position;
+            playerTarget = closestPlayer.position;
+            playerController = closestPlayer.GetComponent<PlayerController>();
+            if ((playerTarget - transform.position).magnitude < 10f && axisYType == AxisType.Stop)
+            {
+                repositionOn = true;
+                repositionPoint = GetRepositionPoint();
+            }
         }
         else
         {
@@ -288,9 +413,57 @@ public class AIMissileTank : AIEnemy
         }
     }
 
-    public void SetGrounded(bool isGrounded)
+    public void CheckToEvade()
     {
-        grounded = isGrounded;
+        if (playerController.CheckIfFiring())
+        {
+            float angle = playerController.GetTurretAngle(transform.position);
+            if (angle <= 9f)
+            {
+                if (axisXType != AxisType.Evasion)
+                {
+                    Evade();
+                }
+            }
+        }
+    }
+
+    public void Evade()
+    {
+        float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 2));
+        if (num == 0) { num = -1; }
+        bool xCheck = SetAxis(num, AxisType.Evasion, Axis.X);
+        bool yCheck = SetAxis(1, AxisType.Evasion, Axis.Y);
+        if (xCheck && yCheck)
+        {
+            if (lastCoroutine != null)
+            {
+                StopCoroutine(lastCoroutine);
+            }
+            lastCoroutine = StartCoroutine(StopAxesAfterDuration(AxisType.Evasion, 0.75f));
+        }
+    }
+
+    public Vector3 GetRepositionPoint()
+    {
+        int layerMask = 1 << 10;
+        int inverseLayer = ~(layerMask);
+
+        float xVal = UnityEngine.Random.Range(-40f, 40f);
+        float zVal = UnityEngine.Random.Range(-40f, 40f);
+        Vector3 vectorAdd = new Vector3(xVal, playerTarget.y + 1f, zVal);
+        Vector3 point = playerTarget + vectorAdd;
+        Vector3 repositionPoint = point;
+
+        Ray ray = new Ray(playerTarget, point - playerTarget);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, (point - playerTarget).magnitude, ~(layerMask)))
+        {
+            repositionPoint = hit.point;
+            print(hit.collider.name + " hit");
+        }
+
+        return repositionPoint;
     }
 
     private void OnTriggerStay(Collider other)

@@ -79,8 +79,6 @@ public class AIGunTank : AIEnemy
     // Update is called once per frame
     void Update()
     {
-        //print("X: " + axisXType + " : " + axisX);
-        //print("Y: " + axisYType + " : " + axisY);
         if (engage && grounded)
         {
             players = aiController.GetPlayers();
@@ -254,6 +252,7 @@ public class AIGunTank : AIEnemy
     {
         if ((playerTarget - transform.position).magnitude > maxDistance)
         {
+            repositionOn = false;
             SetAxis(1, AxisType.TowardsPlayer, Axis.Y);
 
             // Calculate direction of target for rotation
