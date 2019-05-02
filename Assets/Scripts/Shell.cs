@@ -45,6 +45,7 @@ public class Shell : MonoBehaviour
         }
         ShellExplosion thisExplosion = Instantiate(explosion, explosionPoint.position, explosionPoint.rotation);
         Destroy(thisExplosion.gameObject, 5f);
+        if (ai != null) { thisExplosion.SetExplosionFromAI(); }
         thisExplosion.Explode(explosionForce, explosionRadius);
         Destroy(gameObject);
     }

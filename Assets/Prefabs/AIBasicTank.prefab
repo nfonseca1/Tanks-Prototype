@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ccd627d4609a734d8f60b52f4844df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
+  speed: 20
   torque: 180
   launchVelocity: 25
   sensors:
@@ -240,7 +240,7 @@ PrefabInstance:
     - target: {fileID: 2172667559983808232, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}
       propertyPath: m_Name
-      value: Enemy Tank
+      value: AIBasicTank
       objectReference: {fileID: 0}
     - target: {fileID: 2172667559983808232, guid: 3ca37e00c12bebb41b89740a0ff89c77,
         type: 3}

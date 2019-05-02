@@ -97,7 +97,7 @@ public class AIBasicTank : AIEnemy
 
                 float inputY = lerpY / lerpLimitY;
                 aiMovement.Move(inputY, transform); // lerp / lerpLimit dictates the percentage of movement
-                ManageMovementParticles(inputY);
+                ManageMovementParticles(inputY); 
                 aiMovement.Rotate(lerpX / lerpLimitX, transform);
                 aiAiming.AimTurret(playerTarget);
                 if (players.Length > 0 && aiAiming.CheckIfReadyToFire())
@@ -427,7 +427,7 @@ public class AIBasicTank : AIEnemy
         if (playerController.CheckIfFiring())
         {
             float angle = playerController.GetTurretAngle(transform.position);
-            if (angle <= 7f)
+            if (angle <= 9f)
             {
                 if (axisXType != AxisType.Evasion)
                 {

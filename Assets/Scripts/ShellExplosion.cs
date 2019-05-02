@@ -6,6 +6,7 @@ public class ShellExplosion : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
     List<string> objectsHit = new List<string>();
+    bool explosionFromAI = false;
 
     public void Explode(float explosionForce, float explosionRadius)
     {
@@ -31,7 +32,7 @@ public class ShellExplosion : MonoBehaviour
                     layerMask
                     ))
                 {
-                    if (hitInfo.collider.GetComponent<TankHealth>() != null)
+                    if (hitInfo.collider.GetComponent<TankHealth>() != null && !explosionFromAI)
                     {
                         float damage = (explosionRadius - hitInfo.distance) / explosionRadius;
                         if(damage > 0.9f) { damage = 1f; }
@@ -72,5 +73,10 @@ public class ShellExplosion : MonoBehaviour
                 colliderRB.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.5f);
             }
         }
+    }
+
+    public void SetExplosionFromAI()
+    {
+        explosionFromAI = true;
     }
 }
