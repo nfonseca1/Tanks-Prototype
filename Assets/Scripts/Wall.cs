@@ -7,17 +7,28 @@ public class Wall : MonoBehaviour
     [SerializeField] float health = 100f;
     [SerializeField] GameObject destroyedWall;
     [SerializeField] GameObject debris;
+    [SerializeField] Transform debrisPoint;
+    [SerializeField] float debrisSize = 1f;
     float explodeForce;
     float explodeRadius;
     Vector3 explodePoint;
+
+    private void Start()
+    {
+        if (debrisPoint == null)
+        {
+            debrisPoint = transform;
+        }
+    }
 
     public void DecreaseHealth(float damage)
     {
         health -= (100f * damage);
         if (health <= 0)
         {
-            Instantiate(destroyedWall, this.transform.position, this.transform.rotation);
-            GameObject currentDebris = Instantiate(debris, transform.position, transform.rotation);
+            Instantiate(destroyedWall, transform.position, transform.rotation);
+            GameObject currentDebris = Instantiate(debris, debrisPoint.position, debrisPoint.rotation);
+            currentDebris.transform.localScale = new Vector3(debrisSize, debrisSize, debrisSize);
 
             GetComponent<BoxCollider>().enabled = false;
 
