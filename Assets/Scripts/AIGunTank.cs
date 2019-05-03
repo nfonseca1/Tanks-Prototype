@@ -330,8 +330,8 @@ public class AIGunTank : AIEnemy
 
         if (axisYType == AxisType.Stop || axisYType == AxisType.TowardsPosition)
         {
-            float aimAngle = aiController.CalculateAimAngle(playerTarget, barrelWheel, transform);
-            aimStatus = aiAiming.AimBarrel(new Vector3(aimAngle, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
+            //float aimAngle = aiController.CalculateAimAngle(playerTarget, barrelWheel, transform);
+            aimStatus = aiAiming.AimBarrel(new Vector3(0, barrelWheel.localEulerAngles.y, barrelWheel.localEulerAngles.z));
 
             if (aimStatus == true)
             {
