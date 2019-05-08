@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!65 &254449384930955413
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757920126607963079}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.000004, y: 14.049695, z: 8.000002}
+  m_Center: {x: 0, y: -3.0248454, z: 4.000001}
+--- !u!1001 &4757920126608061799
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_Name
+      value: Pueblo Long House Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 83.50349
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 170.60023
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e7246a532bbf2a149bdf7042b098286a, type: 2}
+    - target: {fileID: 2300000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 710c5addef1c7b94ba5afdcdc250ae77, type: 2}
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: bc1b16ebb82d07b48a77b3e78080cb5e, type: 3}
+--- !u!1 &4757920126607963079 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: bc1b16ebb82d07b48a77b3e78080cb5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4757920126608061799}
+  m_PrefabAsset: {fileID: 0}
