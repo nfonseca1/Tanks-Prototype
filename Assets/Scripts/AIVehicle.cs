@@ -7,6 +7,7 @@ public class AIVehicle : AI
     const float getPlayerInterval = 5f;
     const float sensorLength = 5f;
     bool getPlayerNow = false;
+    int randomDirection = 1;
     Transform playerTarget;
     Transform sensorPointF, sensorPointFL, sensorPointFR, sensorPointL, sensorPointR;
     float axisXMin = -1f, axisXMax = 1f, axisYMin = -1f, axisYMax = 1f;
@@ -56,80 +57,44 @@ public class AIVehicle : AI
     void RespondToSensors()
     {
         bool[] sensors = CheckSensors(sensorLength);
-        bool front = sensors[0], frontLeft = sensors[1], frontRight = sensors[2], left = sensors[3], right = sensors[4];
-        
-        if (left && right)
-        {
-            RestrictAxis(AxisX.X, Priority.SensorResponse);
-        }
-        else if (left)
-        {
-            RestrictAxis(AxisX.Left, Priority.SensorResponse);
-        }
-        else if (right)
-        {
-            RestrictAxis(AxisX.Right, Priority.SensorResponse);
-        }
-        
-        if (front || (frontLeft && frontRight))
-        {
 
-        }
-        else if (frontLeft)
+        if (sensors != null) // If there is at least one sensor detected, check which ones and respond
         {
+            bool front = sensors[0], frontLeft = sensors[1], frontRight = sensors[2], left = sensors[3], right = sensors[4];
 
+            if (left && right)
+            {
+                RestrictAxis(AxisX.X, Priority.SensorResponse);
+            }
+            else if (left)
+            {
+                RestrictAxis(AxisX.Left, Priority.SensorResponse);
+            }
+            else if (right)
+            {
+                RestrictAxis(AxisX.Right, Priority.SensorResponse);
+            }
+
+            if (front || (frontLeft && frontRight))
+            {
+                SetXAxis(randomDirection, Priority.SensorResponse);
+            }
+            else if (frontLeft)
+            {
+                SetXAxis(1f, Priority.SensorResponse);
+            }
+            else if (frontRight)
+            {
+                SetXAxis(-1f, Priority.SensorResponse);
+            }
         }
-        else if (frontRight)
+        else
         {
+            int num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 2));
+            if (num == 0) { num = -1; }
+            randomDirection = num;
 
-        }
-
-        switch (sensor)
-        {
-            case Sensor.Front:
-                SetAxis(randomDirection, AxisType.SensorResponse, Axis.X);
-                SetAxis(0, AxisType.SensorResponse, Axis.Y);
-                break;
-            case Sensor.FrontRight:
-                SetAxis(-0.5f, AxisType.SensorResponse, Axis.X);
-                axisYOverriden = false;
-                break;
-            case Sensor.FrontLeft:
-                SetAxis(0.5f, AxisType.SensorResponse, Axis.X);
-                axisYOverriden = false;
-                break;
-            case Sensor.Left:
-                if (axisX < 0)
-                {
-                    SetAxis(0, AxisType.SensorResponse, Axis.X);
-                    StopAxis(AxisType.SensorResponse, Axis.Y);
-                }
-                else
-                {
-                    StopAxis(AxisType.SensorResponse, Axis.X);
-                    StopAxis(AxisType.SensorResponse, Axis.Y);
-                }
-                break;
-            case Sensor.Right:
-                if (axisX > 0)
-                {
-                    SetAxis(0, AxisType.SensorResponse, Axis.X);
-                    StopAxis(AxisType.SensorResponse, Axis.Y);
-                }
-                else
-                {
-                    StopAxis(AxisType.SensorResponse, Axis.X);
-                    StopAxis(AxisType.SensorResponse, Axis.Y);
-                }
-                break;
-            default:
-                float num = Mathf.RoundToInt(UnityEngine.Random.Range(0, 2));
-                if (num == 0) { num = -1; }
-                randomDirection = num;
-
-                StopAxis(AxisType.SensorResponse, Axis.X);
-                StopAxis(AxisType.SensorResponse, Axis.Y);
-                break;
+            ClearXAxis(Priority.SensorResponse);
         }
     }
 
@@ -142,29 +107,37 @@ public class AIVehicle : AI
         Ray rightRay = new Ray(sensorPointR.position, sensorPointR.forward);
 
         bool[] sensors = { false, false, false, false, false };
+        bool detected = false;
 
         RaycastHit hitInfo;
         if (Physics.Raycast(frontRay, out hitInfo, sensorLength))
         {
             sensors[0] = true;
+            detected = true;
         }
         if (Physics.Raycast(frontLeftRay, out hitInfo, sensorLength))
         {
             sensors[1] = true;
+            detected = true;
         }
         if (Physics.Raycast(frontRightRay, out hitInfo, sensorLength))
         {
             sensors[2] = true;
+            detected = true;
         }
         if (Physics.Raycast(leftRay, out hitInfo, sensorLength))
         {
             sensors[3] = true;
+            detected = true;
         }
         if (Physics.Raycast(rightRay, out hitInfo, sensorLength))
         {
             sensors[4] = true;
+            detected = true;
         }
-        return sensors;
+        // If at least one sensor is detected, return the array. Otherwise return null.
+        if (detected) { return sensors; }
+        return null;
     }
 
     // Check to see if the axisType can be overriden. If so, set it to the appropriate value and return success status
@@ -248,7 +221,7 @@ public class AIVehicle : AI
     {
         if (priority == axisXPriority)
         {
-            axisXPriority = Priority.None;
+            axisXPriority = Priority.TowardsTarget;
             axisX = 0;
             return AxisMessage.Success;
         }
@@ -259,7 +232,7 @@ public class AIVehicle : AI
     {
         if (priority == axisYPriority)
         {
-            axisYPriority = Priority.None;
+            axisYPriority = Priority.TowardsTarget;
             axisY = 0;
             return AxisMessage.Success;
         }
