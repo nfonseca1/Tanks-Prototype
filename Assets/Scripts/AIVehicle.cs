@@ -4,29 +4,40 @@ using UnityEngine;
 
 public class AIVehicle : AI
 {
-    const float getPlayerInterval = 5f;
-    const float sensorLength = 5f;
-    bool getPlayerNow = false;
-    int randomDirection = 1;
-    Transform playerTarget;
-    Transform sensorPointF, sensorPointFL, sensorPointFR, sensorPointL, sensorPointR;
-    float axisXMin = -1f, axisXMax = 1f, axisYMin = -1f, axisYMax = 1f;
-    float axisX = 0, axisY = 0;
+    protected const float getPlayerInterval = 5f;
+    protected const float sensorLength = 5f;
+    protected bool getPlayerNow = false;
+    protected int randomDirection = 1;
+    protected Transform playerTarget;
+    protected Vector3 target;
+    protected Transform sensorPointF, sensorPointFL, sensorPointFR, sensorPointL, sensorPointR;
+    protected float axisXMin = -1f, axisXMax = 1f, axisYMin = -1f, axisYMax = 1f;
+    protected float axisX = 0, axisY = 0;
+    protected float evadeDistance = 10f;
+    protected bool attemptReposition = false;
+    // Rotate angle variables
+    protected float angleToRotateAt = 90f;
+    protected Vector3 lastPlayerFirePos;
+    protected Vector3 playerFireTarget;
+    protected AIEvadeMechanism evadeMechanism;
+
+    protected const float maxDistanceFromPlayer = 35f;
+    protected const float maxDistanceFromRepositionPoint = 10f;
+    protected const float minDistanceFromPlayer = 25f;
+    protected const float minDistanceFromRepositionPoint = -1f; // There is no min for reposition point. -1 prevents new reposition.
+    protected float maxDistanceFromTarget = 15f;
+    protected float minDistanceFromTarget = 10f;
 
     protected enum Sensor { Front, FrontRight, FrontLeft, Left, Right, None }
     protected enum AxisX { Left, X, Right}
     protected enum AxisY { Up, Y, Down}
     protected enum AxisMessage { InvalidPriority = 0, AxisOutOfRange = 1, Success = 2}
     protected enum Priority { None = 0, TowardsTarget = 1, Evasion = 2, SensorResponse = 3 }
-    Priority axisXPriority = Priority.None, axisYPriority = Priority.None;
+    protected Priority axisXPriority = Priority.None, axisYPriority = Priority.None;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(SetGetPlayerTag(getPlayerInterval));
-    }
+    
 
-    IEnumerator SetGetPlayerTag(float interval)
+    protected IEnumerator SetGetPlayerTag(float interval)
     {
         while (true)
         {
@@ -35,26 +46,28 @@ public class AIVehicle : AI
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (getPlayerNow)
-        {
-            GetClosestPlayer(transform);
-        }
+    
 
-        if (playerTarget != null)
+    protected void ManageLastEvasion()
+    {
+        float angle = Vector3.Angle(lastPlayerFirePos - transform.position, transform.forward);
+        if (evadeMechanism.CheckToClearXAxis(angle, transform.position))
         {
-            DeterminePriority();
+            ClearXAxis(Priority.Evasion); //TODO allow for all priorities
+        }
+        if (evadeMechanism.CheckToClearYAxis(Time.deltaTime, transform.position))
+        {
+            ClearYAxis(Priority.Evasion);
         }
     }
 
-    void DeterminePriority()
+    protected void DeterminePriority()
     {
         RespondToSensors();
+        CheckToEvade();
     }
 
-    void RespondToSensors()
+    protected void RespondToSensors()
     {
         bool[] sensors = CheckSensors(sensorLength);
 
@@ -141,7 +154,7 @@ public class AIVehicle : AI
     }
 
     // Check to see if the axisType can be overriden. If so, set it to the appropriate value and return success status
-    AxisMessage SetXAxis(float newAxisVal, Priority priority)
+    protected AxisMessage SetXAxis(float newAxisVal, Priority priority)
     {
         if (priority >= axisXPriority)
         {
@@ -155,7 +168,7 @@ public class AIVehicle : AI
         return AxisMessage.InvalidPriority;
     }
 
-    AxisMessage SetYAxis(float newAxisVal, Priority priority)
+    protected AxisMessage SetYAxis(float newAxisVal, Priority priority)
     {
         if (priority >= axisYPriority)
         {
@@ -169,7 +182,7 @@ public class AIVehicle : AI
         return AxisMessage.InvalidPriority;
     }
 
-    bool RestrictAxis(AxisX axis, Priority priority)
+    protected bool RestrictAxis(AxisX axis, Priority priority)
     {
         if (priority >= axisXPriority)
         {
@@ -193,7 +206,7 @@ public class AIVehicle : AI
         return false;
     }
 
-    bool RestrictAxis(AxisY axis, Priority priority)
+    protected bool RestrictAxis(AxisY axis, Priority priority)
     {
         if (priority >= axisXPriority)
         {
@@ -217,25 +230,164 @@ public class AIVehicle : AI
         return false;
     }
 
-    AxisMessage ClearXAxis(Priority priority)
+    protected AxisMessage ClearXAxis(Priority priority)
     {
         if (priority == axisXPriority)
         {
             axisXPriority = Priority.TowardsTarget;
             axisX = 0;
+            evadeMechanism = null;
             return AxisMessage.Success;
         }
         return AxisMessage.InvalidPriority;
     }
 
-    AxisMessage ClearYAxis(Priority priority)
+    protected AxisMessage ClearYAxis(Priority priority)
     {
         if (priority == axisYPriority)
         {
             axisYPriority = Priority.TowardsTarget;
             axisY = 0;
+            evadeMechanism = null;
             return AxisMessage.Success;
         }
         return AxisMessage.InvalidPriority;
+    }
+
+    protected PlayerController CheckToEvade()
+    {
+        for(var i = 0; i < players.Length; i++)
+        {
+            if (players[i].CheckIfFiring())
+            {
+                //TODO Check distance based on explosion radius instead of arbitrary number
+                Vector3 pos = players[i].GetTargetPoint();
+                if ((players[i].GetTargetPoint() - transform.position).magnitude < evadeDistance)
+                {
+                    playerFireTarget = pos;
+                    return players[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    protected void Evade(PlayerController player)
+    {
+        float forwardAngle = Vector3.Angle(player.transform.position - transform.position, transform.forward);
+        float rightAngle = Vector3.Angle(player.transform.position - transform.position, transform.right);
+        float numX, numY;
+        // Depending on the angle from the player firing, attempt to first set axis in a certain direction
+        if (rightAngle < 90f)
+        {
+            numX = -1f;
+        }
+        else
+        {
+            numX = 1f;
+        }
+        if (forwardAngle < 90f)
+        {
+            numY = 1f;
+        }
+        else
+        {
+            numY = -1f;
+            numX = -numX;
+        }
+
+        // Rotate left, right or not at all depending on X Axis Restrictions
+        AxisMessage responseX = SetXAxis(numX, Priority.Evasion);
+        if (responseX == AxisMessage.AxisOutOfRange)
+        {
+            responseX = SetXAxis(-numX, Priority.Evasion);
+            if (responseX == AxisMessage.AxisOutOfRange)
+            {
+                responseX = SetXAxis(0, Priority.Evasion);
+            }
+        }
+        // Move forward or backward depending on Y Axis Restrictions
+        AxisMessage responseY = SetYAxis(numY, Priority.Evasion);
+        if (responseY == AxisMessage.AxisOutOfRange)
+        {
+            SetYAxis(-numY, Priority.Evasion);
+        }
+        // Rotate until tank is 90 degrees from player
+        evadeMechanism = new AIEvadeMechanism(90f, 1f, playerFireTarget, evadeDistance);
+        lastPlayerFirePos = player.transform.position;
+    }
+
+    protected void DetermineTarget()
+    {
+        if (attemptReposition == false)
+        {
+            target = playerTarget.position;
+            maxDistanceFromTarget = maxDistanceFromPlayer;
+            minDistanceFromTarget = minDistanceFromPlayer;
+        }
+        else
+        {
+            target = GetRepositionPoint();
+            attemptReposition = true;
+            maxDistanceFromTarget = maxDistanceFromRepositionPoint;
+            minDistanceFromTarget = minDistanceFromRepositionPoint;
+        }
+    }
+
+    public Vector3 GetRepositionPoint()
+    {
+        int layerMask = 1 << 10;
+        int inverseLayer = ~(layerMask);
+
+        float xVal = UnityEngine.Random.Range(-40f, 40f);
+        float zVal = UnityEngine.Random.Range(-40f, 40f);
+        Vector3 vectorAdd = new Vector3(xVal, playerTarget.position.y + 1f, zVal);
+        Vector3 point = playerTarget.position + vectorAdd;
+        Vector3 repositionPoint = point;
+
+        Ray ray = new Ray(playerTarget.position, point - playerTarget.position);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, (point - playerTarget.position).magnitude, ~(layerMask)))
+        {
+            repositionPoint = hit.point;
+        }
+
+        return repositionPoint;
+    }
+
+    protected void ManagePlayerDistance()
+    {
+        if ((playerTarget.position - transform.position).magnitude > maxDistanceFromTarget)
+        {
+            MoveTowardsTarget();
+        }
+        else if ((playerTarget.position - transform.position).magnitude < maxDistanceFromTarget)
+        {
+            target = GetRepositionPoint();
+            attemptReposition = true;
+        }
+        else
+        {
+            attemptReposition = false;
+        }
+    }
+
+    protected void MoveTowardsTarget()
+    {
+
+    }
+
+    protected bool CheckIfReadyToManageAiming()
+    {
+        if (attemptReposition)
+        {
+            return true;
+        }
+        else if ((playerTarget.position - transform.position).magnitude < maxDistanceFromTarget)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

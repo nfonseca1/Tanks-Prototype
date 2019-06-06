@@ -13,14 +13,13 @@ public class Test1 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-        
+        RunSomething();
     }
 
     protected void RunSomething()
     {
-        print("test 1 script with num: " + num1);
-        print("Transform: " + transform);
+        num1 = 12;
     }
 }

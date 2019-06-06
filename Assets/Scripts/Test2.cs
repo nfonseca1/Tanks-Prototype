@@ -9,12 +9,13 @@ public class Test2 : Test1
         num1 = 5f;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void Update()
     {
-        
         RunSomething();
     }
 
-    
+    protected void RunSomething()
+    {
+        print("working");
+    }
 }

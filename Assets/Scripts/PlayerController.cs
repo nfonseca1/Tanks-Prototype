@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
             {
                 playerTank.Fire();
                 isFiring = true;
+
                 timeUntilFire = fireRate;
             }
         }
@@ -187,6 +188,11 @@ public class PlayerController : MonoBehaviour
     public bool CheckIfFiring()
     {
         return isFiring;
+    }
+
+    public Vector3 GetTargetPoint()
+    {
+        return hitPoint;
     }
 
     public float GetTurretAngle(Vector3 targetPos)

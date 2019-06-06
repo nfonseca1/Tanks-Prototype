@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class AI : MonoBehaviour
 {
+    protected PlayerController[] players;
+
     protected Transform GetClosestPlayer(Transform currentTransform)
     {
-        PlayerTank[] players = FindObjectsOfType<PlayerTank>();
+        players = FindObjectsOfType<PlayerController>();
         Transform closestPlayer = null;
         float closestDistance = 1000000f;
-        if (players[0].GetComponent<PlayerController>().grounded)
+        if (players[0].grounded)
         {
             closestPlayer = players[0].transform;
             closestDistance = (players[0].transform.position - currentTransform.position).magnitude;
@@ -19,7 +21,7 @@ public class AI : MonoBehaviour
         {
             if (i == 0) { continue; }
 
-            if (players[i].GetComponent<PlayerController>().grounded)
+            if (players[i].grounded)
             {
                 float distanceToCheck = (players[i].transform.position - currentTransform.position).magnitude;
                 if (distanceToCheck < closestDistance)
