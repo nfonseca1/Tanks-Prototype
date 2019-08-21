@@ -1,0 +1,21 @@
+if (outside player proximity)
+	repositionStatus = status.dontReposition;
+	target = getPlayer();
+else if (within player proximity && repositionStatus == status.readyToReposition)
+	repositionStatus = status.repositioning;
+	target = getRepositionPoint();
+	repositionTimer.startRepositionTimer();
+else if (within player proximity && repositionStatus == status.repositioning)
+	repositionStatus = repositionTimer.getStatus();
+else if (within player proximity && repositionStatu == status.dontReposition)
+	repositionStatus = repositionTimer.getStatus();
+	if (too close to player)
+		repositionStatus = status.readyToReposition;
+		repositionTimer.resetTimer();
+
+
+if (within target proximity)
+	repositionTimer.startCooldownTimer();
+	repositionStatus = status.dontReposition;
+else
+	moveTowardsTarget();

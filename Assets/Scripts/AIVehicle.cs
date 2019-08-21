@@ -10,20 +10,22 @@ public class AIVehicle : AI
     protected int randomDirection = 1;
     protected Transform playerTarget;
     protected Vector3 target;
-    protected Transform sensorPointF, sensorPointFL, sensorPointFR, sensorPointL, sensorPointR;
+
+    [SerializeField] protected Transform sensorPointF, sensorPointFL, sensorPointFR, sensorPointL, sensorPointR;
+    protected Vehicle vehicle;
+
     protected float axisXMin = -1f, axisXMax = 1f, axisYMin = -1f, axisYMax = 1f;
     protected float axisX = 0, axisY = 0;
     protected float evadeDistance = 10f;
-    protected bool attemptReposition = false;
     // Rotate angle variables
     protected float angleToRotateAt = 90f;
     protected Vector3 lastPlayerFirePos;
     protected Vector3 playerFireTarget;
     protected AIEvadeMechanism evadeMechanism;
 
-    protected const float maxDistanceFromPlayer = 35f;
-    protected const float maxDistanceFromRepositionPoint = 10f;
-    protected const float minDistanceFromPlayer = 25f;
+    protected const float maxDistanceFromPlayer = 40f;
+    protected const float maxDistanceFromRepositionPoint = 6f;
+    protected const float minDistanceFromPlayer = 15f;
     protected const float minDistanceFromRepositionPoint = -1f; // There is no min for reposition point. -1 prevents new reposition.
     protected float maxDistanceFromTarget = 15f;
     protected float minDistanceFromTarget = 10f;
@@ -33,8 +35,12 @@ public class AIVehicle : AI
     protected enum AxisY { Up, Y, Down}
     protected enum AxisMessage { InvalidPriority = 0, AxisOutOfRange = 1, Success = 2}
     protected enum Priority { None = 0, TowardsTarget = 1, Evasion = 2, SensorResponse = 3 }
-    protected Priority axisXPriority = Priority.None, axisYPriority = Priority.None;
-
+    protected Priority axisXPriority = Priority.None, axisYPriority = Priority.TowardsTarget;
+    public enum RepositionStatus { DontReposition, ReadyToReposition, Repositioning }
+    protected RepositionStatus repositionStatus = RepositionStatus.ReadyToReposition;
+    protected RepositionTimer repositionTimer;
+    protected enum Target { Player, RepositionPoint }
+    protected Target targetType = Target.Player;
     
 
     protected IEnumerator SetGetPlayerTag(float interval)
@@ -46,7 +52,6 @@ public class AIVehicle : AI
         }
     }
 
-    
 
     protected void ManageLastEvasion()
     {
@@ -59,12 +64,6 @@ public class AIVehicle : AI
         {
             ClearYAxis(Priority.Evasion);
         }
-    }
-
-    protected void DeterminePriority()
-    {
-        RespondToSensors();
-        CheckToEvade();
     }
 
     protected void RespondToSensors()
@@ -161,6 +160,7 @@ public class AIVehicle : AI
             if (newAxisVal >= axisXMin && newAxisVal <= axisXMax)
             {
                 axisX = newAxisVal;
+                axisXPriority = priority;
                 return AxisMessage.Success;
             }
             return AxisMessage.AxisOutOfRange;
@@ -175,6 +175,7 @@ public class AIVehicle : AI
             if (newAxisVal >= axisYMin && newAxisVal <= axisYMax)
             {
                 axisY = newAxisVal;
+                axisYPriority = priority;
                 return AxisMessage.Success;
             }
             return AxisMessage.AxisOutOfRange;
@@ -191,7 +192,7 @@ public class AIVehicle : AI
                 axisXMin = 0;
                 axisXMax = 1f;
             }
-            if (axis == AxisX.Right)
+            else if (axis == AxisX.Right)
             {
                 axisXMin = -1f;
                 axisXMax = 0;
@@ -237,6 +238,8 @@ public class AIVehicle : AI
             axisXPriority = Priority.TowardsTarget;
             axisX = 0;
             evadeMechanism = null;
+            axisXMin = -1;
+            axisXMax = 1;
             return AxisMessage.Success;
         }
         return AxisMessage.InvalidPriority;
@@ -249,6 +252,8 @@ public class AIVehicle : AI
             axisYPriority = Priority.TowardsTarget;
             axisY = 0;
             evadeMechanism = null;
+            axisYMin = -1;
+            axisYMax = 1;
             return AxisMessage.Success;
         }
         return AxisMessage.InvalidPriority;
@@ -317,18 +322,53 @@ public class AIVehicle : AI
         lastPlayerFirePos = player.transform.position;
     }
 
+    private float GetDistanceFromPlayer()
+    {
+        return (playerTarget.position - transform.position).magnitude;
+    }
+
     protected void DetermineTarget()
     {
-        if (attemptReposition == false)
+        if (GetDistanceFromPlayer() > maxDistanceFromPlayer)
         {
+            repositionStatus = RepositionStatus.DontReposition;
+            SetTarget(Target.Player);
+        }
+        else if (GetDistanceFromPlayer() < maxDistanceFromPlayer && repositionStatus == RepositionStatus.ReadyToReposition)
+        {
+            repositionStatus = RepositionStatus.Repositioning;
+            SetTarget(Target.RepositionPoint);
+            repositionTimer.startRepositionTimer();
+        }
+        else if (GetDistanceFromPlayer() < maxDistanceFromPlayer && repositionStatus == RepositionStatus.Repositioning)
+        {
+            repositionStatus = repositionTimer.getRepositionStatus();
+        }
+        else if (GetDistanceFromPlayer() < maxDistanceFromPlayer && repositionStatus == RepositionStatus.DontReposition)
+        {
+            repositionStatus = repositionTimer.getRepositionStatus();
+        }
+        if (GetDistanceFromPlayer() < minDistanceFromPlayer && repositionStatus != RepositionStatus.Repositioning)
+        {
+            repositionStatus = RepositionStatus.ReadyToReposition;
+            repositionTimer.clearTimer();
+        }
+    }
+
+    private void SetTarget(Target targetType)
+    {
+        this.targetType = targetType;
+        if (targetType == Target.Player)
+        {
+            repositionTimer.clearTimer();
             target = playerTarget.position;
             maxDistanceFromTarget = maxDistanceFromPlayer;
             minDistanceFromTarget = minDistanceFromPlayer;
         }
-        else
+        else if (targetType == Target.RepositionPoint)
         {
             target = GetRepositionPoint();
-            attemptReposition = true;
+            print("Target: " + target);
             maxDistanceFromTarget = maxDistanceFromRepositionPoint;
             minDistanceFromTarget = minDistanceFromRepositionPoint;
         }
@@ -355,39 +395,61 @@ public class AIVehicle : AI
         return repositionPoint;
     }
 
-    protected void ManagePlayerDistance()
+    protected void ManageTargetDistance()
     {
-        if ((playerTarget.position - transform.position).magnitude > maxDistanceFromTarget)
+        if ((target - transform.position).magnitude > maxDistanceFromTarget)
         {
             MoveTowardsTarget();
         }
-        else if ((playerTarget.position - transform.position).magnitude < maxDistanceFromTarget)
+        else if (targetType == Target.RepositionPoint 
+            && (target - transform.position).magnitude < maxDistanceFromTarget
+            && repositionStatus == RepositionStatus.Repositioning)
         {
-            target = GetRepositionPoint();
-            attemptReposition = true;
-        }
-        else
-        {
-            attemptReposition = false;
+            repositionTimer.startCooldownTimer();
+            repositionStatus = repositionTimer.getRepositionStatus();
         }
     }
 
     protected void MoveTowardsTarget()
     {
+        SetYAxis(1f, Priority.TowardsTarget);
+        float frontAngle = Vector3.Angle((target - transform.position), transform.forward);
+        float angle = Vector3.Angle((target - transform.position), transform.right);
+        Debug.DrawLine(transform.position, target);
+        Debug.DrawLine(transform.position, (transform.position - transform.forward));
+        if (angle < 80f)
+        {
+            SetXAxis(1f, Priority.TowardsTarget);
+        }
+        else if (angle > 100f)
+        {
+            SetXAxis(-1f, Priority.TowardsTarget);
+        }
+        else
+        {
+            ClearXAxis(Priority.TowardsTarget);
+        }
 
+        if (angle > 100f)
+        {
+            RestrictAxis(AxisY.Y, Priority.TowardsTarget);
+        }
+        else
+        {
+            ClearYAxis(Priority.TowardsTarget);
+        }
+        
+        vehicle.Move(axisY, transform);
+        vehicle.Rotate(axisX, transform);
     }
 
     protected bool CheckIfReadyToManageAiming()
     {
-        if (attemptReposition)
+        if (targetType == Target.Player)
         {
-            return true;
-        }
-        else if ((playerTarget.position - transform.position).magnitude < maxDistanceFromTarget)
-        {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

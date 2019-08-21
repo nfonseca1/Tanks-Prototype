@@ -20,6 +20,6 @@ public class Test1 : MonoBehaviour
 
     protected void RunSomething()
     {
-        num1 = 12;
+        print(num1);
     }
 }

@@ -1,0 +1,4 @@
+Add NavMesh for navigation instead of manual controls
+Use gizmos to visualize distances and radiuses
+Create waypoints and patroling systems
+Rework repositioning. AI currently repositions constantly.

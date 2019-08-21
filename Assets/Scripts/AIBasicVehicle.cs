@@ -5,32 +5,40 @@ using UnityEngine;
 public class AIBasicVehicle : AIVehicle
 {
     // Weapon instances go here 
+    [SerializeField] IPrimaryWeapon primary;
     
 
     void Start()
     {
         players = null;
         StartCoroutine(SetGetPlayerTag(getPlayerInterval));
+        vehicle = GetComponent<Vehicle>();
+        repositionTimer = GetComponent<RepositionTimer>();
     }
 
     void Update()
-    {
+    { 
         if (evadeMechanism != null)
         {
             ManageLastEvasion();
         }
         if (getPlayerNow)
         {
-            GetClosestPlayer(transform);
+            playerTarget = GetClosestPlayer(transform);
         }
 
         if (playerTarget != null)
         {
-            DeterminePriority();
+            RespondToSensors();
+            PlayerController playerToEvade = CheckToEvade();
+            if(playerToEvade != null)
+            {
+                Evade(playerToEvade);
+            }
             if (axisYPriority == Priority.TowardsTarget)
             {
                 DetermineTarget();
-                ManagePlayerDistance();
+                ManageTargetDistance();
             }
             if (CheckIfReadyToManageAiming() == true)
             {
